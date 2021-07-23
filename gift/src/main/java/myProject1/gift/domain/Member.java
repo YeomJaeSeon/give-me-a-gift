@@ -2,15 +2,13 @@ package myProject1.gift.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.EnumType.*;
+import static javax.persistence.EnumType.STRING;
 
 @Entity
 @Table(name = "MEMBERS")
@@ -31,7 +29,7 @@ public class Member {
     private String message;
 
     @Enumerated(STRING)
-    private GiftStatus status = GiftStatus.NOT_RECEIVED;
+    private GiftReceiveStatus status = GiftReceiveStatus.NOT_RECEIVED; // default Value
 
 
     @OneToMany(mappedBy = "member")

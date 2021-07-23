@@ -1,6 +1,7 @@
 package myProject1.gift.service;
 
 import lombok.RequiredArgsConstructor;
+import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
 import myProject1.gift.domain.SexStatus;
 import myProject1.gift.repository.MemberRepository;
@@ -36,12 +37,11 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOneMember(Long id){
-        return memberRepository.findOne(id);
+    public List<Member> findSpecificMembers(GiftReceiveStatus receivedStatus){
+        return memberRepository.findSpecificMembers(receivedStatus);
     }
 
-    public List<Member> findBirthdayMembers(){
-        return memberRepository.findSpecificMembers();
+    public List<Member> findReceivedMembersOrderByGiftCount(){
+        return memberRepository.findMembersOrderByGift();
     }
-
 }

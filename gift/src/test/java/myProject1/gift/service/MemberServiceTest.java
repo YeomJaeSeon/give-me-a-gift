@@ -1,8 +1,6 @@
 package myProject1.gift.service;
 
-import myProject1.gift.domain.GiftStatus;
-import myProject1.gift.domain.Member;
-import myProject1.gift.domain.SexStatus;
+import myProject1.gift.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -85,8 +84,8 @@ class MemberServiceTest {
         memberService.createMember(member3);
 
         //when
-        member1.setStatus(GiftStatus.RECEIVED);
-        List<Member> birthdayMembers = memberService.findBirthdayMembers();
+        member1.setStatus(GiftReceiveStatus.RECEIVED);
+        List<Member> birthdayMembers = memberService.findSpecificMembers(GiftReceiveStatus.RECEIVED);
 
         //then
         assertThat(birthdayMembers.size()).isEqualTo(1);

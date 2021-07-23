@@ -125,6 +125,7 @@ class ItemServiceTest {
     private Category createCategory(String name) {
         Category category = new Category();
         category.setName(name);
+        em.persist(category);
 
         return category;
     }

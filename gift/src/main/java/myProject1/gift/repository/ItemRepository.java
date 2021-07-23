@@ -33,6 +33,11 @@ public class ItemRepository {
         return deleteId;
     }
 
+    public Item findOne(Long itemId){
+        Item resultItem = em.find(Item.class, itemId);
+        return resultItem;
+    }
+
     public List<Item> findAll(Category category){
         if(category == null){
             // 카테고리 지정안하면 모든 Item 조회
@@ -46,6 +51,5 @@ public class ItemRepository {
             return items;
         }
     }
-
 
 }

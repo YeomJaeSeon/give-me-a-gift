@@ -24,7 +24,7 @@ public class Item {
 
     private int stockQuantity;
 
-    @OneToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
@@ -34,8 +34,24 @@ public class Item {
         item.name = name;
         item.price = price;
         item.stockQuantity = stockQuantity;
-        item.category = category;
+        item.category = category; // ... ***
 
         return item;
+    }
+
+    //==비즈니스로직==//
+    //- 재고 증가
+    public void addStockQuantity(int count) {
+        stockQuantity += count;
+    }
+
+    //==비즈니스로직==//
+    //- 재고 감소
+    public void reduceStockQuantity(int count){
+        int reduceResult = stockQuantity - count;
+        if(reduceResult < 0){
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        stockQuantity = reduceResult;
     }
 }

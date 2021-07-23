@@ -1,7 +1,7 @@
 package myProject1.gift.repository;
 
 import lombok.RequiredArgsConstructor;
-import myProject1.gift.domain.GiftStatus;
+import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
 import myProject1.gift.domain.SexStatus;
 import org.springframework.stereotype.Repository;
@@ -41,10 +41,18 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
-    //생일인 멤버 찾기
-    public List<Member> findSpecificMembers(){
+    //선물을 받았거나, 받지않은 멤버 찾기
+    public List<Member> findSpecificMembers(GiftReceiveStatus receivedStatus){
         List<Member> members = em.createQuery("select m from Member m where m.status = :status", Member.class)
-                .setParameter("status", GiftStatus.RECEIVED)
+                .setParameter("status", receivedStatus)
+                .getResultList();
+        return members;
+    }
+
+    // 선물 많이 받은순으로 조회
+    public List<Member> findMembersOrderByGift(){
+        List<Member> members = em.createQuery("select m from Member m where m.status = :status order by m.gifts.size() asc", Member.class)
+                .setParameter("status", GiftReceiveStatus.RECEIVED)
                 .getResultList();
         return members;
     }
