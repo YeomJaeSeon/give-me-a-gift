@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>회원목록</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>id</th>
+                <th>이름</th>
+                <th>성별</th>
+                <th>생일</th>
+                <th>상태메시지</th>
+                <th>선물받은 수</th>
+            </tr>
+            <tr th:each="member : ${members}" class="list" style="cursor:pointer" th:onclick="|location.href='@{/members/{member.id}}'|">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.sex}"></td>
+                <td th:text="${member.birthDate}"></td>
+                <td th:text="${member.message}"></td>
+                <td th:text="${member.gifts.size()}"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

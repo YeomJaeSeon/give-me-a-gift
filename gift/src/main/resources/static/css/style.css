@@ -1,0 +1,37 @@
+.container{
+    margin:auto;
+}
+.home-container{
+    text-align: center;
+}
+.line{
+    width: 100%;
+    height : 1px;
+    background-color: black;
+    margin: 10px 0;
+}
+.input-block{
+    width: 200px;
+    margin:auto;
+}
+.form-check{
+    width: 120px;
+    margin: auto;
+}
+
+/* create member form*/
+.subtitle{
+    margin-top : 10px;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.member-name-form{
+    width: 300px;
+    margin: auto;
+}
+
+.member-text-form{
+    width: 300px;
+    margin: auto;
+}

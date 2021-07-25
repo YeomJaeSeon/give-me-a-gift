@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<style>
+        .fieldError-box{
+            border : 1px solid red;
+        }
+        .fieldError-radio{
+            color: red;
+        }
+    </style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>회원추가</h1>
+        <form action="/members/new" th:object="${form}" method="post">
+            <div class="subtitle">이름</div>
+            <div class="form-floating mb-3 member-name-form">
+                <input id="floatingInput" th:field="*{name}"
+                       th:class="${#fields.hasErrors('name')}? 'fieldError-box form-control' : 'form-control'">
+                <label for="floatingInput">이름 입력</label>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">Incorrect date</p>
+            </div>
+
+            <div class="subtitle">성별</div>
+            <div class="form-check" th:each="sex : ${T(myProject1.gift.domain.SexStatus).values}">
+                <input class="form-check-input" type="radio" th:field="*{sexStatus}" th:value="${sex}">
+                <label class="form-check-label" th:class="${#fields.hasErrors('sexStatus')}? 'fieldError-radio form-check-label' : 'form-check-label'"
+                       th:for="${#ids.prev('sexStatus')}" th:text="${sex}">성별</label>
+            </div>
+            <p th:if="${#fields.hasErrors('sexStatus')}" th:errors="*{sexStatus}" style="color: red">Incorrect date</p>
+
+            <div class="subtitle">생년월일</div>
+            <input th:field="*{birthDate}" type="date" th:class="${#fields.hasErrors('birthDate')}? 'fieldError-box'">
+            <p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" style="color: red">Incorrect date</p>
+
+            <div class="subtitle">상태메시지</div>
+            <div class="form-floating member-text-form">
+                <textarea class="form-control" th:field="*{message}" placeholder="Leave a comment here" id="floatingTextarea" style="resize: none" ></textarea>
+                <label for="floatingTextarea">상태메시지 입력</label>
+            </div>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>
