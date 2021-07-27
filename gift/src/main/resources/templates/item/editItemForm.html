@@ -17,14 +17,14 @@
   <div th:replace="fragments/bodyHeader :: bodyHeader" />
   <div class="home-container">
     <h1>상품추가</h1>
-    <form th:action th:object="${itemDto}" method="post">
+    <form th:action th:object="${item}" method="post">
       <div>
         <label>이름: 
           <input type="text" th:field="*{name}">
         </label>
         <br>
         카테고리:
-        <select class="form-select" name="category">
+        <select class="form-select" th:field="*{category}">
           <option th:each="categoryOne: ${categories}" th:text="${categoryOne.getName()}" th:value="${categoryOne.getId()}">value</option>
         </select>
         <br>

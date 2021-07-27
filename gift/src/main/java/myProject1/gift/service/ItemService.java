@@ -30,6 +30,11 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
+    public Item findById(Long id){
+        return itemRepository.findOne(id);
+    }
+
+    @Transactional(readOnly = true)
     public List<Item> findItems(Category category){
         List<Item> items = itemRepository.findAll(category);
         return items;

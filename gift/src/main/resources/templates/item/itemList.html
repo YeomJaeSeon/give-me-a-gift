@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>상품목록</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>id</th>
+                <th>이름</th>
+                <th>카테고리</th>
+                <th>가격</th>
+                <th>재고</th>
+            </tr>
+            <tr th:each="item : ${items}">
+                <td class="list" th:text="${item.id}" style="color: blue"
+                    th:onclick="|location.href='@{/admin/items/{itemId}/edit(itemId=${item.id})}'|"></td>
+                <td class="list" th:text="${item.name}" style="color: blue"
+                    th:onclick="|location.href='@{/admin/items/{itemId}/edit(itemId=${item.id})}'|"></td>
+                <td th:text="${item.category.getName()}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.stockQuantity}"></td>
+                <td class="btn btn-lg" th:text="상품삭제" th:onclick="|location.href='@{admin/items/{itemId}/delete(itemId=${item.id})}'|"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

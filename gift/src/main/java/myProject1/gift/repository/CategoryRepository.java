@@ -23,6 +23,11 @@ public class CategoryRepository {
         return deleteId;
     }
 
+    public Category findById(Long id){
+        Category category = em.find(Category.class, id);
+        return category;
+    }
+
     public List<Category> findAll(){
         List<Category> categories = em.createQuery("select c from Category c", Category.class)
                 .getResultList();
