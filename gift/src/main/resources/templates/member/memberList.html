@@ -18,13 +18,16 @@
                 <th>상태메시지</th>
                 <th>선물받은 수</th>
             </tr>
-            <tr th:each="member : ${members}" class="list" style="cursor:pointer" th:onclick="|location.href='@{/members/{member.id}}'|">
-                <td th:text="${member.id}"></td>
-                <td th:text="${member.name}"></td>
+            <tr th:each="member : ${members}">
+                <td class="list" th:text="${member.id}" style="color: blue"
+                    th:onclick="|location.href='@{members/{memberId}/edit(memberId=${member.id})}'|"></td>
+                <td class="list" th:text="${member.name}" style="color: blue"
+                    th:onclick="|location.href='@{members/{memberId}/edit(memberId=${member.id})}'|"></td>
                 <td th:text="${member.sex}"></td>
                 <td th:text="${member.birthDate}"></td>
                 <td th:text="${member.message}"></td>
                 <td th:text="${member.gifts.size()}"></td>
+                <td class="btn btn-lg" th:text="회원삭제" th:onclick="|location.href='@{members/{memberId}/delete(memberId=${member.id})}'|"></td>
             </tr>
         </table>
     </div>

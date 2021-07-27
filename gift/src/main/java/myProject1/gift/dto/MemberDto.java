@@ -1,4 +1,4 @@
-package myProject1.gift.DTO;
+package myProject1.gift.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter @Setter
-public class MemberDTO {
+public class MemberDto {
     @NotEmpty(message = "이름이 공백입니다.")
     private String name;
     @NotNull(message = "성별을 선택해주세요")

@@ -3,10 +3,12 @@ package myProject1.gift.repository;
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
+import myProject1.gift.domain.Message;
 import myProject1.gift.domain.SexStatus;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -19,10 +21,12 @@ public class MemberRepository {
         return member.getId();
     }
 
-    public void update(Long memberId, String name, SexStatus sex){
+    public void update(Long memberId, String name, SexStatus sex, LocalDate birthDate, String message){
         Member findMember = em.find(Member.class, memberId);
         findMember.setName(name);
         findMember.setSex(sex);
+        findMember.setBirthDate(birthDate);
+        findMember.setMessage(message);
     }
 
     public Long delete(Member member){

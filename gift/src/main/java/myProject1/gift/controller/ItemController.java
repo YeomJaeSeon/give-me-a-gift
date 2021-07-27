@@ -11,4 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class ItemController {
     private final ItemService itemService;
+
+    @GetMapping
+    public String createItemForm(){
+
+        return "item/admin";
+    }
 }

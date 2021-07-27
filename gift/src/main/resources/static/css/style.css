@@ -35,3 +35,8 @@
     width: 300px;
     margin: auto;
 }
+
+.list:hover{
+    cursor: pointer;
+    background-color: beige;
+}

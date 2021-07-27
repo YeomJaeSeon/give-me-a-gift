@@ -1,6 +1,6 @@
 package myProject1.gift.service;
 
-import myProject1.gift.DTO.GiftItemDTO;
+import myProject1.gift.dto.GiftItemDto;
 import myProject1.gift.domain.*;
 import myProject1.gift.repository.*;
 import org.junit.jupiter.api.Test;
@@ -44,23 +44,23 @@ class GiftServiceTest {
         Long itemId4 = createItem(category3, "덤벨", 50000, 300);
 
 
-        GiftItemDTO giftItemDTO1 = new GiftItemDTO();
-        giftItemDTO1.setItemId(itemId1);
+        GiftItemDto giftItemDto1 = new GiftItemDto();
+        giftItemDto1.setItemId(itemId1);
         int giftCount1 = 10;
-        giftItemDTO1.setCount(giftCount1);
+        giftItemDto1.setCount(giftCount1);
 
-        GiftItemDTO giftItemDTO2 = new GiftItemDTO();
-        giftItemDTO2.setItemId(itemId3);
+        GiftItemDto giftItemDto2 = new GiftItemDto();
+        giftItemDto2.setItemId(itemId3);
         int giftCount2 = 30;
-        giftItemDTO2.setCount(giftCount2);
+        giftItemDto2.setCount(giftCount2);
 
-        GiftItemDTO giftItemDTO3 = new GiftItemDTO();
-        giftItemDTO3.setItemId(itemId4);
+        GiftItemDto giftItemDto3 = new GiftItemDto();
+        giftItemDto3.setItemId(itemId4);
         int giftCount3 = 100;
-        giftItemDTO3.setCount(giftCount3);
+        giftItemDto3.setCount(giftCount3);
 
         //when
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDTO1, giftItemDTO2, giftItemDTO3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
         Gift resultGift = giftRepository.findOne(giftId);
 
         //then
@@ -90,22 +90,22 @@ class GiftServiceTest {
         Long itemId4 = createItem(category3, "덤벨", 50000, 300);
 
 
-        GiftItemDTO giftItemDTO1 = new GiftItemDTO();
-        giftItemDTO1.setItemId(itemId1);
+        GiftItemDto giftItemDto1 = new GiftItemDto();
+        giftItemDto1.setItemId(itemId1);
         int giftCount1 = 10;
-        giftItemDTO1.setCount(giftCount1);
+        giftItemDto1.setCount(giftCount1);
 
-        GiftItemDTO giftItemDTO2 = new GiftItemDTO();
-        giftItemDTO2.setItemId(itemId3);
+        GiftItemDto giftItemDto2 = new GiftItemDto();
+        giftItemDto2.setItemId(itemId3);
         int giftCount2 = 30;
-        giftItemDTO2.setCount(giftCount2);
+        giftItemDto2.setCount(giftCount2);
 
-        GiftItemDTO giftItemDTO3 = new GiftItemDTO();
-        giftItemDTO3.setItemId(itemId4);
+        GiftItemDto giftItemDto3 = new GiftItemDto();
+        giftItemDto3.setItemId(itemId4);
         int giftCount3 = 100;
-        giftItemDTO3.setCount(giftCount3);
+        giftItemDto3.setCount(giftCount3);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDTO1, giftItemDTO2, giftItemDTO3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
 
         //when
         giftService.acceptGift(giftId);
@@ -142,22 +142,22 @@ class GiftServiceTest {
         Long itemId4 = createItem(category3, "덤벨", 50000, 300);
 
 
-        GiftItemDTO giftItemDTO1 = new GiftItemDTO();
-        giftItemDTO1.setItemId(itemId1);
+        GiftItemDto giftItemDto1 = new GiftItemDto();
+        giftItemDto1.setItemId(itemId1);
         int giftCount1 = 10;
-        giftItemDTO1.setCount(giftCount1);
+        giftItemDto1.setCount(giftCount1);
 
-        GiftItemDTO giftItemDTO2 = new GiftItemDTO();
-        giftItemDTO2.setItemId(itemId3);
+        GiftItemDto giftItemDto2 = new GiftItemDto();
+        giftItemDto2.setItemId(itemId3);
         int giftCount2 = 30;
-        giftItemDTO2.setCount(giftCount2);
+        giftItemDto2.setCount(giftCount2);
 
-        GiftItemDTO giftItemDTO3 = new GiftItemDTO();
-        giftItemDTO3.setItemId(itemId4);
+        GiftItemDto giftItemDto3 = new GiftItemDto();
+        giftItemDto3.setItemId(itemId4);
         int giftCount3 = 100;
-        giftItemDTO3.setCount(giftCount3);
+        giftItemDto3.setCount(giftCount3);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDTO1, giftItemDTO2, giftItemDTO3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
 
         //when
         giftService.refuseGift(giftId);
@@ -180,14 +180,14 @@ class GiftServiceTest {
 
         Long itemId1 = createItem(category2, "맥북", 20000, 100);
 
-        GiftItemDTO giftItemDTO1 = new GiftItemDTO();
-        giftItemDTO1.setItemId(itemId1);
+        GiftItemDto giftItemDto1 = new GiftItemDto();
+        giftItemDto1.setItemId(itemId1);
 
         //when
         int giftCount1 = 150;
-        giftItemDTO1.setCount(giftCount1);
+        giftItemDto1.setCount(giftCount1);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDTO1);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1);
         Gift gift = giftRepository.findOne(giftId);
 
         //then

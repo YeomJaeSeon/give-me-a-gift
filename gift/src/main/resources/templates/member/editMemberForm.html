@@ -16,8 +16,8 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
-        <h1>회원추가</h1>
-        <form action="/members/new" th:object="${form}" method="post">
+        <h1>회원수정</h1>
+        <form th:object="${form}" th:action method="post">
             <div class="subtitle">이름</div>
             <div class="form-floating mb-3 member-name-form">
                 <input id="floatingInput" th:field="*{name}"
@@ -43,7 +43,7 @@
                 <textarea class="form-control" th:field="*{message}" placeholder="Leave a comment here" id="floatingTextarea" style="resize: none" ></textarea>
                 <label for="floatingTextarea">상태메시지 입력</label>
             </div>
-            <input type="submit" value="등록"/>
+            <input type="submit" value="수정"/>
         </form>
     </div>
     <div th:replace="fragments/footer :: footer" />

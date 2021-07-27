@@ -8,6 +8,7 @@ import myProject1.gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,14 +24,19 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Long memberId, String updateName, SexStatus updateSex){
-        memberRepository.update(memberId, updateName, updateSex);
+    public void updateMember(Long memberId, String updateName, SexStatus updateSex, LocalDate birthDate, String message){
+        memberRepository.update(memberId, updateName, updateSex, birthDate, message);
     }
 
     @Transactional
-    public Long deleteMember(Member member){
+    public Long deleteMember(Member member) {
         Long deleteMemberId = memberRepository.delete(member);
         return deleteMemberId;
+    }
+
+    public Member findById(Long memberId){
+        Member member = memberRepository.findOne(memberId);
+        return member;
     }
 
     public List<Member> findAllMembers(){

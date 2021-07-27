@@ -47,7 +47,7 @@ class MemberServiceTest {
         SexStatus updateSex = SexStatus.MALE;
 
         //when
-        memberService.updateMember(updateId, updateName, updateSex);
+//        memberService.updateMember(updateId, updateName, updateSex);
         Member resultMember = em.find(Member.class, updateId);
 
         //then

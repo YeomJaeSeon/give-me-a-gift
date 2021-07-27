@@ -1,7 +1,7 @@
 package myProject1.gift.service;
 
 import lombok.RequiredArgsConstructor;
-import myProject1.gift.DTO.GiftItemDTO;
+import myProject1.gift.dto.GiftItemDto;
 import myProject1.gift.domain.*;
 import myProject1.gift.repository.*;
 import org.springframework.stereotype.Service;
@@ -21,14 +21,14 @@ public class GiftService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-    public Long createGift(Long giveMemberId, Long receiveMemberId, Long messageId, GiftItemDTO... giftItemDTOS){
+    public Long createGift(Long giveMemberId, Long receiveMemberId, Long messageId, GiftItemDto... giftItemDtos){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
         Member receiveMember = memberRepository.findOne(receiveMemberId);
 
         // Item 엔티티 조회 -> GiftItem 엔티티 저장
         List<GiftItem> giftItemList = new ArrayList<>();
-        for (GiftItemDTO giftItemDTO : giftItemDTOS) {
+        for (GiftItemDto giftItemDTO : giftItemDtos) {
             Item item = itemRepository.findOne(giftItemDTO.getItemId());
             GiftItem giftItem = GiftItem.createGiftItem(item, item.getPrice(), giftItemDTO.getCount());
             giftItemRepository.save(giftItem);
