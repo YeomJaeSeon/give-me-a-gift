@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -36,7 +37,7 @@ public class ItemController {
         categoryService.createCategory(category2);
     }
 
-    //== admin page (권한 필요)==//
+    //== admin page (권한 필요) 슾흐링 시큐리티로 인가를 적용해야함..==//
     @GetMapping
     public String adminPage(){
 
@@ -54,9 +55,13 @@ public class ItemController {
 
     //==상품추가==//
     @PostMapping("/items/new")
-    public String createItem(@ModelAttribute ItemDto itemDto){
+    public String createItem(@Valid @ModelAttribute ItemDto itemDto, BindingResult result, Model model){
+        if(result.hasErrors()){
+            List<Category> categories = categoryService.findAllCategories();
+            model.addAttribute("categories", categories);
+            return "item/createItemForm";
+        }
 
-        log.info("itemDto 값={}", itemDto);
         Category category = categoryService.findById(itemDto.getCategory());
         Item item = Item.createItem(itemDto.getName(), itemDto.getPrice(), itemDto.getStockQuantity(), category);
         itemService.createItem(item);
@@ -72,12 +77,45 @@ public class ItemController {
         return "item/itemList";
     }
 
-    //==상품 수정==//
+    //==상품 수정 page==//
     @GetMapping("/items/{itemId}/edit")
-    public String editItem(@PathVariable Long itemId, Model model){
+    public String editItemForm(@PathVariable Long itemId, Model model){
+        List<Category> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
         Item item = itemService.findById(itemId);
-        model.addAttribute("item", item);
+
+        ItemDto itemDto = new ItemDto();
+        itemDto.setName(item.getName());
+        itemDto.setCategory(item.getCategory().getId());
+        itemDto.setPrice(item.getPrice());
+        itemDto.setStockQuantity(item.getStockQuantity());
+
+        model.addAttribute("itemDto", itemDto);
 
         return "item/editItemForm";
+    }
+
+    //==상품 수정==//
+    @PostMapping("/items/{itemId}/edit")
+    public String editItem(@Valid @ModelAttribute ItemDto itemDto, BindingResult result ,@PathVariable Long itemId, Model model){
+        if(result.hasErrors()){
+            List<Category> categories = categoryService.findAllCategories();
+            model.addAttribute("categories", categories);
+
+            return "item/editItemForm";
+        }
+        Category category = categoryService.findById(itemDto.getCategory());
+
+        itemService.updateItem(itemId, itemDto.getName(), itemDto.getPrice(), itemDto.getStockQuantity(), category);
+        return "redirect:/admin/items";
+    }
+
+    //==상품 삭제==//
+    @GetMapping("/items/{itemId}/delete")
+    public String deleteItem(@PathVariable Long itemId){
+        Item item = itemService.findById(itemId);
+        itemService.deleteItem(item);
+
+        return "redirect:/admin/items";
     }
 }

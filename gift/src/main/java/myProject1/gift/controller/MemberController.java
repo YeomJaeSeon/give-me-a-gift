@@ -87,13 +87,17 @@ public class MemberController {
         memberDto.setBirthDate(member.getBirthDate());
         memberDto.setMessage(member.getMessage());
 
+
         model.addAttribute("form", memberDto);
         return "member/editMemberForm";
     }
 
     //==회원 수정==//
     @PostMapping("/members/{memberId}/edit")
-    public String memberEdit(@ModelAttribute MemberDto memberDto, @PathVariable Long memberId){
+    public String memberEdit(@Valid @ModelAttribute("form") MemberDto memberDto,BindingResult result, @PathVariable Long memberId){
+        if(result.hasErrors()){
+            return "member/editMemberForm";
+        }
         log.info("memberDto = {}", memberDto);
         memberService.updateMember(memberId, memberDto.getName(), memberDto.getSexStatus(), memberDto.getBirthDate(), memberDto.getMessage());
         return "redirect:/members";

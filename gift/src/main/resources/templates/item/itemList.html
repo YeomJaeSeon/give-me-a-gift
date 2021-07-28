@@ -25,7 +25,7 @@
                 <td th:text="${item.category.getName()}"></td>
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stockQuantity}"></td>
-                <td class="btn btn-lg" th:text="상품삭제" th:onclick="|location.href='@{admin/items/{itemId}/delete(itemId=${item.id})}'|"></td>
+                <td class="btn btn-lg" th:text="상품삭제" th:onclick="|location.href='@{/admin/items/{itemId}/delete(itemId=${item.id})}'|"></td>
             </tr>
         </table>
     </div>
