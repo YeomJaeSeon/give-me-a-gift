@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
+import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.ItemService;
@@ -35,6 +36,19 @@ public class ItemController {
         categoryService.createCategory(category);
         categoryService.createCategory(category1);
         categoryService.createCategory(category2);
+
+        Item item1 = Item.createItem("햄버거", 20000, 100, category);
+        Item item2 = Item.createItem("피자", 25000, 150, category);
+        Item item3 = Item.createItem("아메리카노", 2000, 50, category);
+        Item item4 = Item.createItem("바벨", 2000000, 10, category2);
+        Item item5 = Item.createItem("덤벨", 100000, 20, category2);
+        Item item6 = Item.createItem("컴퓨터", 30000, 1000, category1);
+        itemService.createItem(item1);
+        itemService.createItem(item2);
+        itemService.createItem(item3);
+        itemService.createItem(item4);
+        itemService.createItem(item5);
+        itemService.createItem(item6);
     }
 
     //== admin page (권한 필요) 슾흐링 시큐리티로 인가를 적용해야함..==//
@@ -117,5 +131,26 @@ public class ItemController {
         itemService.deleteItem(item);
 
         return "redirect:/admin/items";
+    }
+
+    //==카테고리 추가 페이지 조회==//
+    @GetMapping("category/new")
+    public String createCategoryForm(Model model){
+        model.addAttribute("categoryDto", new CategoryDto());
+        return "item/createCategoryForm";
+    }
+
+    //==카테고리 추가==//
+    @PostMapping("/category/new")
+    public String createCategory(@Valid @ModelAttribute CategoryDto categoryDto, BindingResult result){
+        log.info("카테고리 이름 : {}", categoryDto.getCategory());
+        if(result.hasErrors()){
+            return "item/createCategoryForm";
+        }
+        Category newCategory = new Category();
+        newCategory.setName(categoryDto.getCategory());
+        categoryService.createCategory(newCategory);
+
+        return "redirect:/admin/items/new";
     }
 }

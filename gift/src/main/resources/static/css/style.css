@@ -40,3 +40,18 @@
     cursor: pointer;
     background-color: beige;
 }
+
+.categories{
+    margin:auto;
+    background-color: yellow;
+}
+.category{
+    margin: 0 10px;
+}
+
+myModal.in{
+    z-index: 999999;
+}
+.list-item:hover{
+    background-color: beige;
+}

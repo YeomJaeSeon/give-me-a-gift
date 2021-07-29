@@ -8,15 +8,16 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
-        <h1>선물선물 프로젝트</h1>
-        <p class="lead">회원 기능</p>
-        <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
-        </p>
+        <h1>누구에게 마음을 전할래요?</h1>
+        <p class="lead">카테고리</p>
+        <div class="categories">
+            <a class="btn btn-secondary category" th:each="category: ${categories}"
+               th:text="${category.getName()}"
+               th:href="@{|gift/category/${category.getId()}|}"></a>
+        </div>
         <p class="lead">선물 기능</p>
         <p>
-            <a class="btn btn-lg btn-dark" href="/gift/">선물하기 페이지로 이동</a>
+            <a class="btn btn-lg btn-dark" href="/gift">나의 장바구니</a>
         </p>
     </div>
     <div th:replace="fragments/footer :: footer" />
