@@ -27,24 +27,37 @@ public class MemberController {
 
     @PostConstruct
     public void init(){
-        Member member = createMemberInit("memberA", SexStatus.MALE, "안뇽낭욘");
-        memberService.createMember(member);
-        Member member2 = createMemberInit("memberB", SexStatus.FEMALE, "하이");
-        memberService.createMember(member2);
+        MemberDto memberDto1 = createMemberDtoInit("김덕칠", SexStatus.MALE, "안녕", LocalDate.now(), "yjs3819", "1234", "ROLE_ADMIN");
+        MemberDto memberDto2 = createMemberDtoInit("김두철", SexStatus.MALE, "", LocalDate.now(), "mj3131", "1234", "ROLE_USER");
+        MemberDto memberDto3 = createMemberDtoInit("정덕칠", SexStatus.FEMALE, "안녕zzz", LocalDate.now(), "ymz3910", "12345", "ROLE_USER");
+
+       memberService.createMember(memberDto1);
+       memberService.createMember(memberDto2);
+       memberService.createMember(memberDto3);
     }
 
     // == 미리 넣는 데이터==//
-    private Member createMemberInit(String name, SexStatus sex, String message) {
-        Member member = new Member();
-        member.setName(name);
-        member.setSex(sex);
-        member.setBirthDate(LocalDate.now());
-        member.setMessage(message);
-        return member;
+    private MemberDto createMemberDtoInit(String name, SexStatus sex, String message, LocalDate date, String username, String password, String role) {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setName(name);
+        memberDto.setUsername(username);
+        memberDto.setPassword(password);
+        memberDto.setBirthDate(date);
+        memberDto.setRole(role);
+        memberDto.setSexStatus(sex);
+        memberDto.setMessage(message);
+
+        return memberDto;
+    }
+
+    //==로그인 페이지 조회==//
+    @GetMapping("/login")
+    public String dispLogin(){
+        return "auth/login";
     }
 
     //==회원 가입 페이지 조회==//
-    @GetMapping("/members/new")
+    @GetMapping("/signup")
     public String createMemberForm(Model model){
         model.addAttribute("form", new MemberDto());
         return "member/createMemberForm";
@@ -53,17 +66,12 @@ public class MemberController {
     //==회원 가입==//
     @PostMapping("/members/new")
     public String createMember(@Valid @ModelAttribute("form") MemberDto memberDTO, BindingResult result){
-        log.info("memberDTO : {}", memberDTO);
 
         if(result.hasErrors()){
             return "member/createMemberForm";
         }
-        Member member = new Member();
-        member.setName(memberDTO.getName());
-        member.setSex(memberDTO.getSexStatus());
-        member.setBirthDate(memberDTO.getBirthDate());
-        member.setMessage(memberDTO.getMessage());
-        memberService.createMember(member);
+
+        memberService.createMember(memberDTO);
 
         return "redirect:/";
     }

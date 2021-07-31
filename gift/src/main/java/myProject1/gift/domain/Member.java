@@ -21,6 +21,14 @@ public class Member {
 
     private String name;
 
+    @Column(unique = true)
+    private String username;
+
+    private String password;
+
+    @Enumerated(STRING)
+    private Role role;
+
     @Enumerated(STRING)
     private SexStatus sex;
 

@@ -45,6 +45,14 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
+    //==username으로 멤버 찾기==//
+    public List<Member> findByUsername(String username){
+        List<Member> members = em.createQuery("select m from Member m where m.username=:username", Member.class)
+                .setParameter("username", username)
+                .getResultList();
+        return members;
+    }
+
     //선물을 받았거나, 받지않은 멤버 찾기
     public List<Member> findSpecificMembers(GiftReceiveStatus receivedStatus){
         List<Member> members = em.createQuery("select m from Member m where m.status = :status", Member.class)
