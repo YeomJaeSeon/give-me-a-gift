@@ -1,10 +1,7 @@
 package myProject1.gift.repository;
 
 import lombok.RequiredArgsConstructor;
-import myProject1.gift.domain.GiftReceiveStatus;
-import myProject1.gift.domain.Member;
-import myProject1.gift.domain.Message;
-import myProject1.gift.domain.SexStatus;
+import myProject1.gift.domain.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,10 +18,16 @@ public class MemberRepository {
         return member.getId();
     }
 
-    public void update(Long memberId, String name, SexStatus sex, LocalDate birthDate, String message){
-        Member findMember = em.find(Member.class, memberId);
+    public void update(String originalName , String username, String password, String name, SexStatus sex, Role role, LocalDate birthDate, String message){
+        List<Member> members = em.createQuery("select m from Member m where m.username = :originalName", Member.class)
+                .setParameter("originalName", originalName)
+                .getResultList();
+        Member findMember = members.get(0);
+        findMember.setUsername(username);
+        findMember.setPassword(password);
         findMember.setName(name);
         findMember.setSex(sex);
+        findMember.setRole(role);
         findMember.setBirthDate(birthDate);
         findMember.setMessage(message);
     }

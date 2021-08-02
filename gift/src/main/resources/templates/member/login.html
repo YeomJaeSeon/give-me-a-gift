@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <div>
+            <h1>로그인</h1>
+        </div>
+        <div>
+            <form th:action method="post" style="margin-bottom: 30px">
+                <label class="form-label">아이디
+                    <input class="form-control" type="text" name="username" placeholder="아이디를 입력하세요">
+                </label>
+                <br>
+                <label class="form-label">비밀번호
+                    <input class="form-control" type="password" name="password" placeholder="비밀번호를 입력하세요">
+                </label>
+                <button class="btn-lg btn-success" type="submit" style="display: block; margin: auto">로그인</button>
+            </form>
+            <a class="btn-lg btn-secondary" th:href="@{/}">홈으로</a>
+            <a class="btn-lg btn-secondary" th:href="@{/signup}">회원가입</a>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

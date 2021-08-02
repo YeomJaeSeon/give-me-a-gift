@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
 <head th:replace="fragments/header :: header">
     <meta charset="UTF-8">
     <title>선물하기</title>
@@ -8,12 +10,10 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
-        <h1>관리자 페이지</h1>
-        <p class="lead">상품 관리</p>
-        <p>
-            <a class="btn btn-lg btn-secondary" href="/admin/items/new">상품 추가</a>
-            <a class="btn btn-lg btn-secondary" href="/admin/items">상품 목록</a>
-        </p>
+        <h1>내 정보</h1>
+        <a href="/user/info" class="btn-lg btn-primary">내 정보</a>
+        <a href="/user/edit" class="btn-lg btn-primary">정보 수정</a>
+        <a href="/user/delete" class="btn-lg btn-danger">회원 탈퇴</a>
     </div>
     <div th:replace="fragments/footer :: footer" />
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="footer" th:fragment="footer">
     <div class="line"></div>
-    <a href="/admin">관리자 페이지로</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자 페이지로</a>
     <p>&copy; 선물선물프로젝트 - YeomJaeSeon</p>
 </div>

@@ -12,17 +12,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@ToString
 @Getter @Setter
 public class MemberDto {
     @NotEmpty(message = "이름이 공백입니다.")
     private String name;
-
+    @NotEmpty(message = "아이디가 공백입니다.")
     private String username;
+    @NotEmpty(message = "비밀번호가 공백입니다")
     private String password;
     private String role;
-
-    @NotNull(message = "성별을 선택해주세요")
-    private SexStatus sexStatus;
+    private String sex;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "생일을 선택해주세요")
     private LocalDate birthDate;
@@ -34,8 +34,8 @@ public class MemberDto {
         member.setName(name);
         member.setUsername(username);
         member.setPassword(password);
-        member.setRole(Role.valueOf(this.role));
-        member.setSex(sexStatus);
+        member.setRole(Role.valueOf(role));
+        member.setSex(SexStatus.valueOf(sex));
         member.setBirthDate(birthDate);
         member.setMessage(message);
 

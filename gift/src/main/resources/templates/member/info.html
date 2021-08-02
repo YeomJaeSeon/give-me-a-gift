@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <div>
+            <h1>내 정보</h1>
+        </div>
+        <div th:object="${memberDto}">
+            <p class="signup-text">아이디</p>
+            <input readonly style="width: 400px; margin: auto" class="form-control" type="text" th:field="*{username}" placeholder="사용할 아이디를 입력하세요">
+
+            <p class="signup-text">이름</p>
+            <input readonly style="width: 400px; margin: auto" class="form-control" type="text" th:field="*{name}" placeholder="실제 이름을 입력하세요">
+
+            <p class="signup-text">권한</p>
+            <input readonly type="text" class="form-control" th:field="*{role}" style="width: 400px; margin:auto">
+            <p class="signup-text">성별</p>
+            <input readonly type="text" class="form-control" th:field="*{sex}" style="width: 400px; margin:auto">
+            <p class="signup-text">생일</p>
+            <input readonly type="text" class="form-control" th:field="*{birthDate}" style="width: 400px; margin:auto">
+
+            <p class="signup-text">상태 메시지</p>
+            <textarea readonly class="form-control" th:field="*{message}" cols="30" rows="3" style="resize: none; overflow-y: auto; width: 400px; margin:auto"></textarea>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

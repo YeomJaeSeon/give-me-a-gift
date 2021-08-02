@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="header" th:fragment="bodyHeader">
-    <ul class="nav nav-pills pull-right">
-        <li><a href="/">Home</a></li>
-    </ul>
-    <a href="/"><h3 class="text-muted">선물선물 프로젝트</h3></a>
+    <div style="display: flex; justify-content: space-between">
+        <div>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+            <a href="/"><h3 class="text-muted">선물하기</h3></a>
+        </div>
+        <div>
+            <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a><a href=""></a>
+        </div>
+    </div>
     <div class="line"></div>
 </div>

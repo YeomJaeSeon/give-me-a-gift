@@ -28,13 +28,19 @@ public class Item {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
+    //==연관관계 편의메서드==//
+    public void addItem(Category category){
+        category.getItems().add(this);
+        this.category = category;
+    }
+
     //==생성 메서드==//
     public static Item createItem(String name, int price, int stockQuantity, Category category){
         Item item = new Item();
         item.name = name;
         item.price = price;
         item.stockQuantity = stockQuantity;
-        item.category = category; // ... ***
+        item.addItem(category);
 
         return item;
     }

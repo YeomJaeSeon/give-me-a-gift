@@ -55,3 +55,10 @@ myModal.in{
 .list-item:hover{
     background-color: beige;
 }
+.signup-text{
+    margin: 10px 0;
+    color: midnightblue;
+}
+.fieldError{
+    border : 1px solid red;
+}

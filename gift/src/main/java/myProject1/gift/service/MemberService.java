@@ -7,8 +7,11 @@ import myProject1.gift.domain.Role;
 import myProject1.gift.domain.SexStatus;
 import myProject1.gift.dto.MemberDto;
 import myProject1.gift.repository.MemberRepository;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,8 +41,23 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateMember(Long memberId, String updateName, SexStatus updateSex, LocalDate birthDate, String message){
-        memberRepository.update(memberId, updateName, updateSex, birthDate, message);
+    public void updateMember(String originalName, MemberDto memberDto){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        SexStatus memberDtoSex = SexStatus.valueOf(memberDto.getSex());
+        Role role = Role.valueOf(memberDto.getRole());
+
+        //인증 정보 수정
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if(role == Role.ADMIN)
+            authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+        else
+            authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(memberDto.getUsername(), memberDto.getPassword(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        memberRepository.update(originalName ,memberDto.getUsername(), memberDto.getPassword(), memberDto.getName(), memberDtoSex, role ,memberDto.getBirthDate(), memberDto.getMessage());
     }
 
     @Transactional

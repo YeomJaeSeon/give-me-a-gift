@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <div>
+            <h1>회원가입</h1>
+        </div>
+        <form th:action method="post" th:object="${memberDto}">
+            <p class="signup-text">사용할 아이디를 입력해주세요</p>
+            <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('username')} ? 'fieldError form-control' : 'form-control'" type="text" name="username" placeholder="사용할 아이디를 입력하세요">
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
+
+            <p class="signup-text">사용할 비밀번호를 입력해주세요</p>
+            <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('password')} ? 'fieldError form-control' : 'form-control'" type="password" name="password" placeholder="비밀번호를 입력하세요">
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></p>
+
+            <p class="signup-text">실제 이름을 입력해주세요</p>
+            <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('name')} ? 'fieldError form-control' : 'form-control'" type="text" name="name" placeholder="실제 이름을 입력하세요">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></p>
+
+            <p class="signup-text">당신의 권한을 체크하세요</p>
+            <label class="form-check-label"> 일반회원 :
+                <input class="form-check-input" type="radio" name="role" th:value="USER" checked>
+            </label>
+            <label class="form-check-label"> 관리자 :
+                <input class="form-check-input" type="radio" name="role" th:value="ADMIN">
+            </label>
+            <p class="signup-text">당신의 성별을 입력하세요</p>
+            <label class="form-check-label"> 남자 :
+                <input class="form-check-input" type="radio" name="sex" th:value="MALE" checked>
+            </label>
+            <label class="form-check-label"> 여자 :
+                <input class="form-check-input" type="radio" name="sex" th:value="FEMALE">
+            </label>
+            <p class="signup-text">당신의 생일을 입력하세요</p>
+            <input type="date" name="birthDate" th:class="${#fields.hasErrors('birthDate')} ? 'fieldError form-control' : 'form-control'" style="width: 200px; margin: auto">
+            <p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" style="color: red"></p>
+
+            <p class="signup-text">상태 메시지를 입력하세요</p>
+            <textarea class="form-control" name="message" cols="30" rows="3" style="resize: none; overflow-y: auto; width: 400px; margin: auto"></textarea>
+            <button class="btn-lg btn-primary" type="submit" style="display: block; margin: auto">가입</button>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>
