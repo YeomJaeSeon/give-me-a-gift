@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header :: header">
   <meta charset="UTF-8">
@@ -13,21 +12,29 @@
     <h1>상품 등록</h1>
     <div>
       <form th:action method="post" th:object="${item}">
-        <label class="form-label"> 이름:
-          <input class="form-control" type="text" th:field="*{name}">
+        <label class="form-label"> 상품 이름
+          <input th:class="${#fields.hasErrors('name')} ? 'fieldError form-control' : 'form-control'" type="text" th:field="*{name}">
         </label>
-        <label class="form-label"> 카테고리:
-          <select class="form-select" th:each="category: ${categories}" th:field="*{category}">
-            <option th:value="${category}" th:text="${category.name}">category name</option>
+        <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        <br>
+        <label class="form-label"> 카테고리
+          <select class="form-select" th:field="*{category}">
+            <option th:value="null">기타</option>
+            <option th:each="categoryOne: ${categories}" th:value="${categoryOne.id}" th:text="${categoryOne.name}">category name</option>
           </select>
         </label>
-        <label class="form-label"> 가격:
-          <input class="form-control" type="number" th:field="*{price}">
+        <br>
+        <label class="form-label"> 가격
+          <input th:class="${#fields.hasErrors('price')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{price}">
         </label>
-        <label class="form-label"> 재고:
-          <input class="form-control" type="number" th:field="*{stockQuantity}">
+        <p style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+        <br>
+        <label class="form-label"> 재고
+          <input th:class="${#fields.hasErrors('stockQuantity')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{stockQuantity}">
         </label>
-        <button type="submit">등록</button>
+        <p style="color:red" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}"></p>
+        <br>
+        <button class="btn btn-primary" type="submit">등록</button>
       </form>
 
     </div>

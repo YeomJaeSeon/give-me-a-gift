@@ -34,10 +34,10 @@ public class HomeController {
         categoryService.createCategory(category1);
         categoryService.createCategory(category2);
 
-        ItemDto itemDto1 = createItemDto("레드와인", 20000, 100, category1);
-        ItemDto itemDto2 = createItemDto("스테이크", 30000, 100, category1);
-        ItemDto itemDto3 = createItemDto("한우 부채살", 50000, 30, category2);
-        ItemDto itemDto4 = createItemDto("색연필", 1000, 10000, category);
+        ItemDto itemDto1 = createItemDto("레드와인", 20000, 100, category1.getId());
+        ItemDto itemDto2 = createItemDto("스테이크", 30000, 100, category1.getId());
+        ItemDto itemDto3 = createItemDto("한우 부채살", 50000, 30, category2.getId());
+        ItemDto itemDto4 = createItemDto("색연필", 1000, 10000, category.getId());
 
         itemService.createItem(itemDto1);
         itemService.createItem(itemDto2);
@@ -46,7 +46,7 @@ public class HomeController {
 
     }
 
-    private ItemDto createItemDto(String name, int price, int stockQuantity, Category category) {
+    private ItemDto createItemDto(String name, int price, int stockQuantity, Long category) {
         ItemDto itemDto = new ItemDto();
         itemDto.setName(name);
         itemDto.setPrice(price);

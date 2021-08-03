@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>상품 수정</h1>
+        <div>
+            <form th:action method="post" th:object="${item}">
+                <label class="form-label"> 상품 이름
+                    <input th:class="${#fields.hasErrors('name')} ? 'fieldError form-control' : 'form-control'" type="text" th:field="*{name}">
+                </label>
+                <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                <br>
+                <label class="form-label"> 카테고리
+                    <select class="form-select" name="category">
+                        <option th:value="null" th:selected="${item.category == null}">기타</option>
+                        <option th:each="categoryOne: ${categories}" th:value="${categoryOne.id}" th:text="${categoryOne.name}"
+                                th:selected="${item.category != null && item.category.id == categoryOne.id}">category name</option>
+                    </select>
+                </label>
+                <br>
+                <label class="form-label"> 가격
+                    <input th:class="${#fields.hasErrors('price')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{price}">
+                </label>
+                <p style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
+                <br>
+                <label class="form-label"> 재고
+                    <input th:class="${#fields.hasErrors('stockQuantity')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{stockQuantity}">
+                </label>
+                <p style="color:red" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}"></p>
+                <br>
+                <button class="btn btn-primary" type="submit">수정</button>
+            </form>
+            <a th:href="@{/admin/items/{itemId}/delete(itemId=${id})}" class="btn btn-danger" style="margin-top: 10px">삭제</a>
+
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

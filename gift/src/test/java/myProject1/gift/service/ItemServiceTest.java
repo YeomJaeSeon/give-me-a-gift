@@ -27,7 +27,7 @@ class ItemServiceTest {
         //given
         Category category = createCategory("음식");
 
-        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
+        ItemDto itemDto = createItemDto(category.getId(), "itemA", 10000, 20);
         //when
         Long itemId = itemService.createItem(itemDto);
         Item resultItem = em.find(Item.class, itemId);
@@ -36,10 +36,10 @@ class ItemServiceTest {
         assertThat(itemDto.getName()).isEqualTo(resultItem.getName());
         assertThat(itemDto.getPrice()).isEqualTo(resultItem.getPrice());
         assertThat(itemDto.getStockQuantity()).isEqualTo(resultItem.getStockQuantity());
-        assertThat(itemDto.getCategory()).isEqualTo(resultItem.getCategory());
+        assertThat(itemDto.getCategory()).isEqualTo(resultItem.getCategory().getId());
     }
 
-    private ItemDto createItemDto(Category category, String name, int price, int stockQuantity) {
+    private ItemDto createItemDto(Long category, String name, int price, int stockQuantity) {
         ItemDto itemDto = new ItemDto();
         itemDto.setName(name);
         itemDto.setPrice(price);
@@ -53,16 +53,17 @@ class ItemServiceTest {
     void 상품수정(){
         //given
         Category category = createCategory("음식");
-        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
+        ItemDto itemDto = createItemDto(category.getId(), "itemA", 10000, 20);
         Long updateId = itemService.createItem(itemDto);
 
         String updateName = "itemAAA";
         int updatePrice = 20000;
         int updateStockQuantity = 200;
         Category updateCategory = createCategory("가구");
+        ItemDto itemDto1 = createItemDto(updateId, updateName, updatePrice, updateStockQuantity);
 
         //when
-        itemService.updateItem(updateId, updateName, updatePrice, updateStockQuantity, updateCategory);
+        itemService.updateItem(updateId, itemDto1);
         Item resultItem = em.find(Item.class, updateId);
 
         //then
@@ -76,7 +77,7 @@ class ItemServiceTest {
     void 상품삭제(){
         //given
         Category category = createCategory("음식");
-        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
+        ItemDto itemDto = createItemDto(category.getId(), "itemA", 10000, 20);
         Long itemId = itemService.createItem(itemDto);
 
         Item resultItem = em.find(Item.class, itemId);
@@ -96,17 +97,17 @@ class ItemServiceTest {
         Category category1 = createCategory("가구");
         Category category2 = createCategory("헬스");
 
-        ItemDto itemDto1 = createItemDto(category, "itemA", 10000, 20);
-        ItemDto itemDto2 = createItemDto(category1, "itemB", 10000, 20);
-        ItemDto itemDto3 = createItemDto(category1, "itemC", 10000, 20);
-        ItemDto itemDto4 = createItemDto(category2, "itemD", 10000, 20);
+        ItemDto itemDto1 = createItemDto(category.getId(), "itemA", 10000, 20);
+        ItemDto itemDto2 = createItemDto(category1.getId(), "itemB", 10000, 20);
+        ItemDto itemDto3 = createItemDto(category1.getId(), "itemC", 10000, 20);
+        ItemDto itemDto4 = createItemDto(category2.getId(), "itemD", 10000, 20);
         ItemDto itemDto5 = createItemDto(null, "itemE", 10000, 20);
 
         itemService.createItem(itemDto1);
         itemService.createItem(itemDto2);
         itemService.createItem(itemDto3);
         itemService.createItem(itemDto4);
-        itemService.createItem(itemDto5);
+        itemService.createItem(itemDto5); // d
 
         //when
         List<Item> items = itemService.findItems(category);

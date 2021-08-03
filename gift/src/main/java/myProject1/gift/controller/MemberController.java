@@ -75,7 +75,6 @@ public class MemberController {
         MemberDto memberDto = loginMember.toDto();
 
         log.info("memberDto info : {}", memberDto);
-
         model.addAttribute("memberDto", memberDto);
 
         return "member/userEditForm";
@@ -83,7 +82,12 @@ public class MemberController {
 
     //==회원 정보 수정==//
     @PostMapping("/user/edit")
-    public String editUser(@ModelAttribute MemberDto memberDto){
+    public String editUser(@Valid @ModelAttribute MemberDto memberDto, BindingResult result){
+        log.info("memberDto의 role ={}", memberDto.getRole());
+        if(result.hasErrors()){
+
+            return "member/userEditForm";
+        }
         //현재 로그인한 유저의 정보를 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String originalName = authentication.getName();
