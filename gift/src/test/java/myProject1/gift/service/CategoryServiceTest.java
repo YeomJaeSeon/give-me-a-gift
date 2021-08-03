@@ -54,7 +54,7 @@ class CategoryServiceTest {
         List<Category> categories = categoryService.findAllCategories();
 
         //then
-        assertThat(categories.size()).isEqualTo(3);
+        assertThat(categories.size()).isEqualTo(6);
         assertThat(categories).contains(category, category1 ,category2);
     }
 
@@ -74,6 +74,6 @@ class CategoryServiceTest {
 
         //then
         assertThat(findCategory).isEqualTo(null);
-        assertThat(categories.size()).isEqualTo(0);
+        assertThat(categories.size()).isEqualTo(3);
     }
 }

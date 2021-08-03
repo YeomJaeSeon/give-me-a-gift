@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader" />
+  <div class="home-container">
+    <h1>상품 등록</h1>
+    <div>
+      <form th:action method="post" th:object="${item}">
+        <label class="form-label"> 이름:
+          <input class="form-control" type="text" th:field="*{name}">
+        </label>
+        <label class="form-label"> 카테고리:
+          <select class="form-select" th:each="category: ${categories}" th:field="*{category}">
+            <option th:value="${category}" th:text="${category.name}">category name</option>
+          </select>
+        </label>
+        <label class="form-label"> 가격:
+          <input class="form-control" type="number" th:field="*{price}">
+        </label>
+        <label class="form-label"> 재고:
+          <input class="form-control" type="number" th:field="*{stockQuantity}">
+        </label>
+        <button type="submit">등록</button>
+      </form>
+
+    </div>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

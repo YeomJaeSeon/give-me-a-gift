@@ -40,7 +40,7 @@ public class Item {
         item.name = name;
         item.price = price;
         item.stockQuantity = stockQuantity;
-        item.addItem(category);
+        if(category != null) item.addItem(category);
 
         return item;
     }

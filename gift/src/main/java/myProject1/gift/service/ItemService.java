@@ -3,6 +3,7 @@ package myProject1.gift.service;
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
+import myProject1.gift.dto.ItemDto;
 import myProject1.gift.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,8 @@ import java.util.List;
 public class ItemService {
     private final ItemRepository itemRepository;
 
-    public Long createItem(Item item){
+    public Long createItem(ItemDto itemDto){
+        Item item = Item.createItem(itemDto.getName(), itemDto.getPrice(), itemDto.getStockQuantity(), itemDto.getCategory());
         Long itemId = itemRepository.save(item);
         return itemId;
     }

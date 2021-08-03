@@ -3,6 +3,7 @@ package myProject1.gift.controller;
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
+import myProject1.gift.dto.ItemDto;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.ItemService;
 import org.springframework.stereotype.Controller;
@@ -33,16 +34,26 @@ public class HomeController {
         categoryService.createCategory(category1);
         categoryService.createCategory(category2);
 
-        //상품
-        Item item1 = Item.createItem("레드와인", 20000, 100, category1);
-        Item item2 = Item.createItem("스테이크", 30000, 100, category1);
-        Item item3 = Item.createItem("한우 부채살", 50000, 30, category2);
-        Item item4 = Item.createItem("색연필", 1000, 10000, category);
-        itemService.createItem(item1);
-        itemService.createItem(item2);
-        itemService.createItem(item3);
-        itemService.createItem(item4);
+        ItemDto itemDto1 = createItemDto("레드와인", 20000, 100, category1);
+        ItemDto itemDto2 = createItemDto("스테이크", 30000, 100, category1);
+        ItemDto itemDto3 = createItemDto("한우 부채살", 50000, 30, category2);
+        ItemDto itemDto4 = createItemDto("색연필", 1000, 10000, category);
 
+        itemService.createItem(itemDto1);
+        itemService.createItem(itemDto2);
+        itemService.createItem(itemDto3);
+        itemService.createItem(itemDto4);
+
+    }
+
+    private ItemDto createItemDto(String name, int price, int stockQuantity, Category category) {
+        ItemDto itemDto = new ItemDto();
+        itemDto.setName(name);
+        itemDto.setPrice(price);
+        itemDto.setStockQuantity(stockQuantity);
+        itemDto.setCategory(category);
+
+        return itemDto;
     }
 
     //==홈 화면 display==//

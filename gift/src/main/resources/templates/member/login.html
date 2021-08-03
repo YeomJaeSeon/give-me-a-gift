@@ -12,6 +12,7 @@
     <div class="home-container">
         <div>
             <h1>로그인</h1>
+            <p th:if="${loginError}" class="error">Wrong user or password</p>
         </div>
         <div>
             <form th:action method="post" style="margin-bottom: 30px">

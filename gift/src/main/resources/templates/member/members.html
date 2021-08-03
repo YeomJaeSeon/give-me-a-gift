@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1 style="margin-bottom: 30px">누구에게 선물할래요?</h1>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-dark">
+                        <th>id</th>
+                        <th>닉네임</th>
+                        <th>이름</th>
+                        <th>성별</th>
+                        <th>생일</th>
+                        <th>상태메시지</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="member :${members}" style="cursor: pointer">
+                        <td th:text="${member.id}">id</td>
+                        <td th:text-="${member.username}">username</td>
+                        <td th:text="${member.name}">name</td>
+                        <td th:text="${member.sex.getValue() == 'MALE' ? '남자' : '여자'}">sex</td>
+                        <td th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
+                        <td th:text="${member.message}">message</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

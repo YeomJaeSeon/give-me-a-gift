@@ -3,6 +3,7 @@ package myProject1.gift.dto;
 import lombok.Getter;
 import lombok.Setter;
 import myProject1.gift.domain.Category;
+import myProject1.gift.domain.Item;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.*;
@@ -11,7 +12,7 @@ import javax.validation.constraints.*;
 public class ItemDto {
     @NotBlank(message = "빈 이름은 허용되지 않습니다.")
     private String name;
-    private Long category;
+    private Category category;
     @Range(min=1, message = "가격은 0보다 커야합니다!")
     @NotNull(message = "공백은 허용되지 않습니다.")
     private Integer price;
@@ -19,6 +20,7 @@ public class ItemDto {
     @Range(min=1, message = "재고는 0보다 커야합니다!")
     @NotNull(message = "공백은 허용되지 않습니다.")
     private Integer stockQuantity;
+
 
     @Override
     public String toString() {

@@ -50,6 +50,13 @@ public class MemberController {
         return "member/login";
     }
 
+    //==로그인 오류 페이지 display==//
+    @GetMapping(value = "/user/login", params = "error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "member/login";
+    }
+
     //==회원 정보 페이지 display==//
     @GetMapping("/user")
     public String dispUserPage(){
@@ -114,6 +121,15 @@ public class MemberController {
         memberService.deleteMember(loginMember);
 
         return "redirect:/user/logout";
+    }
+
+    //==회원 목록 페이지 display==//
+    @GetMapping("/members")
+    public String dispMembers(Model model){
+        List<Member> members = memberService.findAllMembers();
+        model.addAttribute("members", members);
+
+        return "member/members";
     }
 
 

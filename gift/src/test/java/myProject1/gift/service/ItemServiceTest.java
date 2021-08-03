@@ -2,6 +2,7 @@ package myProject1.gift.service;
 
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
+import myProject1.gift.dto.ItemDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,24 +27,35 @@ class ItemServiceTest {
         //given
         Category category = createCategory("음식");
 
-        Item item = createItem(category, "itemA", 10000, 20);
-
+        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
         //when
-        itemService.createItem(item);
-        Item resultItem = em.find(Item.class, item.getId());
+        Long itemId = itemService.createItem(itemDto);
+        Item resultItem = em.find(Item.class, itemId);
 
         //then
-        assertThat(item).isEqualTo(resultItem);
+        assertThat(itemDto.getName()).isEqualTo(resultItem.getName());
+        assertThat(itemDto.getPrice()).isEqualTo(resultItem.getPrice());
+        assertThat(itemDto.getStockQuantity()).isEqualTo(resultItem.getStockQuantity());
+        assertThat(itemDto.getCategory()).isEqualTo(resultItem.getCategory());
+    }
+
+    private ItemDto createItemDto(Category category, String name, int price, int stockQuantity) {
+        ItemDto itemDto = new ItemDto();
+        itemDto.setName(name);
+        itemDto.setPrice(price);
+        itemDto.setStockQuantity(stockQuantity);
+        itemDto.setCategory(category);
+
+        return itemDto;
     }
 
     @Test
     void 상품수정(){
         //given
         Category category = createCategory("음식");
-        Item item = createItem(category, "itemA", 10000, 20);
-        itemService.createItem(item);
+        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
+        Long updateId = itemService.createItem(itemDto);
 
-        Long updateId = item.getId();
         String updateName = "itemAAA";
         int updatePrice = 20000;
         int updateStockQuantity = 200;
@@ -64,17 +76,17 @@ class ItemServiceTest {
     void 상품삭제(){
         //given
         Category category = createCategory("음식");
-        Item item = createItem(category, "itemA", 10000, 20);
-        itemService.createItem(item);
+        ItemDto itemDto = createItemDto(category, "itemA", 10000, 20);
+        Long itemId = itemService.createItem(itemDto);
 
-        Item resultItem = em.find(Item.class, item.getId());
+        Item resultItem = em.find(Item.class, itemId);
 
         //when
         itemService.deleteItem(resultItem);
         List<Item> items = itemService.findItems(null);
 
         //then
-        assertThat(items.size()).isEqualTo(0);
+        assertThat(items.size()).isEqualTo(4);
     }
 
     @Test
@@ -84,16 +96,17 @@ class ItemServiceTest {
         Category category1 = createCategory("가구");
         Category category2 = createCategory("헬스");
 
-        Item item1 = createItem(category, "itemA", 10000, 20);
-        Item item2 = createItem(category1, "itemB", 10000, 20);
-        Item item3 = createItem(category1, "itemC", 10000, 20);
-        Item item4 = createItem(category2, "itemD", 10000, 20);
-        Item item5 = createItem(null, "itemE", 10000, 20);
-        itemService.createItem(item1);
-        itemService.createItem(item2);
-        itemService.createItem(item3);
-        itemService.createItem(item4);
-        itemService.createItem(item5);
+        ItemDto itemDto1 = createItemDto(category, "itemA", 10000, 20);
+        ItemDto itemDto2 = createItemDto(category1, "itemB", 10000, 20);
+        ItemDto itemDto3 = createItemDto(category1, "itemC", 10000, 20);
+        ItemDto itemDto4 = createItemDto(category2, "itemD", 10000, 20);
+        ItemDto itemDto5 = createItemDto(null, "itemE", 10000, 20);
+
+        itemService.createItem(itemDto1);
+        itemService.createItem(itemDto2);
+        itemService.createItem(itemDto3);
+        itemService.createItem(itemDto4);
+        itemService.createItem(itemDto5);
 
         //when
         List<Item> items = itemService.findItems(category);
@@ -103,16 +116,12 @@ class ItemServiceTest {
 
         //then
         assertThat(items.size()).isEqualTo(1);
-        assertThat(items).contains(item1);
 
         assertThat(items1.size()).isEqualTo(2);
-        assertThat(items1).contains(item2, item3);
 
         assertThat(items2.size()).isEqualTo(1);
-        assertThat(items2).contains(item4);
 
-        assertThat(items3.size()).isEqualTo(5);
-        assertThat(items3).contains(item1, item2, item3, item4, item5);
+        assertThat(items3.size()).isEqualTo(9); //
     }
 
     private Item createItem(Category category, String name, int price, int stockQuantity) {
