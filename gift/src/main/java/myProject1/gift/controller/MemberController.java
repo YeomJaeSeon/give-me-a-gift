@@ -34,8 +34,15 @@ public class MemberController {
 
     //==회원가입==//
     @PostMapping("/signup")
-    public String signup(@Valid @ModelAttribute MemberDto memberDto, BindingResult result){
+    public String signup(@Valid @ModelAttribute MemberDto memberDto, BindingResult result, Model model){
         if(result.hasErrors()){
+            //memberDto validation
+            return "member/signup";
+        }
+        //id 중복검사
+        List<Member> members = memberRepository.findByUsername(memberDto.getUsername());
+        if(members.size() > 0){
+            model.addAttribute("duplicateIdError", true);
             return "member/signup";
         }
         log.info("memberDto : {}", memberDto);
