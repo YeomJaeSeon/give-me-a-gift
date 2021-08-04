@@ -3,6 +3,7 @@ package myProject1.gift.controller;
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
+import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.ItemService;
@@ -23,21 +24,21 @@ public class HomeController {
     @PostConstruct
     public void initCategories(){
         //카테고리
-        Category category = new Category();
-        category.setName("간단한 선물");
-        Category category1 = new Category();
-        category1.setName("고급진 선물");
-        Category category2 = new Category();
-        category2.setName("맛있는 선물");
+        CategoryDto category = new CategoryDto();
+        category.setCategory("간단한 선물");
+        CategoryDto category1 = new CategoryDto();
+        category1.setCategory("고급진 선물");
+        CategoryDto category2 = new CategoryDto();
+        category2.setCategory("맛있는 선물");
 
-        categoryService.createCategory(category);
-        categoryService.createCategory(category1);
-        categoryService.createCategory(category2);
+        Long category1Id = categoryService.createCategory(category);
+        Long category2Id = categoryService.createCategory(category1);
+        Long category3Id = categoryService.createCategory(category2);
 
-        ItemDto itemDto1 = createItemDto("레드와인", 20000, 100, category1.getId());
-        ItemDto itemDto2 = createItemDto("스테이크", 30000, 100, category1.getId());
-        ItemDto itemDto3 = createItemDto("한우 부채살", 50000, 30, category2.getId());
-        ItemDto itemDto4 = createItemDto("색연필", 1000, 10000, category.getId());
+        ItemDto itemDto1 = createItemDto("레드와인", 20000, 100, category2Id);
+        ItemDto itemDto2 = createItemDto("스테이크", 30000, 100, category2Id);
+        ItemDto itemDto3 = createItemDto("한우 부채살", 50000, 30, category3Id);
+        ItemDto itemDto4 = createItemDto("색연필", 1000, 10000, category1Id);
 
         itemService.createItem(itemDto1);
         itemService.createItem(itemDto2);

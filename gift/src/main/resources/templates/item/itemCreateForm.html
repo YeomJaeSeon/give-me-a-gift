@@ -23,6 +23,7 @@
             <option th:each="categoryOne: ${categories}" th:value="${categoryOne.id}" th:text="${categoryOne.name}">category name</option>
           </select>
         </label>
+        <a class="btn btn-info" href="/admin/category/create" style="font-size: 15px">카테고리 등록</a>
         <br>
         <label class="form-label"> 가격
           <input th:class="${#fields.hasErrors('price')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{price}">

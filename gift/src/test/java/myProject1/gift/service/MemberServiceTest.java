@@ -59,6 +59,7 @@ class MemberServiceTest {
         String updateName = "김덕순";
         memberDto.setName("김덕순");
         memberDto.setSex("MALE");
+        memberDto.setRole("USER");
 
         //when
         memberService.updateMember("yeom", memberDto);

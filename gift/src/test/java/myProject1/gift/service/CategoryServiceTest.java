@@ -1,6 +1,7 @@
 package myProject1.gift.service;
 
 import myProject1.gift.domain.Category;
+import myProject1.gift.dto.CategoryDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,55 +26,52 @@ class CategoryServiceTest {
     @Test
     void 카테고리생성(){
         //given
-        Category category = new Category();
-        category.setName("음식");
+        CategoryDto category = new CategoryDto();
+        category.setCategory("음식");
 
         //when
-        categoryService.createCategory(category);
-        Category resultCategory = em.find(Category.class, category.getId());
+        Long categoryId = categoryService.createCategory(category);
+        Category resultCategory = categoryService.findById(categoryId);
 
         //then
-        assertThat(category).isEqualTo(resultCategory);
+        assertThat(category.getCategory()).isEqualTo(resultCategory.getName());
     }
 
     @Test
     void 카테고리_모두_조회(){
         //given
-        Category category = new Category();
-        category.setName("음식");
-        Category category1 = new Category();
-        category.setName("헬스");
-        Category category2 = new Category();
-        category2.setName("가구");
+        CategoryDto category = new CategoryDto();
+        category.setCategory("음식");
+        CategoryDto category1 = new CategoryDto();
+        category1.setCategory("헬스");
+        CategoryDto category2 = new CategoryDto();
+        category2.setCategory("가구");
 
-        categoryService.createCategory(category);
-        categoryService.createCategory(category1);
-        categoryService.createCategory(category2);
+        Long category1Id = categoryService.createCategory(category);
+        Long category2Id = categoryService.createCategory(category1);
+        Long category3Id = categoryService.createCategory(category2);
 
         //when
         List<Category> categories = categoryService.findAllCategories();
 
         //then
         assertThat(categories.size()).isEqualTo(6);
-        assertThat(categories).contains(category, category1 ,category2);
     }
 
     @Test
     void 카테고리_삭제(){
         //given
-        Category category = new Category();
-        category.setName("음료");
+        CategoryDto category = new CategoryDto();
+        category.setCategory("음료");
 
-        categoryService.createCategory(category);
-        Long categoryId = category.getId();
+        Long categoryId = categoryService.createCategory(category);
+        Category findCategory = categoryService.findById(categoryId);
 
         //when
-        categoryService.deleteCategory(category);
-        Category findCategory = em.find(Category.class, categoryId);
+        categoryService.deleteCategory(findCategory);
         List<Category> categories = categoryService.findAllCategories();
 
         //then
-        assertThat(findCategory).isEqualTo(null);
         assertThat(categories.size()).isEqualTo(3);
     }
 }

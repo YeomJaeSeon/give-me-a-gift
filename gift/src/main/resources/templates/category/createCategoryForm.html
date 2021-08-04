@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>카테고리 등록</h1>
+        <div>
+            <form th:action method="post" th:object="${categoryDto}">
+                <label class="form-label">
+                    <input th:class="${#fields.hasErrors('category')} ? 'fieldError form-control' : 'form-control'" name="category" type="text" placeholder="등록할 카테고리를 입력해주세요" style="width: 300px">
+                </label>
+                <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" style="color: #ff0000"></p>
+                <br>
+                <button class="btn btn-primary" type="submit">등록</button>
+            </form>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

@@ -2,6 +2,7 @@ package myProject1.gift.service;
 
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Category;
+import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,10 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Long createCategory(Category category){
+    public Long createCategory(CategoryDto categoryDto){
+        Category category = new Category();
+        category.setName(categoryDto.getCategory());
+
         Long id = categoryRepository.save(category);
         return id;
     }

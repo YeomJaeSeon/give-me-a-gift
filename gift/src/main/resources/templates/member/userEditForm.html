@@ -28,10 +28,10 @@
 
             <p class="signup-text">당신의 권한을 체크하세요</p>
             <label class="form-check-label"> 일반회원 :
-                <input class="form-check-input" type="radio" name="role" th:value="ROLE_USER" th:checked="${#strings.equals(memberDto.role, 'ROLE_USER')}">
+                <input class="form-check-input" type="radio" name="role" th:value="USER" th:checked="${#strings.equals(memberDto.role, 'ROLE_USER')}">
             </label>
             <label class="form-check-label"> 관리자 :
-                <input class="form-check-input" type="radio" name="role" th:value="ROLE_ADMIN" th:checked="${#strings.equals(memberDto.role, 'ROLE_ADMIN')}">
+                <input class="form-check-input" type="radio" name="role" th:value="ADMIN" th:checked="${#strings.equals(memberDto.role, 'ROLE_ADMIN')}">
             </label>
 
             <p class="signup-text">당신의 성별을 입력하세요</p>

@@ -45,7 +45,7 @@ public class MemberController {
             model.addAttribute("duplicateIdError", true);
             return "member/signup";
         }
-        log.info("memberDto : {}", memberDto);
+        log.info("create memberDto : {}", memberDto);
         memberService.createMember(memberDto);
 
         return "redirect:/user/login";
@@ -90,7 +90,7 @@ public class MemberController {
     //==회원 정보 수정==//
     @PostMapping("/user/edit")
     public String editUser(@Valid @ModelAttribute MemberDto memberDto, BindingResult result){
-        log.info("memberDto의 role ={}", memberDto.getRole());
+        log.info("edit memberDto의 role ={}", memberDto.getRole());
         if(result.hasErrors()){
             return "member/userEditForm";
         }

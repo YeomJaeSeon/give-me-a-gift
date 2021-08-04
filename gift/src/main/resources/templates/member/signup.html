@@ -12,12 +12,12 @@
     <div class="home-container">
         <div>
             <h1>회원가입</h1>
+            <p th:if="${duplicateIdError}" class="error">이미 존재하는 아이디입니다.</p>
         </div>
         <form th:action method="post" th:object="${memberDto}">
             <p class="signup-text">사용할 아이디를 입력해주세요</p>
             <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('username')} ? 'fieldError form-control' : 'form-control'" type="text" name="username" placeholder="사용할 아이디를 입력하세요">
-            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
-            <p th:if="${duplicateIdError}" class="error">이미 존재하는 아이디입니다.</p>
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: #ff0000"></p>
 
             <p class="signup-text">사용할 비밀번호를 입력해주세요</p>
             <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('password')} ? 'fieldError form-control' : 'form-control'" type="password" name="password" placeholder="비밀번호를 입력하세요">
