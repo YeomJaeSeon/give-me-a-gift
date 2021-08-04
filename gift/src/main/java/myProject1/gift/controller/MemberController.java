@@ -92,7 +92,6 @@ public class MemberController {
     public String editUser(@Valid @ModelAttribute MemberDto memberDto, BindingResult result){
         log.info("memberDto의 role ={}", memberDto.getRole());
         if(result.hasErrors()){
-
             return "member/userEditForm";
         }
         //현재 로그인한 유저의 정보를 가져오기
@@ -151,7 +150,9 @@ public class MemberController {
     private List<Member> getLoginedMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        return memberRepository.findByUsername(username);
+        List<Member> members = memberRepository.findByUsername(username);
+        log.info("로그인한 회원들 : {}", members);
+        return members;
     }
 
 }

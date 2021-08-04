@@ -13,5 +13,9 @@ public class Test {
         Long l1 = 1L;
         Long l2 = 1L;
         System.out.println("l1 == l2 = " + (l1 == l2));
+
+        //role test
+        String role1 = "ROLE_ADMIN";
+        System.out.println("Role.valueOf(role1) = " + Role.valueOf(role1));
     }
 }

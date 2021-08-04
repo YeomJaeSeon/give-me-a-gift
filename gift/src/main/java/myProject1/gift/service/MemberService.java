@@ -22,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,11 +47,14 @@ public class MemberService implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         SexStatus memberDtoSex = SexStatus.valueOf(memberDto.getSex());
-        Role role = Role.valueOf(memberDto.getRole());
+
+        Optional<Role> role = Arrays.stream(Role.values())
+                .filter(r -> r.getValue().equals(memberDto.getRole()))
+                .findFirst();
 
         //인증 정보 수정
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if(role == Role.ADMIN)
+        if(role.get() == Role.ADMIN)
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         else
             authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
@@ -57,7 +62,7 @@ public class MemberService implements UserDetailsService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberDto.getUsername(), memberDto.getPassword(), authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        memberRepository.update(originalName ,memberDto.getUsername(), memberDto.getPassword(), memberDto.getName(), memberDtoSex, role ,memberDto.getBirthDate(), memberDto.getMessage());
+        memberRepository.update(originalName ,memberDto.getUsername(), memberDto.getPassword(), memberDto.getName(), memberDtoSex, role.get() ,memberDto.getBirthDate(), memberDto.getMessage());
     }
 
     @Transactional
