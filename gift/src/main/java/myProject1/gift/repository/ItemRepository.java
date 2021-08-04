@@ -38,18 +38,24 @@ public class ItemRepository {
         return resultItem;
     }
 
-    public List<Item> findAll(Category category){
+    public List<Item> findByCategory(Category category){
         if(category == null){
-            // 카테고리 지정안하면 모든 Item 조회
-            List<Item> items = em.createQuery("select i from Item i", Item.class)
+            // 기타 카테고리의 아이템 조회 (카테고리 이름지정안하면 기타 카테고리 조회)
+            List<Item> items = em.createQuery("select i from Item i where i.category IS NULL", Item.class)
                     .getResultList();
             return items;
         }else{
+            // 입력된 카테고리의 아이템 조회
             List<Item> items = em.createQuery("select i from Item i where i.category = :category", Item.class)
                     .setParameter("category", category)
                     .getResultList();
             return items;
         }
+    }
+
+    public List<Item> findAll(){
+        return em.createQuery("select i from Item i", Item.class)
+                .getResultList();
     }
 
 }

@@ -60,8 +60,11 @@ public class HomeController {
     @GetMapping("/")
     public String dispHome(Model model){
         List<Category> categories = categoryService.findAllCategories();
+        List<Item> items = itemService.findByItems(null);
+        // 기타 카테고리의 아이템 조회
 
         model.addAttribute("categories", categories);
+        model.addAttribute("etcCount", items.size());
         return "home/index";
     }
 }

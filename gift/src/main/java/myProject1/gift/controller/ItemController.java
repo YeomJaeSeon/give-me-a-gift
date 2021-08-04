@@ -57,7 +57,7 @@ public class ItemController {
     //==상품 목록 display==//
     @GetMapping("/items")
     public String dispItems(Model model){
-        List<Item> items = itemService.findItems(null);
+        List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
         return "item/itemList";
     }

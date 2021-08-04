@@ -27,6 +27,10 @@
                        th:text="${category.name}"></a>
                     <span class="badge bg-primary rounded-pill" th:text="${category.items.size()}"></span>
                 </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a th:href="@{/categories/0}">기타</a>
+                    <span class="badge bg-primary rounded-pill" th:text="${etcCount}"></span>
+                </li>
             </ul>
         </div>
         <div style="margin: 10px 0">

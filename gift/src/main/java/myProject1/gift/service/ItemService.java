@@ -45,8 +45,13 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public List<Item> findItems(Category category){
-        List<Item> items = itemRepository.findAll(category);
+    public List<Item> findByItems(Category category){
+        List<Item> items = itemRepository.findByCategory(category);
         return items;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Item> findAll(){
+        return itemRepository.findAll();
     }
 }

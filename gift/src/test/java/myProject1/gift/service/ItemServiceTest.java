@@ -6,6 +6,7 @@ import myProject1.gift.dto.ItemDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,7 @@ class ItemServiceTest {
     }
 
     @Test
+    @Rollback(value = false)
     void 상품수정(){
         //given
         Category category = createCategory("음식");
@@ -60,7 +62,7 @@ class ItemServiceTest {
         int updatePrice = 20000;
         int updateStockQuantity = 200;
         Category updateCategory = createCategory("가구");
-        ItemDto itemDto1 = createItemDto(updateId, updateName, updatePrice, updateStockQuantity);
+        ItemDto itemDto1 = createItemDto(updateCategory.getId(), updateName, updatePrice, updateStockQuantity);
 
         //when
         itemService.updateItem(updateId, itemDto1);
@@ -84,10 +86,10 @@ class ItemServiceTest {
 
         //when
         itemService.deleteItem(resultItem);
-        List<Item> items = itemService.findItems(null);
+        List<Item> items = itemService.findAll();
 
         //then
-        assertThat(items.size()).isEqualTo(4);
+        assertThat(items.size()).isEqualTo(4); // PostConstruct에 네개의 아이템 기본적으로 생성(테스트용)
     }
 
     @Test
@@ -110,10 +112,10 @@ class ItemServiceTest {
         itemService.createItem(itemDto5); // d
 
         //when
-        List<Item> items = itemService.findItems(category);
-        List<Item> items1 = itemService.findItems(category1);
-        List<Item> items2 = itemService.findItems(category2);
-        List<Item> items3 = itemService.findItems(null);
+        List<Item> items = itemService.findByItems(category);
+        List<Item> items1 = itemService.findByItems(category1);
+        List<Item> items2 = itemService.findByItems(category2);
+        List<Item> items3 = itemService.findByItems(null);
 
         //then
         assertThat(items.size()).isEqualTo(1);
@@ -122,7 +124,7 @@ class ItemServiceTest {
 
         assertThat(items2.size()).isEqualTo(1);
 
-        assertThat(items3.size()).isEqualTo(9); //
+        assertThat(items3.size()).isEqualTo(1); //
     }
 
     private Item createItem(Category category, String name, int price, int stockQuantity) {
