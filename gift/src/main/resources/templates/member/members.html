@@ -11,7 +11,6 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <h1 style="margin-bottom: 30px">누구에게 선물할래요?</h1>
-        <p th:if="${giftError}">이미 생성중인 선물이 있습니다.</p>
         <div>
             <table class="table table-hover">
                 <thead>
@@ -33,7 +32,7 @@
                         <td th:text="${member.sex.getValue() == 'MALE' ? '남자' : '여자'}">sex</td>
                         <td th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
                         <td th:text="${member.message}">message</td>
-                        <td><a class="btn btn-primary" th:href="@{/members/{memberId}/gift(memberId = ${member.id})}">선물하기</a></td>
+                        <td><a class="btn btn-primary" th:href="@{/gift/members/{memberId}(memberId = ${member.id})}">선물하기</a></td>
                     </tr>
                 </tbody>
             </table>

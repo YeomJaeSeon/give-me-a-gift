@@ -2,28 +2,114 @@ package myProject1.gift.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import myProject1.gift.domain.Category;
+import myProject1.gift.domain.Item;
+import myProject1.gift.domain.Member;
+import myProject1.gift.dto.GiftItemDto;
 import myProject1.gift.repository.MemberRepository;
+import myProject1.gift.service.CategoryService;
+import myProject1.gift.service.GiftService;
+import myProject1.gift.service.ItemService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/gift")
 public class GiftController {
+    private final GiftService giftService;
+    private final ItemService itemService;
+    private final CategoryService categoryService;
     private final MemberRepository memberRepository;
 
     //==선물 받을 상대 선택==//
-    @GetMapping("/members/{receiveMemberId}/gift")
+    @GetMapping("/members/{receiveMemberId}")
     public String selectReceiveMember(@PathVariable Long receiveMemberId, HttpServletRequest request){
 
         HttpSession session = request.getSession();
         session.setAttribute("receiveMemberId", receiveMemberId);
+        //receiveMemberId 세션에 선물 받는 사람의 아이디를저장
 
         return "redirect:/";
+    }
+
+    //==선물을 위한 카테고리의 상품 display 페이지 조회==//
+    @GetMapping("/categories/{categoryId}")
+    public String dispCategoryItems(@PathVariable Long categoryId, Model model){
+        List<Item> items = null;
+        if(categoryId != 0){
+            //특정 카테고리의 아이템 조회
+            Category category = categoryService.findById(categoryId);
+            items = itemService.findByItems(category);
+            model.addAttribute("category", category.getName());
+        }else{
+            //기타 카테고리의 아이템 조회
+            items = itemService.findByItems(null);
+            model.addAttribute("category", "기타");
+        }
+
+        model.addAttribute("items", items);
+
+        return "gift/itemsByCategoryForGift";
+    }
+
+    //==선물할 상품 상세보기 페이지 display==//
+    @GetMapping("/items/{itemId}")
+    public String dispGiftSpecificItem(@PathVariable Long itemId, Model model){
+        Item item = itemService.findById(itemId);
+        model.addAttribute("item", item);
+        model.addAttribute("giftItemDto", new GiftItemDto());
+        return "gift/item";
+    }
+
+    //==상품 단건 선물하기==//
+    @PostMapping("/items/{itemId}")
+    public String giveOneGift(@PathVariable Long itemId, HttpServletRequest request, @Valid @ModelAttribute GiftItemDto giftItemDto, BindingResult result, Model model, @RequestParam String message){
+        if(result.hasErrors()){
+            Item item = itemService.findById(itemId);
+            model.addAttribute("item", item);
+            return "gift/item";
+        }
+        HttpSession session = request.getSession();
+        Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
+        if(receiveMemberId == null){
+            //선물 받는이 지정 안했으면
+            //선물 받는이 지정하는곳으로 redirect
+            return "redirect:/members";
+        }
+
+        List<Member> members = getLoginedMember();
+        Member giveMember = members.get(0);
+        giftItemDto.setItemId(itemId);
+
+        if(message.trim() == ""){
+            message = "제 마음입니다 ^^";
+        }
+
+        giftService.createGift(giveMember.getId(), receiveMemberId, message, giftItemDto);
+
+        return "redirect:/";
+    }
+
+
+
+    //==현재 로그인한 회원정보 가져오는 메서드==//
+    private List<Member> getLoginedMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        List<Member> members = memberRepository.findByUsername(username);
+        log.info("로그인한 회원들 : {}", members);
+        return members;
     }
 
 }

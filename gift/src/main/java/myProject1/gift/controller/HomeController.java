@@ -78,7 +78,6 @@ public class HomeController {
         HttpSession session = request.getSession();
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
         //세션으로부터 선물 받을 대상 회원의 id 가져옴
-        model.addAttribute("isExistReceiveMember", false);
 
         if(receiveMemberId != null){
             //선물받을 대상 지정했으면

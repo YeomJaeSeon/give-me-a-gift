@@ -44,8 +44,8 @@ public class GiftItem {
 
 
     //==비즈니스 로직==//
-    //- 선물 상품 받음
-    public void accepted() {
+    //- 선물 상품 생성
+    public void createGiftItem() {
         item.reduceStockQuantity(count);
     }
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container" th:object="${item}">
+        <h1 th:text="${item.name}"></h1>
+        <div>
+            <label class="form-label"> 상품 이름
+                <input class="form-control" type="text" th:value="${item.name}" readonly>
+            </label>
+            <br>
+            <label class="form-label"> 가격
+                <input class="form-control" type="number" th:value="${item.price}" readonly>
+            </label>
+            <br>
+            <label class="form-label"> 재고
+                <input class="form-control" type="number" th:value="${item.stockQuantity}" readonly>
+            </label>
+            <br>
+
+            <form th:action method="post" th:object="${giftItemDto}">
+                <label class="form-label"> 선물할 상품 개수
+                    <input th:class="${#fields.hasErrors('count')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{count}" placeholder="선물할 상품 개수를 입력">
+                </label>
+                <p th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red"></p>
+
+                <label class="form-label"> 해당 상품 하나만 선물하려면 상태메시지를 적어주세요
+                    <input class="form-control" type="text" name="message" placeholder="제 마음입니다 ^^">
+                </label>
+                <br>
+                <button class="btn btn-primary" type="submit">선물하기</button>
+            </form>
+            <a class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
+
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

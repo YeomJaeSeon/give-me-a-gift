@@ -14,8 +14,8 @@
             <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
             <span sec:authorize="isAuthenticated()">님 안녕하세요?</span>
             <br sec:authorize="isAuthenticated()">
-            <h1 th:if="${!isExistReceiveMember}">누구를 위한 선물인가요?</h1>
             <h1 th:if="${isExistReceiveMember}" th:text="${target}">대상 존재</h1>
+            <h1 th:unless="${isExistReceiveMember}">누구를 위한 선물인가요?</h1>
         </div>
         <div style="margin: 20px 0px">
             <a href="/members" class="btn-lg btn-secondary" style="margin: 20px 0">회원 목록</a>
@@ -24,12 +24,12 @@
             <h2>카테고리</h2>
             <ul class="list-group">
                 <li th:each="category: ${categories}" class="list-group-item d-flex justify-content-between align-items-center">
-                    <a th:href="@{/categories/{categoryId}(categoryId=${category.id})}"
+                    <a th:href="@{/gift/categories/{categoryId}(categoryId=${category.id})}"
                        th:text="${category.name}"></a>
                     <span class="badge bg-primary rounded-pill" th:text="${category.items.size()}"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a th:href="@{/categories/0}">기타</a>
+                    <a th:href="@{/gift/categories/0}">기타</a>
                     <span class="badge bg-primary rounded-pill" th:text="${etcCount}"></span>
                 </li>
             </ul>

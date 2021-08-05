@@ -55,15 +55,6 @@ public class Gift {
     }
 
     //==생성 메서드==//
-    //- 받는사람 주는사람만으로 선물생성
-    public static Gift createGiftByUsername(Member giveMember, Member receiveMember){
-        Gift gift = new Gift();
-        gift.addMember(giveMember);
-        gift.receiveMember = receiveMember;
-
-        return gift;
-    }
-
     //- 선물 생성
     public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, List<GiftItem> giftItems){
         Gift gift = new Gift();
@@ -75,6 +66,7 @@ public class Gift {
 
         for (GiftItem giftItem : giftItems) {
             gift.addGiftItem(giftItem);
+            giftItem.createGiftItem();//선물 생성하며 그만큼 재고 줄어듬.
         }
 
         return gift;
@@ -83,9 +75,6 @@ public class Gift {
     //==비즈니스 로직==//
     //- 선물 수락
     public void acceptGift(){
-        for (GiftItem giftItem : giftItems) {
-            giftItem.accepted();
-        }
         status = GiftStatus.ACCEPTED;
         receiveMember.setStatus(GiftReceiveStatus.RECEIVED); // 선물받은 회원의 상태 - RECEIVED로변경
     }

@@ -3,6 +3,7 @@ package myProject1.gift.service;
 import myProject1.gift.dto.GiftItemDto;
 import myProject1.gift.domain.*;
 import myProject1.gift.repository.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -166,7 +167,7 @@ class GiftServiceTest {
     }
 
     @Test
-    void 선물_생성_후_선물_수락시_재고부족(){
+    void 선물_생성_시_재고부족(){
         //given
         String message=  "제 선물을 받아주세요!!";
 
@@ -182,14 +183,9 @@ class GiftServiceTest {
 
         //when
         int giftCount1 = 150;
-        giftItemDto1.setCount(giftCount1);
+        giftItemDto1.setCount(giftCount1); //생성
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1);
-        Gift gift = giftRepository.findOne(giftId);
-
-        //then
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, gift::acceptGift);
-
+        Assertions.assertThrows(IllegalArgumentException.class, () -> giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1));
     }
 
     private Long createItem(Category category2, String name, int price, int stockQuantity) {
