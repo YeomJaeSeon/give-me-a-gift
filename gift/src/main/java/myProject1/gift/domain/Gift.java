@@ -39,7 +39,7 @@ public class Gift {
     private List<GiftItem> giftItems = new ArrayList<>();
 
     @Enumerated(STRING)
-    private GiftStatus status;
+    private GiftStatus status = GiftStatus.CREATED; // 선물생성하면 default 상태
 
     //==연관관계 편의메서드==//
     //회원 - 상품 연관관계
@@ -55,6 +55,15 @@ public class Gift {
     }
 
     //==생성 메서드==//
+    //- 받는사람 주는사람만으로 선물생성
+    public static Gift createGiftByUsername(Member giveMember, Member receiveMember){
+        Gift gift = new Gift();
+        gift.addMember(giveMember);
+        gift.receiveMember = receiveMember;
+
+        return gift;
+    }
+
     //- 선물 생성
     public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, List<GiftItem> giftItems){
         Gift gift = new Gift();
@@ -63,7 +72,6 @@ public class Gift {
         gift.message = message;
         gift.addMember(member);
         gift.receiveMember = receiveMember;
-        gift.status = GiftStatus.CREATED;
 
         for (GiftItem giftItem : giftItems) {
             gift.addGiftItem(giftItem);

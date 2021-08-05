@@ -20,6 +20,20 @@ public class GiftService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
+//    //받는사람 지정만 하는 선물생성
+//    public Long createGiftByReceiveName(Long giveMemberId, Long receiveMemberId){
+//        //Member 엔티티 조회
+//        Member giveMember = memberRepository.findOne(giveMemberId);
+//        Member receiveMember = memberRepository.findOne(receiveMemberId);
+//
+//        // Gift 객체 생성
+//        Gift gift = Gift.createGiftByUsername(giveMember, receiveMember);
+//
+//        // Gift entity 저장
+//        Long giftId = giftRepository.save(gift);
+//        return giftId;
+//    }
+
     public Long createGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto... giftItemDtos){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
@@ -34,7 +48,7 @@ public class GiftService {
             giftItemList.add(giftItem);
         }
 
-        // Gift 엔티티 생성
+        // Gift 객체 생성
         Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemList);
 
         // Gift 엔티티 저장
