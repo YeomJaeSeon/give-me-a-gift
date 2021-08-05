@@ -6,6 +6,7 @@ import myProject1.gift.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,8 +19,6 @@ class GiftServiceTest {
     @Autowired
     GiftRepository giftRepository;
     @Autowired
-    MessageRepository messageRepository;
-    @Autowired
     MemberRepository memberRepository;
     @Autowired
     CategoryRepository categoryRepository;
@@ -29,7 +28,7 @@ class GiftServiceTest {
     @Test
     void 선물생성(){
         //given
-        Long resultMessageId = createMessage("제선물을 받아주세요!!");
+        String message = "제 선물을 받아주세요!!";
 
         Long resultGiveMemberId = createMember("염재선", "^^");
         Long resultReceiveMemberId = createMember("김태희", "~~~~");
@@ -60,13 +59,11 @@ class GiftServiceTest {
         giftItemDto3.setCount(giftCount3);
 
         //when
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1, giftItemDto2, giftItemDto3);
         Gift resultGift = giftRepository.findOne(giftId);
 
         //then
         assertThat(resultGift.getGiftItems().size()).isEqualTo(3);
-        assertThat(resultGift.getMessage().getContent()).isEqualTo("제선물을 받아주세요!!");
-        assertThat(resultGift.getMessage()).isEqualTo(messageRepository.findOne(resultMessageId));
         assertThat(resultGift.getMember()).isEqualTo(memberRepository.findOne(resultGiveMemberId));
         assertThat(resultGift.getReceiveMember()).isEqualTo(memberRepository.findOne(resultReceiveMemberId));
         assertThat(resultGift.getTotalPrice()).isEqualTo(20000 * 10 + 5000 * 30 + 50000 * 100);
@@ -75,7 +72,7 @@ class GiftServiceTest {
     @Test
     void 생성한_선물_수락(){
         //given
-        Long resultMessageId = createMessage("제선물을 받아주세요!!");
+        String message = "제 선물을 받아주세됴!";
 
         Long resultGiveMemberId = createMember("염재선", "^^");
         Long resultReceiveMemberId = createMember("김태희", "~~~~");
@@ -105,7 +102,7 @@ class GiftServiceTest {
         int giftCount3 = 100;
         giftItemDto3.setCount(giftCount3);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1, giftItemDto2, giftItemDto3);
 
         //when
         giftService.acceptGift(giftId);
@@ -127,7 +124,7 @@ class GiftServiceTest {
     @Test
     void 생성한_선물_거절(){
         //given
-        Long resultMessageId = createMessage("제선물을 받아주세요!!");
+        String message = "제 선물을 받아주세됴!";
 
         Long resultGiveMemberId = createMember("염재선", "^^");
         Long resultReceiveMemberId = createMember("김태희", "~~~~");
@@ -157,7 +154,7 @@ class GiftServiceTest {
         int giftCount3 = 100;
         giftItemDto3.setCount(giftCount3);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1, giftItemDto2, giftItemDto3);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1, giftItemDto2, giftItemDto3);
 
         //when
         giftService.refuseGift(giftId);
@@ -171,7 +168,7 @@ class GiftServiceTest {
     @Test
     void 선물_생성_후_선물_수락시_재고부족(){
         //given
-        Long resultMessageId = createMessage("제선물을 받아주세요!!");
+        String message=  "제 선물을 받아주세요!!";
 
         Long resultGiveMemberId = createMember("염재선", "^^");
         Long resultReceiveMemberId = createMember("김태희", "~~~~");
@@ -187,7 +184,7 @@ class GiftServiceTest {
         int giftCount1 = 150;
         giftItemDto1.setCount(giftCount1);
 
-        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, resultMessageId, giftItemDto1);
+        Long giftId = giftService.createGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1);
         Gift gift = giftRepository.findOne(giftId);
 
         //then
@@ -206,13 +203,6 @@ class GiftServiceTest {
         category.setName(name);
         categoryRepository.save(category);
         return category;
-    }
-
-    private Long createMessage(String content) {
-        Message message = new Message();
-        message.setContent(content);
-        Long messageId = messageRepository.save(message);
-        return messageId;
     }
 
     private Long createMember(String name, String message) {

@@ -25,9 +25,7 @@ public class Gift {
 
     private LocalDate giftDate;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "MESSAGE_ID")
-    private Message message;
+    private String message;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -58,7 +56,7 @@ public class Gift {
 
     //==생성 메서드==//
     //- 선물 생성
-    public static Gift createGift(LocalDate giftDate, Message message, Member member, Member receiveMember, List<GiftItem> giftItems){
+    public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, List<GiftItem> giftItems){
         Gift gift = new Gift();
 
         gift.giftDate = giftDate;

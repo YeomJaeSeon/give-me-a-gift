@@ -11,13 +11,13 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <div>
-            <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
-            <span sec:authorize="isAuthenticated()">님 안녕하세요?</span>
+            <span sec:authorize="isAuthenticated()" sec:authentication="name" style="font-size: 30px"></span>
+            <span sec:authorize="isAuthenticated()" style="font-size: 30px">님 안녕하세요?</span>
             <br sec:authorize="isAuthenticated()">
             <h1>누구를 위한 선물인가요?</h1>
         </div>
         <div style="margin: 20px 0px">
-            <a href="/members" class="btn-lg btn-secondary" style="margin: 20px 0">회원 목록</a>
+            <a href="/members" class="btn-lg btn-info" style="margin: 20px 0">회원 목록</a>
         </div>
         <div style="width:400px; margin:auto;">
             <h2>카테고리</h2>

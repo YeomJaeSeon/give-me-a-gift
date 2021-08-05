@@ -17,11 +17,10 @@ import java.util.List;
 public class GiftService {
     private final GiftRepository giftRepository;
     private final GiftItemRepository giftItemRepository;
-    private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-    public Long createGift(Long giveMemberId, Long receiveMemberId, Long messageId, GiftItemDto... giftItemDtos){
+    public Long createGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto... giftItemDtos){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
         Member receiveMember = memberRepository.findOne(receiveMemberId);
@@ -34,9 +33,6 @@ public class GiftService {
             giftItemRepository.save(giftItem);
             giftItemList.add(giftItem);
         }
-
-        // Message 엔티티 조회
-        Message message = messageRepository.findOne(messageId);
 
         // Gift 엔티티 생성
         Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemList);

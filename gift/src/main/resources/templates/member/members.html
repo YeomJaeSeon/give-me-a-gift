@@ -21,6 +21,7 @@
                         <th>성별</th>
                         <th>생일</th>
                         <th>상태메시지</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                         <td th:text="${member.sex.getValue() == 'MALE' ? '남자' : '여자'}">sex</td>
                         <td th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
                         <td th:text="${member.message}">message</td>
+                        <td><a class="btn btn-primary" th:href="@{/members/{memberId}/give(memberId = ${member.id})}">선물하기</a></td>
                     </tr>
                 </tbody>
             </table>
