@@ -2,10 +2,9 @@ package myProject1.gift.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import myProject1.gift.domain.Category;
-import myProject1.gift.domain.Item;
-import myProject1.gift.domain.Member;
+import myProject1.gift.domain.*;
 import myProject1.gift.dto.GiftItemDto;
+import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.GiftService;
@@ -28,6 +27,7 @@ import java.util.List;
 @RequestMapping("/gift")
 public class GiftController {
     private final GiftService giftService;
+    private final GiftRepository giftRepository;
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final MemberRepository memberRepository;
@@ -101,7 +101,52 @@ public class GiftController {
         return "redirect:/";
     }
 
+    //==선물 보관함 페이지 display==//
+    @GetMapping("/gift-box")
+    public String dispGiftBox(Model model){
+        List<Member> members = getLoginedMember();
+        Member member = members.get(0);
+        List<Gift> gifts = giftService.receiveGiftsOfMember(member);
 
+        model.addAttribute("gifts", gifts);
+
+        return "gift/receiveGiftList";
+    }
+
+    //==선물보관함에서 선물 정보 보기 페이지 display==//
+    @GetMapping("/gift-box/{giftId}")
+    public String dispGiftInfo(@PathVariable Long giftId, Model model){
+        Gift gift = giftRepository.findOne(giftId);
+        List<GiftItem> giftItems = gift.getGiftItems();
+
+        for (GiftItem giftItem : giftItems) {
+            log.info("선물 상품 이름 : {}", giftItem.getItem().getName());
+        }
+
+        model.addAttribute("giftItems", giftItems);
+
+        return "gift/giftInfo";
+    }
+
+    //==선물 보관함에서 선물 수락
+    @GetMapping("/gift-box/accept/{giftId}")
+    public String acceptGift(@PathVariable Long giftId){
+        giftService.acceptGift(giftId);
+
+        return "redirect:/gift/gift-box";
+    }
+
+    //==선물 보관함에서 선물 거부
+    @GetMapping("/gift-box/refuse/{giftId}")
+    public String refuseGift(@PathVariable Long giftId){
+        giftService.refuseGift(giftId);
+
+        return "redirect:/gift/gift-box";
+    }
+
+
+
+    //============ sub methods (not controller) =================//
 
     //==현재 로그인한 회원정보 가져오는 메서드==//
     private List<Member> getLoginedMember() {

@@ -1,18 +1,19 @@
 package myProject1.gift.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "GIFT_ITEMS")
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
 @Getter @Setter
 public class GiftItem {
     @Id @GeneratedValue
@@ -50,9 +51,9 @@ public class GiftItem {
     }
 
     //- 선물 상품 거부됨
-//    public void refused() {
-//        item.addStockQuantity(count);
-//    }
+    public void refused() {
+        item.addStockQuantity(count);
+    }
 
     //- 한종류 선물상품의 총 가격
     public int getTotalPrice(){

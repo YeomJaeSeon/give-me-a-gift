@@ -15,7 +15,7 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @Table(name = "GIFTS")
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Gift {
 
@@ -81,9 +81,9 @@ public class Gift {
 
     //- 선물 거부
     public void refuseGift(){
-//        for (GiftItem giftItem : giftItems) {
-//            giftItem.refused();
-//        }
+        for (GiftItem giftItem : giftItems) {
+            giftItem.refused();
+        }
         status = GiftStatus.NOT_ACCEPTED;
         receiveMember.setStatus(GiftReceiveStatus.NOT_RECEIVED); //  선물받은 회원의 상태 - NOT_RECEIVED로 변경(필요없을수도! 잠시만!)
     }

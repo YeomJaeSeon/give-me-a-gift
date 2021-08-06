@@ -66,4 +66,9 @@ public class GiftService {
         Gift gift = giftRepository.findOne(giftId);
         gift.refuseGift();
     }
+
+    @Transactional(readOnly = true)
+    public List<Gift> receiveGiftsOfMember(Member member){
+        return giftRepository.findGiftByReceiveMember(member);
+    }
 }

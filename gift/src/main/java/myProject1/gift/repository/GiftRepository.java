@@ -23,6 +23,14 @@ public class GiftRepository {
         return resultGift;
     }
 
+    public List<Gift> findGiftByReceiveMember(Member member){
+        List<Gift> receiveGifts = em.createQuery("select g from Gift g where g.receiveMember = :member", Gift.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        return receiveGifts;
+    }
+
 //    //==로그이한 회원이 생성했고, 해당 선물의 status가 created 인 선물 조회==//
 //    public List<Gift> findByGiveUser(Member giveMember){
 //        List<Gift> gifts = em.createQuery("select g from Gift g where g.member = :member and g.status = myProject1.gift.domain.GiftStatus.CREATED", Gift.class)

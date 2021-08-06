@@ -13,7 +13,7 @@ import static lombok.AccessLevel.*;
 @Entity
 @Table(name = "ITEMS")
 @Getter @Setter
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
 public class Item {
 
     @Id @GeneratedValue
