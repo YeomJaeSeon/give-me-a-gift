@@ -3,6 +3,7 @@ package myProject1.gift.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.Category;
+import myProject1.gift.domain.Gift;
 import myProject1.gift.domain.Item;
 import myProject1.gift.domain.Member;
 import myProject1.gift.dto.CategoryDto;
@@ -10,6 +11,7 @@ import myProject1.gift.dto.ItemDto;
 import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.CategoryService;
+import myProject1.gift.service.GiftService;
 import myProject1.gift.service.ItemService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,10 +81,11 @@ public class HomeController {
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
         //세션으로부터 선물 받을 대상 회원의 id 가져옴
 
+        List<Member> members = getLoginedMember(); //현재 로그인한 유저 조회
+
         if(receiveMemberId != null){
             //선물받을 대상 지정했으면
             model.addAttribute("isExistReceiveMember", true);
-            List<Member> members = getLoginedMember(); //현재 로그인한 유저 조회
             if(members.size() > 0){
                 //로그인 했으면
                 if(receiveMemberId == members.get(0).getId()){
@@ -94,6 +97,15 @@ public class HomeController {
                     model.addAttribute("target", receiveMember.getUsername() + "에게 선물하세요!");
                 }
             }
+        }
+
+        if(members.size() > 0) {
+            int giftCount = giftRepository.findCreatedGifts(members.get(0));
+            if(giftCount != 0){
+                //수락이나 거절하지않은 즉, 확인하지않은 선물이 존재하면
+                model.addAttribute("isExistNotCheckGifts", true);
+            }
+
         }
 
         model.addAttribute("categories", categories);

@@ -22,6 +22,7 @@
         </div>
         <div style="margin: 20px 0px">
             <a class="btn btn-info" sec:authorize="isAuthenticated()" href="/gift/gift-box">선물 보관함</a>
+            <p th:if="${isExistNotCheckGifts}" sec:authorize="isAuthenticated()" style="color: red">확인하지 않은 선물이 있습니다!</p>
         </div>
         <div style="width:400px; margin:auto;">
             <h2>카테고리</h2>

@@ -2,6 +2,7 @@ package myProject1.gift.repository;
 
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Gift;
+import myProject1.gift.domain.GiftStatus;
 import myProject1.gift.domain.Member;
 import org.springframework.stereotype.Repository;
 
@@ -31,12 +32,13 @@ public class GiftRepository {
         return receiveGifts;
     }
 
-//    //==로그이한 회원이 생성했고, 해당 선물의 status가 created 인 선물 조회==//
-//    public List<Gift> findByGiveUser(Member giveMember){
-//        List<Gift> gifts = em.createQuery("select g from Gift g where g.member = :member and g.status = myProject1.gift.domain.GiftStatus.CREATED", Gift.class)
-//                .setParameter("member", giveMember)
-//                .getResultList();
-//
-//        return gifts;
-//    }
+    public int findCreatedGifts(Member member){
+        int size = em.createQuery("select g from Gift g where g.receiveMember = :member and g.status = :status", Gift.class)
+                .setParameter("member", member)
+                .setParameter("status", GiftStatus.CREATED)
+                .getResultList()
+                .size();
+        return size;
+    }
+
 }
