@@ -9,7 +9,11 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <h1>선물 보관함</h1>
-        <div>
+        <div th:if="${gifts.size() == 0}">
+            <p class="fs-2 fw-bold font-monospace" style="margin-top: 50px">텅 비었습니다.</p>
+            <img src="/img/empty.png" alt="empty-image">
+        </div>
+        <div th:unless="${gifts.size() == 0}">
             <table class="table table-hover">
                 <thead>
                     <tr class="table-dark">
@@ -35,10 +39,10 @@
                             <a class="btn btn-danger" th:href="@{/gift/gift-box/refuse/{giftId}(giftId=${gift.id})}">거절</a>
                         </td>
                         <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).ACCEPTED}">
-                            <a class="btn btn-success">수락</a>
+                            <a class="btn btn-success">수락됨</a>
                         </td>
                         <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).NOT_ACCEPTED}">
-                            <a class="btn btn-danger">거절</a>
+                            <a class="btn btn-danger">거절됨</a>
                         </td>
                     </tr>
                 </tbody>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -65,7 +66,15 @@ public class GiftController {
 
     //==선물할 상품 상세보기 페이지 display==//
     @GetMapping("/items/{itemId}")
-    public String dispGiftSpecificItem(@PathVariable Long itemId, Model model){
+    public String dispGiftSpecificItem(@PathVariable Long itemId, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        HttpSession session = request.getSession();
+        Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
+        if(receiveMemberId == null){
+            //선물 받는이 지정 안했으면
+            //선물 받는이 지정하는곳으로 redirect
+            redirectAttributes.addFlashAttribute("message", "선물할 회원을 먼저 선택해주세요");
+            return "redirect:/members";
+        }
         Item item = itemService.findById(itemId);
         model.addAttribute("item", item);
         model.addAttribute("giftItemDto", new GiftItemDto());
@@ -74,7 +83,7 @@ public class GiftController {
 
     //==상품 단건 선물하기==//
     @PostMapping("/items/{itemId}")
-    public String giveOneGift(@PathVariable Long itemId, HttpServletRequest request, @Valid @ModelAttribute GiftItemDto giftItemDto, BindingResult result, Model model, @RequestParam String message){
+    public String giveOneGift(@PathVariable Long itemId, HttpServletRequest request ,@Valid @ModelAttribute GiftItemDto giftItemDto, BindingResult result, Model model, @RequestParam String message){
         if(result.hasErrors()){
             Item item = itemService.findById(itemId);
             model.addAttribute("item", item);
@@ -82,11 +91,6 @@ public class GiftController {
         }
         HttpSession session = request.getSession();
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
-        if(receiveMemberId == null){
-            //선물 받는이 지정 안했으면
-            //선물 받는이 지정하는곳으로 redirect
-            return "redirect:/members";
-        }
 
         List<Member> members = getLoginedMember();
         Member giveMember = members.get(0);

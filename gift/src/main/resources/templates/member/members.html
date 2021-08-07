@@ -11,6 +11,8 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <h1 style="margin-bottom: 30px">누구에게 선물할래요?</h1>
+        <!--선물할 대상을 고르지않고 선물하려한경우, 선물대상먼저 고르라는 메시지 출력-->
+        <h2 th:if="${message}" th:text="${message}" style="color: red"></h2>
         <div>
             <table class="table table-hover">
                 <thead>
