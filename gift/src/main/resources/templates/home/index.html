@@ -11,14 +11,14 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <div>
-            <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
-            <span sec:authorize="isAuthenticated()">님 안녕하세요?</span>
+            <span sec:authorize="isAuthenticated()" sec:authentication="name" class="fs-2 fw-bold font-monospace"></span>
+            <span class="fs-2 fw-bold font-monospace" sec:authorize="isAuthenticated()">님 안녕하세요?</span>
             <br sec:authorize="isAuthenticated()">
             <h1 th:if="${isExistReceiveMember}" th:text="${target}">대상 존재</h1>
             <h1 th:unless="${isExistReceiveMember}">누구를 위한 선물인가요?</h1>
         </div>
         <div style="margin: 20px 0px">
-            <a href="/members" class="btn-lg btn-secondary" style="margin: 20px 0">회원 목록</a>
+            <a href="/members" class="btn-lg btn-primary" style="margin: 20px 0">회원 목록</a>
         </div>
         <div style="margin: 20px 0px">
             <a class="btn btn-info" sec:authorize="isAuthenticated()" href="/gift/gift-box">선물 보관함</a>

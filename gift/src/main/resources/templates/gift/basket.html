@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>선물 보관함</h1>
+        <div th:if="${gifts.size() == 0}">
+            <p class="fs-2 fw-bold font-monospace" style="margin-top: 50px">선물 바구니가 비었습니다.</p>
+        </div>
+        <div th:unless="${gifts.size() == 0}">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-dark">
+                    <th>id</th>
+                    <th>보낸 유저아이디</th>
+                    <th>보낸 사람이름</th>
+                    <th>메시지</th>
+                    <th>선물</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="gift :${gifts}" style="cursor: pointer">
+                    <td th:text="${gift.id}">id</td>
+                    <td th:text="${gift.member.username}">username</td>
+                    <td th:text="${gift.member.name}">name</td>
+                    <td th:text="${gift.message}"></td>
+                    <td>
+                        <a class="btn btn-info" th:href="@{/gift/gift-box/{giftId}(giftId=${gift.id})}">선물 보기</a>
+                    </td>
+                    <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).CREATED}">
+                        <a class="btn btn-primary" th:href="@{/gift/gift-box/accept/{giftId}(giftId=${gift.id})}">수락</a>
+                        <a class="btn btn-danger" th:href="@{/gift/gift-box/refuse/{giftId}(giftId=${gift.id})}">거절</a>
+                    </td>
+                    <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).ACCEPTED}">
+                        <a class="btn btn-success">수락됨</a>
+                    </td>
+                    <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).NOT_ACCEPTED}">
+                        <a class="btn btn-danger">거절됨</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

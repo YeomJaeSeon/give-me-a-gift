@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -135,8 +137,17 @@ public class MemberController {
 
     //==회원 목록 페이지 display==//
     @GetMapping("/members")
-    public String dispMembers(Model model){
+    public String dispMembers(Model model, HttpServletRequest request){
         List<Member> members = memberService.findAllMembers();
+//        List<Member> loginedMembers = getLoginedMember();
+//        Member loginMember = loginedMembers.get(0);
+//
+//        model.addAttribute("self", loginMember.getId());
+
+        HttpSession session = request.getSession();
+        Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
+
+        model.addAttribute("receiveMember", receiveMemberId);
         model.addAttribute("members", members);
 
         return "member/members";
