@@ -41,9 +41,11 @@ public class Member {
     @Enumerated(STRING)
     private GiftReceiveStatus status = GiftReceiveStatus.NOT_RECEIVED; // default Value
 
-
     @OneToMany(mappedBy = "member")
     private List<Gift> gifts = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member")
+    private GiftBasket giftBasket;
 
     //entity to dto
     public MemberDto toDto(){

@@ -36,6 +36,7 @@
                 <br>
                 <button class="btn btn-primary" type="submit">선물하기</button>
             </form>
+            <a class="btn btn-info" style="margin-top : 10px" th:href="@{/gift/basket/{itemId}(itemId=${item.id})}">선물바구니 담기</a>
             <a class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
 
         </div>

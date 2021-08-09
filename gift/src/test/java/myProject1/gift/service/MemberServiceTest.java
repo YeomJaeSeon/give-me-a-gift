@@ -107,14 +107,4 @@ class MemberServiceTest {
         assertThat(birthdayMembers.size()).isEqualTo(1);
         assertThat(birthdayMembers.get(0).getName()).isEqualTo("member1");
     }
-
-    private Member createMember(String name, SexStatus sex, LocalDate birthDate, String message) {
-        Member member = new Member();
-        member.setName(name);
-        member.setSex(sex);
-        member.setBirthDate(birthDate);
-        member.setMessage(message);
-        return member;
-    }
-
 }

@@ -36,6 +36,13 @@ public class GiftItem {
     @JoinColumn(name = "GIFT_BASKET_ID")
     private GiftBasket giftBasket;
 
+    //==연관관계 편의메서드==//
+    //GiftBasket에 GiftItem담기
+    public void addGiftItemToGiftBasket(GiftBasket giftBasket){
+        giftBasket.getGiftItems().add(this);
+        this.giftBasket = giftBasket;
+    }
+
     //==생성메서드==//
     public static GiftItem createGiftItem(Item item, int price, int count){
         GiftItem giftItem = new GiftItem();
