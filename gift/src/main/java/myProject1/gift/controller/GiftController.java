@@ -121,13 +121,9 @@ public class GiftController {
     @GetMapping("/gift-box/{giftId}")
     public String dispGiftInfo(@PathVariable Long giftId, Model model){
         Gift gift = giftRepository.findOne(giftId);
-        List<GiftItem> giftItems = gift.getGiftItems();
+        GiftItem giftItem = gift.getGiftItem();
 
-        for (GiftItem giftItem : giftItems) {
-            log.info("선물 상품 이름 : {}", giftItem.getItem().getName());
-        }
-
-        model.addAttribute("giftItems", giftItems);
+        model.addAttribute("giftItem", giftItem);
 
         return "gift/giftInfo";
     }

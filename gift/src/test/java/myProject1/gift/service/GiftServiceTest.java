@@ -50,11 +50,10 @@ class GiftServiceTest {
         Member receiveMember = memberRepository.findOne(resultReceiveMemberId);
 
         //then
-        assertThat(resultGift.getGiftItems().size()).isEqualTo(1);
         assertThat(resultGift.getMember()).isEqualTo(memberRepository.findOne(resultGiveMemberId));
         assertThat(resultGift.getReceiveMember()).isEqualTo(memberRepository.findOne(resultReceiveMemberId));
         assertThat(resultGift.getTotalPrice()).isEqualTo(20000 * 10);
-        assertThat(receiveMember.getReceiveGifts().size()).isEqualTo(0);
+        assertThat(receiveMember.getReceiveGifts().size()).isEqualTo(1);
     }
 
     @Test
@@ -114,7 +113,7 @@ class GiftServiceTest {
 
         //then - 상품 거절은 item의 재고가 변화가없음.
         assertThat(gift.getStatus()).isEqualTo(GiftStatus.NOT_ACCEPTED);
-        assertThat(gift.getReceiveMember().getStatus()).isEqualTo(GiftReceiveStatus.NOT_RECEIVED);
+        assertThat(gift.getReceiveMember().getStatus()).isEqualTo(GiftReceiveStatus.RECEIVED);
     }
 
     @Test

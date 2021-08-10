@@ -24,7 +24,7 @@ public class GiftItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "GIFT_ID")
     private Gift gift;
 

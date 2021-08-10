@@ -39,8 +39,8 @@ public class Gift {
     @JoinColumn(name = "RECEIVED_ID")
     private Member receiveMember;
 
-    @OneToMany(mappedBy = "gift")
-    private List<GiftItem> giftItems = new ArrayList<>();
+    @OneToOne(mappedBy = "gift", fetch = LAZY)
+    private GiftItem giftItem;
 
     @Enumerated(STRING)
     private GiftStatus status;
@@ -59,7 +59,7 @@ public class Gift {
 
     //선물 - 선물상품
     public void addGiftItem(GiftItem giftItem){
-        this.giftItems.add(giftItem);
+        this.giftItem = giftItem;
         giftItem.setGift(this);
     }
 
@@ -90,16 +90,12 @@ public class Gift {
 
     //- 선물 거부
     public void refuseGift(){
-        for (GiftItem giftItem : giftItems) {
-            giftItem.refused();
-        }
+        giftItem.refused();
         status = GiftStatus.NOT_ACCEPTED;
     }
 
     //- 선물 총 가격 조회 메서드
     public int getTotalPrice(){
-        return giftItems.stream()
-                .mapToInt(GiftItem::getTotalPrice)
-                .sum();
+        return giftItem.getTotalPrice();
     }
 }

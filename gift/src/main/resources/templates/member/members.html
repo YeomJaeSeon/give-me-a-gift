@@ -12,19 +12,18 @@
         <h1 style="margin-bottom: 30px">누구에게 선물할래요?</h1>
         <!--선물할 대상을 고르지않고 선물하려한경우, 선물대상먼저 고르라는 메시지 출력-->
         <h2 th:if="${message}" th:text="${message}" style="color: red"></h2>
-        <div>
-            <form th:action method="get" style="display: flex; align-items: center; justify-content: center">
-                <label class="form-label"> 정렬:
-                    <select class="form-select" name="search">
-                        <option th:selected="${option == 'all'}" value="all">모든 회원</option>
-                        <option th:selected="${option == 'birthDate'}" value="birthDate">생일인 회원</option>
-                        <option th:selected="${option == 'noGift'}" value="noGift">받은 선물 없는 회원</option>
-                        <option th:selected="${option == 'yesGift'}" value="yesGift">받은 선물 있는 회원</option>
-                        <option th:selected="${option == 'ranking'}" value="ranking">랭킹순</option>
-                        <option th:selected="${option == 'reverseRanking'}" value="reverseRanking">역 랭킹순</option>
-                    </select>
-                </label>
-                <input class="btn" type="submit" th:value="검색">
+        <div style="margin-bottom: 10px">
+            <form th:action method="get" style="display: flex; align-items: center; justify-content: center;">
+                <select class="form-select" name="search" style="width: 300px">
+                    <option th:selected="${option == 'all'}" value="all">모든 회원</option>
+                    <option th:selected="${option == 'birthDate'}" value="birthDate">생일인 회원</option>
+                    <option th:selected="${option == 'noGift'}" value="noGift">받은 선물 없는 회원</option>
+                    <option th:selected="${option == 'yesGift'}" value="yesGift">받은 선물 있는 회원</option>
+                    <option th:selected="${option == 'ranking'}" value="ranking">랭킹순</option>
+                    <option th:selected="${option == 'reverseRanking'}" value="reverseRanking">역 랭킹순</option>
+                </select>
+
+                <input class="btn btn-primary" type="submit" th:value="검색">
             </form>
         </div>
         <div>
