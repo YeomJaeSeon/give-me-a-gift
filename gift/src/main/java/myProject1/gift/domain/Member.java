@@ -44,9 +44,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Gift> gifts = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
-    private GiftBasket giftBasket;
-
     //entity to dto
     public MemberDto toDto(){
         MemberDto memberDto = new MemberDto();

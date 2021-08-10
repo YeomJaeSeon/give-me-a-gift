@@ -20,20 +20,20 @@ public class GiftService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
+    //선물 단건 생성
     //GiftItem 생성 후 Gift도 바로 생성
-    public Long createGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto... giftItemDtos){
+    public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto giftItemDto){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
         Member receiveMember = memberRepository.findOne(receiveMemberId);
 
         // Item 엔티티 조회 -> GiftItem 엔티티 저장
         List<GiftItem> giftItemList = new ArrayList<>();
-        for (GiftItemDto giftItemDTO : giftItemDtos) {
-            Item item = itemRepository.findOne(giftItemDTO.getItemId());
-            GiftItem giftItem = GiftItem.createGiftItem(item, item.getPrice(), giftItemDTO.getCount());
-            giftItemRepository.save(giftItem);
-            giftItemList.add(giftItem);
-        }
+
+        Item item = itemRepository.findOne(giftItemDto.getItemId()); //상품 엔티티 조회
+        GiftItem giftItem = GiftItem.createGiftItem(item, item.getPrice(), giftItemDto.getCount());//giftItem 생성
+        giftItemRepository.save(giftItem);
+        giftItemList.add(giftItem);
 
         // Gift 객체 생성
         Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemList);
@@ -43,6 +43,9 @@ public class GiftService {
 
         return giftId;
     }
+
+    //선물장바구니로부터 선물 생성 - 선물하면 선물바구니는 삭제되어야함.
+    public void createBasketGift(){}
 
     public void acceptGift(Long giftId){
         Gift gift = giftRepository.findOne(giftId);

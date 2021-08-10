@@ -100,7 +100,7 @@ public class GiftController {
             message = "제 마음입니다 ^^";
         }
 
-        giftService.createGift(giveMember.getId(), receiveMemberId, message, giftItemDto);
+        giftService.createOneGift(giveMember.getId(), receiveMemberId, message, giftItemDto);
 
         return "redirect:/";
     }
