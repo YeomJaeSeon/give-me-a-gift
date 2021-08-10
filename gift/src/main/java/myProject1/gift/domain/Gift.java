@@ -43,7 +43,7 @@ public class Gift {
     private List<GiftItem> giftItems = new ArrayList<>();
 
     @Enumerated(STRING)
-    private GiftStatus status = GiftStatus.CREATED; // 선물생성하면 default 상태
+    private GiftStatus status;
 
     //==연관관계 편의메서드==//
     //주는 회원 - 선물 연관관계
@@ -70,9 +70,11 @@ public class Gift {
 
         gift.giftDate = giftDate;
         gift.message = message;
+
         gift.addMember(member); //선물 - 주는사람 연관관계 값 설정
         gift.addReceiveMember(receiveMember);
         receiveMember.setStatus(GiftReceiveStatus.RECEIVED); // 선물받은 회원의 상태 - RECEIVED로변경
+        gift.status = GiftStatus.CREATED;
 
         gift.addGiftItem(giftItem);
         giftItem.createGiftItem();//선물 생성하며 그만큼 재고 줄어듬.

@@ -25,8 +25,9 @@ public class GiftRepository {
     }
 
     public List<Gift> findGiftByReceiveMember(Member member){
-        List<Gift> receiveGifts = em.createQuery("select g from Gift g where g.receiveMember = :member", Gift.class)
+        List<Gift> receiveGifts = em.createQuery("select g from Gift g where g.receiveMember = :member and g.status <> :status", Gift.class)
                 .setParameter("member", member)
+                .setParameter("status", GiftStatus.BASKET)
                 .getResultList();
 
         return receiveGifts;
