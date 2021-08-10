@@ -39,7 +39,7 @@ public class Gift {
     private List<GiftItem> giftItems = new ArrayList<>();
 
     @Enumerated(STRING)
-    private GiftStatus status = GiftStatus.CREATED; // 선물생성하면 default 상태
+    private GiftStatus status;
 
     //==연관관계 편의메서드==//
     //회원 - 상품 연관관계
@@ -61,6 +61,7 @@ public class Gift {
 
         gift.giftDate = giftDate;
         gift.message = message;
+        gift.status = GiftStatus.CREATED;
         gift.addMember(member);
         gift.receiveMember = receiveMember;
 
