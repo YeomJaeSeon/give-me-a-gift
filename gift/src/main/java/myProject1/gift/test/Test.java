@@ -3,19 +3,15 @@ package myProject1.gift.test;
 import myProject1.gift.domain.Role;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 
 public class Test {
     public static void main(String[] args) {
-        LocalDate date = LocalDate.of(2021, 3, 20);
-        System.out.println("date = " + date.getMonthValue());
-        System.out.println("date.getDayOfMonth() = " + date.getDayOfMonth());
 
-        Long l1 = 1L;
-        Long l2 = 1L;
-        System.out.println("l1 == l2 = " + (l1 == l2));
-
-        //role test
-        String role1 = "ROLE_ADMIN";
-        System.out.println("Role.valueOf(role1) = " + Role.valueOf(role1));
+        LocalDate localDate = LocalDate.now();
+        LocalDate localDate1 = LocalDate.of(1996, 3, 7);
+        LocalDate localDate2 = LocalDate.of(1996, 3, 7);
+        System.out.println("(localDate1 == localDate2) = " + (localDate1 == localDate2));
+        System.out.println(localDate1.get(ChronoField.YEAR) == localDate2.get(ChronoField.YEAR));
     }
 }

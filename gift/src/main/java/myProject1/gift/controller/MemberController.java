@@ -2,8 +2,10 @@ package myProject1.gift.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
 import myProject1.gift.dto.MemberDto;
+import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.MemberService;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +29,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final GiftRepository giftRepository;
 
     //==회원가입 페이지 display==//
     @GetMapping("/signup")
@@ -137,12 +141,19 @@ public class MemberController {
 
     //==회원 목록 페이지 display==//
     @GetMapping("/members")
-    public String dispMembers(Model model, HttpServletRequest request){
-        List<Member> members = memberService.findAllMembers();
-//        List<Member> loginedMembers = getLoginedMember();
-//        Member loginMember = loginedMembers.get(0);
-//
-//        model.addAttribute("self", loginMember.getId());
+    public String dispMembers(Model model, HttpServletRequest request, @RequestParam(required = false) String search){
+        List<Member> members = null;
+        if(search == null) members = memberService.findAllMembers();
+        else{
+            if(search.equals("all")) members = memberService.findAllMembers();
+            else if(search.equals("birthDate")) members = memberService.findBirthDateMembers();
+            else if(search.equals("noGift")) members = memberService.findSpecificMembers(GiftReceiveStatus.NOT_RECEIVED); //선물 받지않은
+            else if(search.equals("yesGift")) members = memberService.findSpecificMembers(GiftReceiveStatus.RECEIVED); // 선물 받은
+            else if(search.equals("ranking")) members = memberService.findReceivedMembersOrderByGiftCount();
+            else if(search.equals("reverseRanking")) members = memberService.findReceivedMembersReverseOrderByGiftCount();
+        }
+
+        if(search != null) model.addAttribute("option", search);
 
         HttpSession session = request.getSession();
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
@@ -152,7 +163,6 @@ public class MemberController {
 
         return "member/members";
     }
-
 
 
     //============ sub methods (not controller) =================//

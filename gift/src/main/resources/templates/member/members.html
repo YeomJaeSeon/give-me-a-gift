@@ -13,6 +13,21 @@
         <!--선물할 대상을 고르지않고 선물하려한경우, 선물대상먼저 고르라는 메시지 출력-->
         <h2 th:if="${message}" th:text="${message}" style="color: red"></h2>
         <div>
+            <form th:action method="get" style="display: flex; align-items: center; justify-content: center">
+                <label class="form-label"> 정렬:
+                    <select class="form-select" name="search">
+                        <option th:selected="${option == 'all'}" value="all">모든 회원</option>
+                        <option th:selected="${option == 'birthDate'}" value="birthDate">생일인 회원</option>
+                        <option th:selected="${option == 'noGift'}" value="noGift">받은 선물 없는 회원</option>
+                        <option th:selected="${option == 'yesGift'}" value="yesGift">받은 선물 있는 회원</option>
+                        <option th:selected="${option == 'ranking'}" value="ranking">랭킹순</option>
+                        <option th:selected="${option == 'reverseRanking'}" value="reverseRanking">역 랭킹순</option>
+                    </select>
+                </label>
+                <input class="btn" type="submit" th:value="검색">
+            </form>
+        </div>
+        <div>
             <table class="table table-hover">
                 <thead>
                     <tr class="table-dark">
@@ -21,6 +36,7 @@
                         <th>이름</th>
                         <th>성별</th>
                         <th>생일</th>
+                        <th>받은 선물수</th>
                         <th>상태메시지</th>
                         <th></th>
                     </tr>
@@ -32,6 +48,7 @@
                         <td th:text="${member.name}">name</td>
                         <td th:text="${member.sex.getValue() == 'MALE' ? '남자' : '여자'}">sex</td>
                         <td th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
+                        <td th:text="${member.receiveGifts.size()}"></td>
                         <td th:text="${member.message}">message</td>
                         <td>
                             <a th:if="${receiveMember == member.id}" class="btn btn-info" th:href="@{/gift/members/{memberId}(memberId = ${member.id})}">선택됨</a>

@@ -107,4 +107,24 @@ class MemberServiceTest {
         assertThat(birthdayMembers.size()).isEqualTo(1);
         assertThat(birthdayMembers.get(0).getName()).isEqualTo("member1");
     }
+
+    @Test
+    void 생일인_회원_조회(){
+        //given
+        MemberDto member1 = createMemberDto("member1", "yeom", "1234", "USER", "MALE", LocalDate.of(2021, 8, 10), "ㅎㅎ");
+        MemberDto member2 = createMemberDto("member2", "yeom1", "1234", "USER", SexStatus.FEMALE.getValue(), LocalDate.of(2012, 3, 1), "안뇽안뇽");
+        MemberDto member3 = createMemberDto("member3", "yeom2", "1234", "USER", SexStatus.FEMALE.getValue(), LocalDate.of(1996, 3, 7), "vv!!");
+
+        memberService.createMember(member1);
+        memberService.createMember(member2);
+        memberService.createMember(member3);
+
+        //when
+        List<Member> members = memberService.findBirthDateMembers();
+
+        //then
+        assertThat(members.size()).isEqualTo(1);
+        assertThat(members.get(0).getName()).isEqualTo("member1");
+    }
+
 }

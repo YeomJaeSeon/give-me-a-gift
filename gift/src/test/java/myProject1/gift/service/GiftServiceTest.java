@@ -47,12 +47,14 @@ class GiftServiceTest {
         //when
         Long giftId = giftService.createOneGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1);
         Gift resultGift = giftRepository.findOne(giftId);
+        Member receiveMember = memberRepository.findOne(resultReceiveMemberId);
 
         //then
         assertThat(resultGift.getGiftItems().size()).isEqualTo(1);
         assertThat(resultGift.getMember()).isEqualTo(memberRepository.findOne(resultGiveMemberId));
         assertThat(resultGift.getReceiveMember()).isEqualTo(memberRepository.findOne(resultReceiveMemberId));
         assertThat(resultGift.getTotalPrice()).isEqualTo(20000 * 10);
+        assertThat(receiveMember.getReceiveGifts().size()).isEqualTo(0);
     }
 
     @Test
@@ -78,11 +80,13 @@ class GiftServiceTest {
         giftService.acceptGift(giftId);
         Gift gift = giftRepository.findOne(giftId);
         Item item1 = itemRepository.findOne(itemId1);
+        Member receiveMember = memberRepository.findOne(resultReceiveMemberId);
 
         //then
         assertThat(gift.getStatus()).isEqualTo(GiftStatus.ACCEPTED);
         assertThat(gift.getReceiveMember().getStatus()).isEqualTo(GiftReceiveStatus.RECEIVED);
         assertThat(item1.getStockQuantity()).isEqualTo(90);
+        assertThat(receiveMember.getReceiveGifts().size()).isEqualTo(1);
     }
 
     @Test
@@ -134,6 +138,7 @@ class GiftServiceTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> giftService.createOneGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1));
     }
+
 
     //상품생성
     private Long createItem(Category category2, String name, int price, int stockQuantity) {

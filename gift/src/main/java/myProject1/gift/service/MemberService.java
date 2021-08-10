@@ -85,6 +85,14 @@ public class MemberService implements UserDetailsService {
         return memberRepository.findMembersOrderByGift();
     }
 
+    public List<Member> findReceivedMembersReverseOrderByGiftCount(){
+        return memberRepository.findMembersReverseOrderByGift();
+    }
+
+    public List<Member> findBirthDateMembers(){
+        return memberRepository.findBirthDateMembers();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<Member> members = memberRepository.findByUsername(username);

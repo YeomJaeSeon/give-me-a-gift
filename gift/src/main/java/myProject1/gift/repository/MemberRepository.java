@@ -66,8 +66,22 @@ public class MemberRepository {
 
     // 선물 많이 받은순으로 조회
     public List<Member> findMembersOrderByGift(){
-        List<Member> members = em.createQuery("select m from Member m where m.status = :status order by m.gifts.size() asc", Member.class)
-                .setParameter("status", GiftReceiveStatus.RECEIVED)
+        List<Member> members = em.createQuery("select m from Member m order by m.receiveGifts.size desc", Member.class)
+                .getResultList();
+        return members;
+    }
+
+    //선물 적게 받은순으로 조회
+    public List<Member> findMembersReverseOrderByGift(){
+        List<Member> members = em.createQuery("select m from Member m order by m.receiveGifts.size asc", Member.class)
+                .getResultList();
+        return members;
+    }
+
+    //생일인 회원 조회
+    public List<Member> findBirthDateMembers(){
+        List<Member> members = em.createQuery("select m from Member m where m.birthDate = :birthDate", Member.class)
+                .setParameter("birthDate", LocalDate.now())
                 .getResultList();
         return members;
     }
