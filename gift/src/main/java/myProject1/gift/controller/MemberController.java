@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
 import myProject1.gift.dto.MemberDto;
-import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.MemberService;
 import org.springframework.security.core.Authentication;
@@ -29,7 +28,6 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
-    private final GiftRepository giftRepository;
 
     //==회원가입 페이지 display==//
     @GetMapping("/signup")

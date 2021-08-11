@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Category;
 import myProject1.gift.domain.Item;
 import org.springframework.stereotype.Repository;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.EntityManager;
 import java.util.List;

@@ -3,7 +3,6 @@ package myProject1.gift.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.dto.CategoryDto;
-import myProject1.gift.dto.MemberDto;
 import myProject1.gift.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

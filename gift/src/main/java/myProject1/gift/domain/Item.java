@@ -1,14 +1,13 @@
 package myProject1.gift.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-import java.util.Optional;
-
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "ITEMS")
