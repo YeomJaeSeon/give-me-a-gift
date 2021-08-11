@@ -29,6 +29,7 @@
                     <input th:class="${#fields.hasErrors('count')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{count}" placeholder="선물할 상품 개수를 입력">
                 </label>
                 <p th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red"></p>
+                <p th:if="${stockException}" style="color: red">재고가 부족합니다.</p>
                 <br>
                 <label class="form-label"> 해당 상품 하나만 선물하려면 상태메시지를 적어주세요
                     <input class="form-control" type="text" name="message" placeholder="제 마음입니다 ^^">

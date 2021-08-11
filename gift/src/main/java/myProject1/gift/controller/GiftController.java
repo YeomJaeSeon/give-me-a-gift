@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,6 +88,16 @@ public class GiftController {
         if(result.hasErrors()){
             Item item = itemService.findById(itemId);
             model.addAttribute("item", item);
+            return "gift/item";
+        }
+
+
+        Item item = itemService.findById(itemId);
+        //상품의 재고가 더 부족하면 에러 메시지 뷰로 전달
+        if(item.getStockQuantity() < giftItemDto.getCount()){
+            model.addAttribute("item", item);
+            model.addAttribute("stockException", true);
+
             return "gift/item";
         }
         HttpSession session = request.getSession();
