@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 @ToString
 public class Gift {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GIFT_ID")
     private Long id;
 

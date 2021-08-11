@@ -12,6 +12,5 @@ public class GiftItemDto {
 
     @Positive(message = "선물할 개수는 1개 이상이여야합니다")
     @NotNull(message = "공백은 허용되지 않습니다")
-
     private Integer count;
 }

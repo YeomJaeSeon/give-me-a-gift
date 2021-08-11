@@ -13,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 @ToString
 public class Category {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CATEGORY_ID")
     private Long id;
     private String name;
