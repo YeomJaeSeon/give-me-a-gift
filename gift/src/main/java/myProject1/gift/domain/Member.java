@@ -45,18 +45,4 @@ public class Member {
 
     @OneToMany(mappedBy = "receiveMember")
     private List<Gift> receiveGifts = new ArrayList<>();
-
-    //entity to dto
-    public MemberDto toDto(){
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername(username);
-        memberDto.setPassword(password);
-        memberDto.setName(name);
-        memberDto.setRole(role.getValue());
-        memberDto.setSex(sex.getValue());
-        memberDto.setBirthDate(birthDate);
-        memberDto.setMessage(message);
-
-        return memberDto;
-    }
 }

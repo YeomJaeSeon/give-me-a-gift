@@ -82,8 +82,15 @@ public class MemberController {
 
         Member loginMember = members.get(0);
 
-        //member to memberDto
-        MemberDto memberDto = loginMember.toDto();
+        //member entity to memberDto
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUsername(loginMember.getUsername());
+        memberDto.setPassword(loginMember.getPassword());
+        memberDto.setName(loginMember.getName());
+        memberDto.setRole(loginMember.getRole().getValue());
+        memberDto.setSex(loginMember.getSex().getValue());
+        memberDto.setBirthDate(loginMember.getBirthDate());
+        memberDto.setMessage(loginMember.getMessage());
 
         log.info("memberDto info : {}", memberDto);
         model.addAttribute("memberDto", memberDto);
@@ -113,11 +120,17 @@ public class MemberController {
     public String dispMyInfo(Model model){
         //현재 로그인한 유저의 정보를 가져오기
         List<Member> members = getLoginedMember();
-
         Member loginMember = members.get(0);
 
-        //member to memberDto
-        MemberDto memberDto = loginMember.toDto();
+        //member entity to memberDto
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUsername(loginMember.getUsername());
+        memberDto.setPassword(loginMember.getPassword());
+        memberDto.setName(loginMember.getName());
+        memberDto.setRole(loginMember.getRole().getValue());
+        memberDto.setSex(loginMember.getSex().getValue());
+        memberDto.setBirthDate(loginMember.getBirthDate());
+        memberDto.setMessage(loginMember.getMessage());
 
         model.addAttribute("memberDto", memberDto);
 
