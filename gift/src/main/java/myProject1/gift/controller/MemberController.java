@@ -93,7 +93,7 @@ public class MemberController {
                 .message(loginMember.getMessage())
                 .build();
 
-        log.info("memberDto info : {}", memberDto);
+
         model.addAttribute("memberDto", memberDto);
 
         return "member/userEditForm";
