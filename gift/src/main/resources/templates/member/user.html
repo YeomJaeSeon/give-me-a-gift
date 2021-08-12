@@ -7,14 +7,15 @@
     <title>선물하기</title>
 </head>
 <body>
-<div class="container">
+<div class="container" style="text-align: center">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <h1>내 정보</h1>
-        <a href="/user/info" class="btn-lg btn-primary">내 정보</a>
-        <a href="/user/edit" class="btn-lg btn-primary">정보 수정</a>
-        <a href="/user/delete" class="btn-lg btn-danger">회원 탈퇴</a>
+        <a href="/user/info" class="btn btn-primary" style="margin: 0 5px">내 정보</a>
+        <a href="/user/edit" class="btn btn-primary" style="margin: 0 5px">정보 수정</a>
+        <a href="/user/delete" class="btn btn-danger" style="margin: 0 5px">회원 탈퇴</a>
     </div>
+    <a href="/" class="btn btn-secondary" style="margin-top: 20px">뒤로</a>
     <div th:replace="fragments/footer :: footer" />
 </div>
 </body>

@@ -18,7 +18,7 @@
             <h1 class="fs-2 fw-bold font-monospace" th:unless="${isExistReceiveMember}">누구를 위한 선물인가요?</h1>
         </div>
         <div style="margin: 20px 0px">
-            <a href="/members" class="btn-lg btn-primary" style="margin: 20px 0">회원 목록</a>
+            <a href="/members" class="btn btn-primary" style="margin: 5px 0">회원 목록</a>
         </div>
         <div style="margin: 20px 0px">
             <a class="btn btn-info" sec:authorize="isAuthenticated()" href="/gift/gift-box">선물 보관함</a>
