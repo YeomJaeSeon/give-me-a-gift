@@ -15,4 +15,10 @@ public class GiftItemRepository {
         em.persist(giftItem);
         return giftItem.getId();
     }
+
+    public Long delete(GiftItem giftItem){
+        Long deleteId = giftItem.getId();
+        em.remove(giftItem);
+        return deleteId;
+    }
 }

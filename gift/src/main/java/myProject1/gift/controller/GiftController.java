@@ -154,22 +154,6 @@ public class GiftController {
         return "redirect:/gift/gift-box";
     }
 
-    //==선물바구니에 상품 담기
-//    @GetMapping("/basket/{itemId}")
-//    public String addItemInBasket(@PathVariable Long itemId){
-//
-//    }
-
-    //==선물 바구니 페이지 display==//
-    @GetMapping("/basket")
-    public String dispGiftBasket(){
-
-
-        return "gift/basket";
-    }
-
-
-
     //============ sub methods (not controller) =================//
 
     //==현재 로그인한 회원정보 가져오는 메서드==//

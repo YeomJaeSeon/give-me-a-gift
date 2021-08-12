@@ -27,7 +27,8 @@
             <td th:text="${giftItem.item.name}">name</td>
             <td th:text="${giftItem.price}">price</td>
             <td th:text="${giftItem.count}">count</td>
-            <td th:text="${giftItem.item.category.name}">count</td>
+            <td th:if="${giftItem.item.category != null}" th:text="${giftItem.item.category.name}">category_name</td>
+            <td th:unless="${giftItem.item.category != null}">기타</td>
           </tr>
         </tbody>
       </table>

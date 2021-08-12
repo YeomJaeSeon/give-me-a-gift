@@ -37,7 +37,8 @@
                 <br>
                 <button class="btn btn-primary" type="submit">선물하기</button>
             </form>
-            <a class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
+            <a th:if="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
+            <a th:unless="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/0}">취소</a>
 
         </div>
     </div>

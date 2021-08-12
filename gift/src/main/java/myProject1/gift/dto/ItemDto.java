@@ -19,15 +19,4 @@ public class ItemDto {
     @Range(min=1, message = "재고는 0보다 커야합니다!")
     @NotNull(message = "공백은 허용되지 않습니다.")
     private Integer stockQuantity;
-
-
-    @Override
-    public String toString() {
-        return "ItemDto{" +
-                "name='" + name + '\'' +
-                ", category=" + category +
-                ", price=" + price +
-                ", stockQuantity=" + stockQuantity +
-                '}';
-    }
 }

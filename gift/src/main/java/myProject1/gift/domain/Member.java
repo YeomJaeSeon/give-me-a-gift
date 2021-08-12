@@ -2,7 +2,6 @@ package myProject1.gift.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import myProject1.gift.dto.MemberDto;
 
 import javax.persistence.*;
 import java.time.LocalDate;

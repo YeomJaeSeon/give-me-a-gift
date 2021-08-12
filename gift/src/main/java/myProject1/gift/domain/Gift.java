@@ -36,7 +36,8 @@ public class Gift {
     @JoinColumn(name = "RECEIVED_ID")
     private Member receiveMember;
 
-    @OneToOne(mappedBy = "gift", fetch = LAZY)
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "GIFT_ITEM_ID")
     private GiftItem giftItem;
 
     @Enumerated(STRING)

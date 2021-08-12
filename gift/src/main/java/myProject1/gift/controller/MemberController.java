@@ -83,14 +83,15 @@ public class MemberController {
         Member loginMember = members.get(0);
 
         //member entity to memberDto
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername(loginMember.getUsername());
-        memberDto.setPassword(loginMember.getPassword());
-        memberDto.setName(loginMember.getName());
-        memberDto.setRole(loginMember.getRole().getValue());
-        memberDto.setSex(loginMember.getSex().getValue());
-        memberDto.setBirthDate(loginMember.getBirthDate());
-        memberDto.setMessage(loginMember.getMessage());
+        MemberDto memberDto = MemberDto.builder()
+                .username(loginMember.getUsername())
+                .password(loginMember.getPassword())
+                .name(loginMember.getName())
+                .role(loginMember.getRole().getValue())
+                .sex(loginMember.getSex().getValue())
+                .birthDate(loginMember.getBirthDate())
+                .message(loginMember.getMessage())
+                .build();
 
         log.info("memberDto info : {}", memberDto);
         model.addAttribute("memberDto", memberDto);
@@ -123,14 +124,15 @@ public class MemberController {
         Member loginMember = members.get(0);
 
         //member entity to memberDto
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername(loginMember.getUsername());
-        memberDto.setPassword(loginMember.getPassword());
-        memberDto.setName(loginMember.getName());
-        memberDto.setRole(loginMember.getRole().getValue());
-        memberDto.setSex(loginMember.getSex().getValue());
-        memberDto.setBirthDate(loginMember.getBirthDate());
-        memberDto.setMessage(loginMember.getMessage());
+        MemberDto memberDto = MemberDto.builder()
+                .username(loginMember.getUsername())
+                .password(loginMember.getPassword())
+                .name(loginMember.getName())
+                .role(loginMember.getRole().getValue())
+                .sex(loginMember.getSex().getValue())
+                .birthDate(loginMember.getBirthDate())
+                .message(loginMember.getMessage())
+                .build();
 
         model.addAttribute("memberDto", memberDto);
 

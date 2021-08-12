@@ -1,11 +1,10 @@
 package myProject1.gift.service;
 
 import lombok.RequiredArgsConstructor;
-import myProject1.gift.domain.GiftReceiveStatus;
-import myProject1.gift.domain.Member;
-import myProject1.gift.domain.Role;
-import myProject1.gift.domain.SexStatus;
+import myProject1.gift.domain.*;
 import myProject1.gift.dto.MemberDto;
+import myProject1.gift.repository.GiftItemRepository;
+import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +27,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final GiftRepository giftRepository;
+    private final GiftItemRepository giftItemRepository;
 
     @Transactional
     public Long createMember(MemberDto memberDto){
@@ -61,6 +62,17 @@ public class MemberService implements UserDetailsService {
 
     @Transactional
     public Long deleteMember(Member member) {
+//        member가 준 선물이있다면 선물과 선물 상품 삭제
+        for (Gift gift : member.getGifts()) {
+            giftRepository.delete(gift);
+            giftItemRepository.delete(gift.getGiftItem());
+        }
+//        member가 받은 선물이있다면 받은 선물과 받은 선물상품 삭제
+        for (Gift receiveGift : member.getReceiveGifts()) {
+            giftRepository.delete(receiveGift);
+            giftItemRepository.delete(receiveGift.getGiftItem());
+        }
+
         Long deleteMemberId = memberRepository.delete(member);
         return deleteMemberId;
     }

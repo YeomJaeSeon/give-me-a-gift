@@ -1,8 +1,6 @@
 package myProject1.gift.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import myProject1.gift.domain.Member;
 import myProject1.gift.domain.Role;
 import myProject1.gift.domain.SexStatus;
@@ -14,6 +12,9 @@ import java.time.LocalDate;
 
 @ToString
 @Getter @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberDto {
     @NotEmpty(message = "이름이 공백입니다.")
     private String name;

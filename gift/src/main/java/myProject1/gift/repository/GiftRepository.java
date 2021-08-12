@@ -24,6 +24,12 @@ public class GiftRepository {
         return resultGift;
     }
 
+    public Long delete(Gift gift){
+        Long deleteId = gift.getId();
+        em.remove(gift);
+        return deleteId;
+    }
+
     public List<Gift> findGiftByReceiveMember(Member member){
         List<Gift> receiveGifts = em.createQuery("select g from Gift g where g.receiveMember = :member", Gift.class)
                 .setParameter("member", member)
