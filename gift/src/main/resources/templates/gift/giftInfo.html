@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="cursor: pointer">
+          <tr th:each="giftItem: ${giftItems}" style="cursor: pointer">
             <td th:text="${giftItem.id}">id</td>
             <td th:text="${giftItem.item.name}">name</td>
             <td th:text="${giftItem.price}">price</td>

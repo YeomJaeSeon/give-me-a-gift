@@ -43,6 +43,7 @@ class GiftServiceTest {
         giftItemDto1.setItemId(itemId1);
         int giftCount1 = 10;
         giftItemDto1.setCount(giftCount1);
+        giftItemDto1.setPrice(20000);
 
         //when
         Long giftId = giftService.createOneGift(resultGiveMemberId, resultReceiveMemberId, message, giftItemDto1);

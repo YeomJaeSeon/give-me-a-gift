@@ -25,6 +25,7 @@
             <br>
 
             <form th:action method="post" th:object="${giftItemDto}">
+                <input type="hidden" name="price" th:value="${item.price}">
                 <label class="form-label"> 선물할 상품 개수
                     <input th:class="${#fields.hasErrors('count')} ? 'fieldError form-control' : 'form-control'" type="number" th:field="*{count}" placeholder="선물할 상품 개수를 입력">
                 </label>
@@ -37,6 +38,8 @@
                 <br>
                 <button class="btn btn-primary" type="submit">선물하기</button>
             </form>
+            <a class="btn btn-info" th:href="@{/gift/basket/{itemId}/add(itemId=${item.id})}" style="margin-top: 10px">선물바구니에 담기</a>
+            <br>
             <a th:if="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
             <a th:unless="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/0}">취소</a>
 

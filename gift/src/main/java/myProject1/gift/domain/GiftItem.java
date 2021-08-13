@@ -22,7 +22,8 @@ public class GiftItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    @OneToOne(mappedBy = "giftItem",fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "GIFT_ID")
     private Gift gift;
 
     private int price; // 한 종류의 상품의 하나의 가격

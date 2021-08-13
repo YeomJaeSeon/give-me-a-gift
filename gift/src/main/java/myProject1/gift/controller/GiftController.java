@@ -110,6 +110,8 @@ public class GiftController {
             message = "제 마음입니다 ^^";
         }
 
+        log.info("giftItemDto price : {}", giftItemDto.getPrice());
+
         giftService.createOneGift(giveMember.getId(), receiveMemberId, message, giftItemDto);
 
         return "redirect:/";
@@ -131,9 +133,9 @@ public class GiftController {
     @GetMapping("/gift-box/{giftId}")
     public String dispGiftInfo(@PathVariable Long giftId, Model model){
         Gift gift = giftRepository.findOne(giftId);
-        GiftItem giftItem = gift.getGiftItem();
+        List<GiftItem> giftItems = gift.getGiftItems();
 
-        model.addAttribute("giftItem", giftItem);
+        model.addAttribute("giftItems", giftItems);
 
         return "gift/giftInfo";
     }
@@ -153,6 +155,11 @@ public class GiftController {
 
         return "redirect:/gift/gift-box";
     }
+
+//    @GetMapping("/basket/{itemId}/add")
+//    public String addBasket(@PathVariable Long itemId){
+//
+//    }
 
     //============ sub methods (not controller) =================//
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,19 +26,30 @@ public class GiftService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-    //선물 단건 생성
+    //선물 생성
     //GiftItem 생성 후 Gift도 바로 생성
-    public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto giftItemDto){
+    public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto ...giftItemDtos){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
         Member receiveMember = memberRepository.findOne(receiveMemberId);
 
-        Item item = itemRepository.findOne(giftItemDto.getItemId()); //상품 엔티티 조회
-        GiftItem giftItem = GiftItem.createGiftItem(item, item.getPrice(), giftItemDto.getCount());//giftItem 생성
-        giftItemRepository.save(giftItem);
+        // List GiftItems에 giftItem담기
+        List<GiftItem> giftItems = new ArrayList<>();
+        for (GiftItemDto giftItemDto : giftItemDtos) {
+            Item item = itemRepository.findOne(giftItemDto.getItemId()); //상품 엔티티 조회
+            GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());//giftItem 생성
+            giftItems.add(giftItem);
+            giftItemRepository.save(giftItem);
+        }
+
+        // List to Array
+        GiftItem[] giftItemsArr = new GiftItem[giftItems.size()];
+        for(int i = 0; i < giftItemsArr.length; i++){
+            giftItemsArr[i] = giftItems.get(i);
+        }
 
         // Gift 객체 생성
-        Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItem);
+        Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemsArr);
 
         // Gift 엔티티 저장
         Long giftId = giftRepository.save(gift);

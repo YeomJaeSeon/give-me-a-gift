@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -36,9 +38,8 @@ public class Gift {
     @JoinColumn(name = "RECEIVED_ID", insertable = false, updatable = false)
     private Member receiveMember;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "GIFT_ITEM_ID")
-    private GiftItem giftItem;
+    @OneToMany(mappedBy = "gift")
+    private List<GiftItem> giftItems = new ArrayList<>();
 
     @Enumerated(STRING)
     private GiftStatus status;
@@ -57,13 +58,13 @@ public class Gift {
 
     //선물 - 선물상품
     public void addGiftItem(GiftItem giftItem){
-        this.giftItem = giftItem;
+        this.giftItems.add(giftItem);
         giftItem.setGift(this);
     }
 
     //==생성 메서드==//
     //- 선물 생성
-    public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, GiftItem giftItem){
+    public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, GiftItem ...giftItems){
         Gift gift = new Gift();
 
         gift.giftDate = giftDate;
@@ -74,8 +75,10 @@ public class Gift {
         receiveMember.setStatus(GiftReceiveStatus.RECEIVED); // 선물받은 회원의 상태 - RECEIVED로변경
         gift.status = GiftStatus.CREATED;
 
-        gift.addGiftItem(giftItem);
-        giftItem.createGiftItem();//선물 생성하며 그만큼 재고 줄어듬.
+        for (GiftItem giftItem : giftItems) {
+            gift.addGiftItem(giftItem);
+            giftItem.createGiftItem();//선물 생성하며 그만큼 재고 줄어듬.
+        }
 
         return gift;
     }
@@ -88,12 +91,17 @@ public class Gift {
 
     //- 선물 거부
     public void refuseGift(){
-        giftItem.refused();
+        for (GiftItem giftItem : giftItems) {
+            giftItem.refused();
+        }
         status = GiftStatus.NOT_ACCEPTED;
     }
 
     //- 선물 총 가격 조회 메서드
     public int getTotalPrice(){
-        return giftItem.getTotalPrice();
+        return giftItems
+                .stream()
+                .mapToInt(GiftItem::getTotalPrice)
+                .sum();
     }
 }
