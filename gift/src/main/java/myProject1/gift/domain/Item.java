@@ -29,6 +29,10 @@ public class Item {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "BASKET_ID")
+    private Basket basket;
+
     //==연관관계 편의메서드==//
     public void addItem(Category category){
         category.getItems().add(this);

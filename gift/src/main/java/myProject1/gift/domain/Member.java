@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Table(name = "MEMBERS")
@@ -46,4 +47,8 @@ public class Member {
     @OneToMany
     @JoinColumn(name = "RECEIVED_ID")
     private List<Gift> receiveGifts = new ArrayList<>();
+
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "BASKET_ID")
+    private Basket basket;
 }
