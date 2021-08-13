@@ -28,8 +28,10 @@
                 <tbody>
                     <tr th:each="gift :${gifts}" style="cursor: pointer">
                         <td th:text="${gift.id}">id</td>
-                        <td th:text="${gift.member != null ? gift.member.username : '삭제된 유저'}">username</td>
-                        <td th:text="${gift.member != null ? gift.member.name : '삭제된 유저'}">name</td>
+                        <td th:if="${gift.member != null}" th:text="${gift.member.username}">username</td>
+                        <td th:unless="${gift.member != null}" style="color: gray">삭제된 유저</td>
+                        <td th:if="${gift.member != null}" th:text="${gift.member.name}">name</td>
+                        <td th:unless="${gift.member != null}" style="color: gray">삭제된 유저</td>
                         <td th:text="${gift.message}"></td>
                         <td>
                             <a class="btn btn-info" th:href="@{/gift/gift-box/{giftId}(giftId=${gift.id})}">선물 보기</a>
