@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -173,6 +174,7 @@ public class MemberController {
 
         model.addAttribute("receiveMember", receiveMemberId);
         model.addAttribute("members", members);
+        model.addAttribute("today", LocalDate.now());
 
         return "member/members";
     }

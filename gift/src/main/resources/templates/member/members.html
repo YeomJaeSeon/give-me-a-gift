@@ -42,11 +42,20 @@
                 </thead>
                 <tbody>
                     <tr th:each="member :${members}" style="cursor: pointer">
-                        <td th:text="${member.id}">id</td>
+                        <td th:text="${member.id}">
+                            id
+                        </td>
                         <td th:text="${member.username}">username</td>
-                        <td th:text="${member.name}">name</td>
+                        <td th:text="${member.name}">
+                            name
+                        </td>
                         <td th:text="${member.sex.getValue() == 'MALE' ? '남자' : '여자'}">sex</td>
-                        <td th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
+                        <td th:if="${member.birthDate.getMonthValue() == today.getMonthValue() &&
+                        member.birthDate.getDayOfMonth() == today.getDayOfMonth()}">
+                            <img src="/img/cake.png" alt="cake-image">
+                        </td>
+                        <td th:unless="${member.birthDate.getMonthValue() == today.getMonthValue() &&
+                        member.birthDate.getDayOfMonth() == today.getDayOfMonth()}" th:text="${member.birthDate.getMonthValue() + '월 ' + member.birthDate.getDayOfMonth()} + '일'">birthDate</td>
                         <td th:text="${member.receiveGifts.size()}"></td>
                         <td th:text="${member.message}">message</td>
                         <td>
