@@ -29,11 +29,11 @@ public class Gift {
     private String message;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
     private Member member;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "RECEIVED_ID")
+    @JoinColumn(name = "RECEIVED_ID", insertable = false, updatable = false)
     private Member receiveMember;
 
     @OneToOne(fetch = LAZY)

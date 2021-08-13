@@ -63,15 +63,15 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public Long deleteMember(Member member) {
 //        member가 준 선물이있다면 선물과 선물 상품 삭제
-        for (Gift gift : member.getGifts()) {
-            giftRepository.delete(gift);
-            giftItemRepository.delete(gift.getGiftItem());
-        }
-//        member가 받은 선물이있다면 받은 선물과 받은 선물상품 삭제
-        for (Gift receiveGift : member.getReceiveGifts()) {
-            giftRepository.delete(receiveGift);
-            giftItemRepository.delete(receiveGift.getGiftItem());
-        }
+//        for (Gift gift : member.getGifts()) {
+//            giftRepository.delete(gift);
+//            giftItemRepository.delete(gift.getGiftItem());
+//        }
+////        member가 받은 선물이있다면 받은 선물과 받은 선물상품 삭제
+//        for (Gift receiveGift : member.getReceiveGifts()) {
+//            giftRepository.delete(receiveGift);
+//            giftItemRepository.delete(receiveGift.getGiftItem());
+//        }
 
         Long deleteMemberId = memberRepository.delete(member);
         return deleteMemberId;

@@ -39,9 +39,11 @@ public class Member {
     @Enumerated(STRING)
     private GiftReceiveStatus status = GiftReceiveStatus.NOT_RECEIVED; // default Value
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany
+    @JoinColumn(name = "MEMBER_ID")
     private List<Gift> gifts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiveMember")
+    @OneToMany
+    @JoinColumn(name = "RECEIVED_ID")
     private List<Gift> receiveGifts = new ArrayList<>();
 }

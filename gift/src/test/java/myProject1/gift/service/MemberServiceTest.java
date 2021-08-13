@@ -6,14 +6,12 @@ import myProject1.gift.dto.MemberDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -151,23 +149,20 @@ class MemberServiceTest {
         Member member = memberService.findById(memberId1);
 
         //when
-        memberService.deleteMember(member); //선물을 준 전적이있는 회원 삭제
+        memberService.deleteMember(member); //선물을 준 전적이있는 회원 삭제 // member1 삭제(선물 준회원) - 회원만삭제, 선물은 삭제 X
         List<Member> members = memberService.findAllMembers();
         Member remainMember = memberService.findById(memberId2);
-        List<Gift> gifts = em.createQuery("select g from Gift g", Gift.class)
-                .getResultList();
-        List<GiftItem> giftItems = em.createQuery("select gi from GiftItem  gi", GiftItem.class)
+        List<Gift> gifts = em.createQuery("select g from Gift g where g.receiveMember = :member", Gift.class)
+                .setParameter("member", remainMember)
                 .getResultList();
 
         //then
         assertThat(members.size()).isEqualTo(1);
         assertThat(members.get(0)).isEqualTo(remainMember);
-        assertThat(gifts.size()).isEqualTo(0);
-        assertThat(giftItems.size()).isEqualTo(0);
+        assertThat(gifts.get(0).getReceiveMember()).isEqualTo(remainMember);
     }
 
     @Test
-    @Rollback(value = false)
     void 받은_선물이있는_회원_삭제(){
         //given
         MemberDto member1 = createMemberDto("member1", "yeom", "1234", "USER", "MALE", LocalDate.now(), "ㅎㅎ");
@@ -196,12 +191,11 @@ class MemberServiceTest {
         //then
         assertThat(members.size()).isEqualTo(1);
         assertThat(members.get(0)).isEqualTo(remainMember);
-        assertThat(gifts.size()).isEqualTo(0);
-        assertThat(giftItems.size()).isEqualTo(0);
+        assertThat(gifts.size()).isEqualTo(1);
+        assertThat(giftItems.size()).isEqualTo(1);
     }
 
     @Test
-    @Rollback(value = false)
     void 자기_자신에게_선물한_회원_삭제(){
         MemberDto member1 = createMemberDto("member1", "yeom", "1234", "USER", "MALE", LocalDate.now(), "ㅎㅎ");
         Long memberId1 = memberService.createMember(member1);
@@ -224,8 +218,8 @@ class MemberServiceTest {
 
         //then
         assertThat(members.size()).isEqualTo(0);
-        assertThat(gifts.size()).isEqualTo(0);
-        assertThat(giftItems.size()).isEqualTo(0);
+        assertThat(gifts.size()).isEqualTo(1);
+        assertThat(giftItems.size()).isEqualTo(1);
     }
 
 }
