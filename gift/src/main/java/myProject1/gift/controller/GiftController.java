@@ -4,10 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.*;
 import myProject1.gift.dto.GiftItemDto;
-import myProject1.gift.repository.BasketRepository;
-import myProject1.gift.repository.GiftItemRepository;
-import myProject1.gift.repository.GiftRepository;
-import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.GiftService;
 import myProject1.gift.service.ItemService;
@@ -31,10 +27,9 @@ import java.util.List;
 @RequestMapping("/gift")
 public class GiftController {
     private final GiftService giftService;
-    private final GiftRepository giftRepository;
     private final ItemService itemService;
     private final CategoryService categoryService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     //==선물 받을 상대 선택==//
     @GetMapping("/members/{receiveMemberId}")
@@ -136,7 +131,7 @@ public class GiftController {
     //==선물보관함에서 선물 정보 보기 페이지 display==//
     @GetMapping("/gift-box/{giftId}")
     public String dispGiftInfo(@PathVariable Long giftId, Model model){
-        Gift gift = giftRepository.findOne(giftId);
+        Gift gift = giftService.findById(giftId);
         List<GiftItem> giftItems = gift.getGiftItems();
 
         model.addAttribute("giftItems", giftItems);
@@ -166,7 +161,7 @@ public class GiftController {
     private List<Member> getLoginedMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        List<Member> members = memberRepository.findByUsername(username);
+        List<Member> members = memberService.findByUsername(username);
         log.info("로그인한 회원들 : {}", members);
         return members;
     }

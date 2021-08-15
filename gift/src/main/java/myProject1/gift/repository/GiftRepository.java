@@ -46,5 +46,4 @@ public class GiftRepository {
                 .size();
         return size;
     }
-
 }

@@ -11,17 +11,14 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class GiftItemRepository {
     private final EntityManager em;
 
-    @Transactional
     public Long save(GiftItem giftItem){
         em.persist(giftItem);
         return giftItem.getId();
     }
 
-    @Transactional
     public Long delete(GiftItem giftItem){
         Long deleteId = giftItem.getId();
         em.remove(giftItem);
@@ -36,7 +33,6 @@ public class GiftItemRepository {
         return giftItems;
     }
 
-    @Transactional
     public void updateBasketToNull(GiftItem giftItem){
         giftItem.setBasket(null);
     }

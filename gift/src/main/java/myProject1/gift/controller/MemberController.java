@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.GiftReceiveStatus;
 import myProject1.gift.domain.Member;
 import myProject1.gift.dto.MemberDto;
-import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.MemberService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     //==회원가입 페이지 display==//
     @GetMapping("/signup")
@@ -45,7 +43,7 @@ public class MemberController {
             return "member/signup";
         }
         //id 중복검사
-        List<Member> members = memberRepository.findByUsername(memberDto.getUsername());
+        List<Member> members = memberService.findByUsername(memberDto.getUsername());
         if(members.size() > 0){
             model.addAttribute("duplicateIdError", true);
             return "member/signup";
@@ -186,7 +184,7 @@ public class MemberController {
     private List<Member> getLoginedMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        List<Member> members = memberRepository.findByUsername(username);
+        List<Member> members = memberService.findByUsername(username);
         log.info("로그인한 회원들 : {}", members);
         return members;
     }

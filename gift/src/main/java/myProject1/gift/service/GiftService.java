@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,5 +86,16 @@ public class GiftService {
     @Transactional(readOnly = true)
     public List<Gift> receiveGiftsOfMember(Member member){
         return giftRepository.findGiftByReceiveMember(member);
+    }
+
+    @Transactional(readOnly = true)
+    public int findCreatedGifts(Member member){
+        int count = giftRepository.findCreatedGifts(member);
+        return count;
+    }
+    @Transactional(readOnly = true)
+    public Gift findById(Long id){
+        Gift gift = giftRepository.findOne(id);
+        return gift;
     }
 }

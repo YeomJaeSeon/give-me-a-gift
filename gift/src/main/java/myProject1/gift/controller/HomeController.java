@@ -8,9 +8,10 @@ import myProject1.gift.domain.Member;
 import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
 import myProject1.gift.repository.GiftRepository;
-import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.CategoryService;
+import myProject1.gift.service.GiftService;
 import myProject1.gift.service.ItemService;
+import myProject1.gift.service.MemberService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,8 @@ import java.util.List;
 public class HomeController {
     private final CategoryService categoryService;
     private final ItemService itemService;
-    private final MemberRepository memberRepository;
-    private final GiftRepository giftRepository;
+    private final MemberService memberService;
+    private final GiftService giftService;
 
     //==상품과 카테고리 테스트 값==//
     @PostConstruct
@@ -91,14 +92,14 @@ public class HomeController {
                     model.addAttribute("target", "나에게 선물하세요!");
                 }else{
                     //다른사람에게 선물이면
-                    Member receiveMember = memberRepository.findOne(receiveMemberId);
+                    Member receiveMember = memberService.findById(receiveMemberId);
                     model.addAttribute("target", receiveMember.getUsername() + "에게 선물하세요!");
                 }
             }
         }
 
         if(members.size() > 0) {
-            int giftCount = giftRepository.findCreatedGifts(members.get(0));
+            int giftCount = giftService.findCreatedGifts(members.get(0));
             if(giftCount != 0){
                 //수락이나 거절하지않은 즉, 확인하지않은 선물이 존재하면
                 model.addAttribute("isExistNotCheckGifts", true);
@@ -117,7 +118,7 @@ public class HomeController {
     private List<Member> getLoginedMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        List<Member> members = memberRepository.findByUsername(username);
+        List<Member> members = memberService.findByUsername(username);
         log.info("로그인한 회원들 : {}", members);
         return members;
     }

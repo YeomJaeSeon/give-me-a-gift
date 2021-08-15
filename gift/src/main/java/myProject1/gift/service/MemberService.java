@@ -28,8 +28,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
-    private final GiftRepository giftRepository;
-    private final GiftItemRepository giftItemRepository;
     private final BasketRepository basketRepository;
 
     @Transactional
@@ -82,6 +80,11 @@ public class MemberService implements UserDetailsService {
 
     public List<Member> findAllMembers(){
         return memberRepository.findAll();
+    }
+
+    public List<Member> findByUsername(String username){
+        List<Member> members = memberRepository.findByUsername(username);
+        return members;
     }
 
     public List<Member> findSpecificMembers(GiftReceiveStatus receivedStatus){

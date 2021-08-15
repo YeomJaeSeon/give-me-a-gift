@@ -7,11 +7,7 @@ import myProject1.gift.domain.GiftItem;
 import myProject1.gift.domain.Item;
 import myProject1.gift.domain.Member;
 import myProject1.gift.dto.GiftItemDto;
-import myProject1.gift.repository.BasketRepository;
-import myProject1.gift.repository.GiftItemRepository;
-import myProject1.gift.repository.MemberRepository;
-import myProject1.gift.service.GiftService;
-import myProject1.gift.service.ItemService;
+import myProject1.gift.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,11 +26,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/basket")
 public class BasketController {
-    private final BasketRepository basketRepository;
     private final ItemService itemService;
-    private final GiftItemRepository giftItemRepository;
-    private final MemberRepository memberRepository;
     private final GiftService giftService;
+    private final MemberService memberService;
+    private final GiftItemService giftItemService;
+    private final BasketService basketService;
 
     //==선물바구니에 선물담기
     @PostMapping("/{itemId}/add")
@@ -58,13 +53,13 @@ public class BasketController {
         giftItemDto.setItemId(itemId);
 
         GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());
-        giftItemRepository.save(giftItem); //선물 상품 저장
+        giftItemService.createGiftItem(giftItem); //선물 상품 저장
 
-        Basket basket = basketRepository.findByMember(giveMember);
+        Basket basket = basketService.findBasketByMember(giveMember);
         //바구니 - 선물상품 연관관계 설정
         basket.addGiftItem(giftItem);
 
-        basketRepository.save(basket); //선물바구니 저장
+        basketService.createBasket(basket); //선물바구니 저장
 
         return "redirect:/";
     }
@@ -84,7 +79,7 @@ public class BasketController {
                 model.addAttribute("target", "나에게 선물하세요!");
             }else{
                 //다른사람에게 선물이면
-                Member receiveMember = memberRepository.findOne(receiveMemberId);
+                Member receiveMember = memberService.findById(receiveMemberId);
                 model.addAttribute("target", receiveMember.getUsername() + "에게 선물하세요!");
             }
         }
@@ -92,9 +87,9 @@ public class BasketController {
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 
-        Basket basket = basketRepository.findByMember(loginMember);
+        Basket basket = basketService.findBasketByMember(loginMember);
 
-        List<GiftItem> giftItems = giftItemRepository.findByBasket(basket);
+        List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
         model.addAttribute("giftItems", giftItems);
 
         return "basket/basket";
@@ -113,9 +108,9 @@ public class BasketController {
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 
-        Basket basket = basketRepository.findByMember(loginMember);
+        Basket basket = basketService.findBasketByMember(loginMember);
 
-        List<GiftItem> giftItems = giftItemRepository.findByBasket(basket);
+        List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
         //바구니에 선물상품 아무것도없으면 선물할수없음
         if(giftItems.size() == 0){
             redirectAttributes.addFlashAttribute("message", "선물바구니가 비어서 선물할수 없습니다.");
@@ -124,7 +119,7 @@ public class BasketController {
 
         giftService.createGiftFromBasket(loginMember.getId(), receiveMemberId, message, giftItems);
         for (GiftItem giftItem : giftItems) {
-            giftItemRepository.updateBasketToNull(giftItem);
+            giftItemService.updateGiftItemBasketToNull(giftItem);
         }
 
         return "redirect:/";
@@ -136,7 +131,7 @@ public class BasketController {
     private List<Member> getLoginedMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        List<Member> members = memberRepository.findByUsername(username);
+        List<Member> members = memberService.findByUsername(username);
         log.info("로그인한 회원들 : {}", members);
         return members;
     }
