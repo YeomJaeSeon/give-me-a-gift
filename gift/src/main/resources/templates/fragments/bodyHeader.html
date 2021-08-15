@@ -9,6 +9,7 @@
             <a href="/"><h3 class="text-muted">선물하기</h3></a>
         </div>
         <div>
+            <a class="btn" sec:authorize="isAuthenticated()" th:href="@{/basket}" style="color: dodgerblue">선물바구니</a><a href=""></a>
             <a class="btn" sec:authorize="isAnonymous()" th:href="@{/user/login}" style="color: #2e2ea8">로그인</a>
             <a class="btn" sec:authorize="isAuthenticated()" th:href="@{/user/logout}" style="color: red">로그아웃</a><a href=""></a>
         </div>

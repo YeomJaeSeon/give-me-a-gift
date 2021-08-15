@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1 style="margin-bottom: 30px">선물 바구니</h1>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-dark">
+                    <th>id</th>
+                    <th>상품이름</th>
+                    <th>가격</th>
+                    <th>개수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="giftItem :${giftItems}" style="cursor: pointer">
+                    <td th:text="${giftItem.id}">
+                        id
+                    </td>
+                    <td th:text="${giftItem.item.name}">item name</td>
+                    <td th:text="${giftItem.price}">
+                        price
+                    </td>
+                    <td th:text="${giftItem.count}">count</td>
+                </tr>
+                </tbody>
+            </table>
+            <form th:action method="post">
+                <label class="form-label"> 선물 메시지를 적어주세요
+                    <input class="form-control" type="text" name="message" placeholder="제 마음입니다 ^^">
+                </label>
+                <input class="btn btn-primary" type="submit" value="선물하기">
+            </form>
+            <a class="btn btn-secondary" href="/">뒤로가기</a>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

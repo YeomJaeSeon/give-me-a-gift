@@ -1,24 +1,27 @@
 package myProject1.gift.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Table(name = "BASKETS")
-@Getter
+@Getter @Setter
 public class Basket {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BASKET_ID")
     private Long id;
 
-    private int price;
-
-    private int count;
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     @OneToMany(mappedBy = "basket")
-    private List<Item> items = new ArrayList<>();
+    private List<GiftItem> giftItems = new ArrayList<>();
 }

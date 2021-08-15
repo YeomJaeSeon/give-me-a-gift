@@ -1,13 +1,17 @@
 package myProject1.gift.repository;
 
 import lombok.RequiredArgsConstructor;
+import myProject1.gift.domain.Basket;
 import myProject1.gift.domain.GiftItem;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class GiftItemRepository {
     private final EntityManager em;
 
@@ -20,5 +24,13 @@ public class GiftItemRepository {
         Long deleteId = giftItem.getId();
         em.remove(giftItem);
         return deleteId;
+    }
+
+    //선물바구니로 선물 상품찾기
+    public List<GiftItem> findByBasket(Basket basket){
+        List<GiftItem> giftItems = em.createQuery("select gi from GiftItem gi where gi.basket = :basket", GiftItem.class)
+                .setParameter("basket", basket)
+                .getResultList();
+        return giftItems;
     }
 }

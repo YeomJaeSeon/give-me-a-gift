@@ -57,6 +57,27 @@ public class GiftService {
         return giftId;
     }
 
+    public Long createGiftFromBasket(Long giveMemberId, Long receiveMemberId, String message, List<GiftItem> giftItems){
+        //Member 엔티티 조회
+        Member giveMember = memberRepository.findOne(giveMemberId);
+        Member receiveMember = memberRepository.findOne(receiveMemberId);
+
+        // List to Array
+        GiftItem[] giftItemsArr = new GiftItem[giftItems.size()];
+        for(int i = 0; i < giftItemsArr.length; i++){
+            giftItemsArr[i] = giftItems.get(i);
+        }
+
+        // Gift 객체 생성
+        Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemsArr);
+
+        // Gift 엔티티 저장
+        Long giftId = giftRepository.save(gift);
+
+        return giftId;
+
+    }
+
     public void acceptGift(Long giftId){
         Gift gift = giftRepository.findOne(giftId);
         gift.acceptGift();

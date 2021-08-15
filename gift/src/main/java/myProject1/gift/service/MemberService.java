@@ -3,6 +3,7 @@ package myProject1.gift.service;
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.*;
 import myProject1.gift.dto.MemberDto;
+import myProject1.gift.repository.BasketRepository;
 import myProject1.gift.repository.GiftItemRepository;
 import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
@@ -29,6 +30,7 @@ public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final GiftRepository giftRepository;
     private final GiftItemRepository giftItemRepository;
+    private final BasketRepository basketRepository;
 
     @Transactional
     public Long createMember(MemberDto memberDto){
@@ -37,6 +39,13 @@ public class MemberService implements UserDetailsService {
         Member member = memberDto.toEntity();
 
         Long memberId = memberRepository.save(member);
+
+        //회원 생성시 선물바구니도 생성
+        Basket basket = new Basket();
+        //양방향 연관관계 설정
+        basket.setMember(member);
+        basketRepository.save(basket);
+
         return memberId;
     }
 

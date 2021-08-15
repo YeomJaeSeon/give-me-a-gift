@@ -30,6 +30,10 @@ public class GiftItem {
 
     private int count; // 한종류의 상품의 개수
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "BASKET_ID")
+    private Basket basket;
+
     //==생성메서드==//
     public static GiftItem createGiftItem(Item item, int price, int count){
         GiftItem giftItem = new GiftItem();
@@ -40,7 +44,6 @@ public class GiftItem {
 
         return giftItem;
     }
-
 
     //==비즈니스 로직==//
     //- 선물 상품 생성

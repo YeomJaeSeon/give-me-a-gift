@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.*;
 import myProject1.gift.dto.GiftItemDto;
+import myProject1.gift.repository.BasketRepository;
+import myProject1.gift.repository.GiftItemRepository;
 import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.GiftService;
 import myProject1.gift.service.ItemService;
+import myProject1.gift.service.MemberService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,9 @@ public class GiftController {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final MemberRepository memberRepository;
+    private final GiftItemRepository giftItemRepository;
+    private final BasketRepository basketRepository;
+    private final MemberService memberService;
 
     //==선물 받을 상대 선택==//
     @GetMapping("/members/{receiveMemberId}")
@@ -117,6 +123,7 @@ public class GiftController {
         return "redirect:/";
     }
 
+
     //==선물 보관함 페이지 display==//
     @GetMapping("/gift-box")
     public String dispGiftBox(Model model){
@@ -155,11 +162,6 @@ public class GiftController {
 
         return "redirect:/gift/gift-box";
     }
-
-//    @GetMapping("/basket/{itemId}/add")
-//    public String addBasket(@PathVariable Long itemId){
-//
-//    }
 
     //============ sub methods (not controller) =================//
 

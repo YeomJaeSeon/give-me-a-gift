@@ -47,8 +47,4 @@ public class Member {
     @OneToMany
     @JoinColumn(name = "RECEIVED_ID")
     private List<Gift> receiveGifts = new ArrayList<>();
-
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "BASKET_ID")
-    private Basket basket;
 }
