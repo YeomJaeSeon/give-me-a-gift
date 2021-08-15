@@ -62,8 +62,7 @@ public class BasketController {
 
         Basket basket = basketRepository.findByMember(giveMember);
         //바구니 - 선물상품 연관관계 설정
-        basket.getGiftItems().add(giftItem);
-        giftItem.setBasket(basket);
+        basket.addGiftItem(giftItem);
 
         basketRepository.save(basket); //선물바구니 저장
 

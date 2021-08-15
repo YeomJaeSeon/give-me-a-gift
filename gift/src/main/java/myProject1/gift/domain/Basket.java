@@ -24,4 +24,10 @@ public class Basket {
 
     @OneToMany(mappedBy = "basket")
     private List<GiftItem> giftItems = new ArrayList<>();
+
+    //==연관관계 편의메서드==//
+    public void addGiftItem(GiftItem giftItem){
+        giftItems.add(giftItem);
+        giftItem.setBasket(this);
+    }
 }

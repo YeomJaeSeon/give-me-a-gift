@@ -42,7 +42,7 @@ public class MemberService implements UserDetailsService {
 
         //회원 생성시 선물바구니도 생성
         Basket basket = new Basket();
-        //양방향 연관관계 설정
+        //바구니에 멤버 지정(바구니의 member가 외래키와 매핑됨)
         basket.setMember(member);
         basketRepository.save(basket);
 
