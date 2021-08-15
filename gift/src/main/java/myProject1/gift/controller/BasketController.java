@@ -72,7 +72,24 @@ public class BasketController {
 
     //==선물바구니 페이지 display==//
     @GetMapping
-    public String dispBasket(Model model){
+    public String dispBasket(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long receiveMemberId = (Long)session.getAttribute("receiveMemberId");
+
+        if(receiveMemberId != null){
+            //선물받을 대상 지정했으면
+            model.addAttribute("isExistReceiveMember", true);
+            List<Member> members = getLoginedMember();
+            if(receiveMemberId == members.get(0).getId()){
+                //자기 자신에게 선물이면
+                model.addAttribute("target", "나에게 선물하세요!");
+            }else{
+                //다른사람에게 선물이면
+                Member receiveMember = memberRepository.findOne(receiveMemberId);
+                model.addAttribute("target", receiveMember.getUsername() + "에게 선물하세요!");
+            }
+        }
+
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 

@@ -35,9 +35,6 @@ public class GiftController {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final MemberRepository memberRepository;
-    private final GiftItemRepository giftItemRepository;
-    private final BasketRepository basketRepository;
-    private final MemberService memberService;
 
     //==선물 받을 상대 선택==//
     @GetMapping("/members/{receiveMemberId}")

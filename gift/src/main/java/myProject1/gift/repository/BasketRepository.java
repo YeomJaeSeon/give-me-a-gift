@@ -10,10 +10,11 @@ import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class BasketRepository {
     private final EntityManager em;
 
+    @Transactional
     public Long save(Basket basket){
         em.persist(basket);
         return basket.getId();

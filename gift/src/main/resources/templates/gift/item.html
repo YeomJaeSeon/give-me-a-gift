@@ -38,9 +38,8 @@
                 <br>
                 <input class="btn btn-primary" type="submit" th:formaction="@{/gift/items/{itemId}(itemId=${item.id})}" value="선물하기" />
                 <br>
-                <input class="btn btn-primary" type="submit" th:formaction="@{/basket/{itemId}/add(itemId=${item.id})}" value="선물바구니에 담기"/>
+                <input class="btn btn-primary" type="submit" th:formaction="@{/basket/{itemId}/add(itemId=${item.id})}" value="선물바구니에 담기" style="margin-top: 10px"/>
             </form>
-            <br>
             <a th:if="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/{categoryId}(categoryId=${item.category.id})}">취소</a>
             <a th:unless="${item.category != null}" class="btn btn-danger" style="margin-top : 10px" th:href="@{/gift/categories/0}">취소</a>
 
