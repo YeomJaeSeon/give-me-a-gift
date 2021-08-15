@@ -28,25 +28,21 @@ public class GiftService {
 
     //선물 생성
     //GiftItem 생성 후 Gift도 바로 생성
-    public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto ...giftItemDtos){
+    public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto giftItemDto){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
         Member receiveMember = memberRepository.findOne(receiveMemberId);
 
         // List GiftItems에 giftItem담기
-        List<GiftItem> giftItems = new ArrayList<>();
-        for (GiftItemDto giftItemDto : giftItemDtos) {
-            Item item = itemRepository.findOne(giftItemDto.getItemId()); //상품 엔티티 조회
-            GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());//giftItem 생성
-            giftItems.add(giftItem);
-            giftItemRepository.save(giftItem);
-        }
+
+
+        Item item = itemRepository.findOne(giftItemDto.getItemId()); //상품 엔티티 조회
+        GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());//giftItem 생성
+        giftItemRepository.save(giftItem);
 
         // List to Array
-        GiftItem[] giftItemsArr = new GiftItem[giftItems.size()];
-        for(int i = 0; i < giftItemsArr.length; i++){
-            giftItemsArr[i] = giftItems.get(i);
-        }
+        GiftItem[] giftItemsArr = new GiftItem[1];
+        giftItemsArr[0] = giftItem;
 
         // Gift 객체 생성
         Gift gift = Gift.createGift(LocalDate.now(), message, giveMember, receiveMember, giftItemsArr);
