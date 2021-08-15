@@ -2,16 +2,11 @@ package myProject1.gift.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import myProject1.gift.domain.Category;
-import myProject1.gift.domain.Item;
-import myProject1.gift.domain.Member;
+import myProject1.gift.domain.*;
 import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
 import myProject1.gift.repository.GiftRepository;
-import myProject1.gift.service.CategoryService;
-import myProject1.gift.service.GiftService;
-import myProject1.gift.service.ItemService;
-import myProject1.gift.service.MemberService;
+import myProject1.gift.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +26,8 @@ public class HomeController {
     private final ItemService itemService;
     private final MemberService memberService;
     private final GiftService giftService;
+    private final GiftItemService giftItemService;
+    private final BasketService basketService;
 
     //==상품과 카테고리 테스트 값==//
     @PostConstruct
@@ -98,14 +95,26 @@ public class HomeController {
             }
         }
 
+        //로그인 되어있으면
         if(members.size() > 0) {
+            //확인하지않은 선물이 있는지 표시
             int giftCount = giftService.findCreatedGifts(members.get(0));
             if(giftCount != 0){
                 //수락이나 거절하지않은 즉, 확인하지않은 선물이 존재하면
                 model.addAttribute("isExistNotCheckGifts", true);
             }
 
+            //선물바구니 안에 선물하지않은 선물상품이 있는지 표시
+            Basket basket = basketService.findBasketByMember(members.get(0));
+            List<GiftItem> giftItemsByBasket = giftItemService.findGiftItemsByBasket(basket);
+            if(giftItemsByBasket.size() > 0){
+                //선물바구니안에 선물하지않은 선물상품이 있으면
+                model.addAttribute("isExistNotCheckGiftItemsInBasket", true);
+            }
         }
+
+
+
 
         model.addAttribute("categories", categories);
         model.addAttribute("etcCount", items.size());
