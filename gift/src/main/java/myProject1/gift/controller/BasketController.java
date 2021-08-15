@@ -86,9 +86,13 @@ public class BasketController {
 
     //==선물바구니 선물하기==//
     @PostMapping
-    public String createGift(HttpServletRequest request, @RequestParam String message){
+    public String createGift(HttpServletRequest request, @RequestParam String message, RedirectAttributes redirectAttributes){
         HttpSession session = request.getSession();
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
+        if(receiveMemberId == null){
+            redirectAttributes.addFlashAttribute("message", "선물할 회원을 먼저 선택해주세요");
+            return "redirect:/members";
+        }
 
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
@@ -96,6 +100,11 @@ public class BasketController {
         Basket basket = basketRepository.findByMember(loginMember);
 
         List<GiftItem> giftItems = giftItemRepository.findByBasket(basket);
+        //바구니에 선물상품 아무것도없으면 선물할수없음
+        if(giftItems.size() == 0){
+            redirectAttributes.addFlashAttribute("message", "선물바구니가 비어서 선물할수 없습니다.");
+            return "redirect:/basket";
+        }
 
         giftService.createGiftFromBasket(loginMember.getId(), receiveMemberId, message, giftItems);
 

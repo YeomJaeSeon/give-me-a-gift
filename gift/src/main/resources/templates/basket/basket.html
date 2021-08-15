@@ -10,6 +10,7 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="home-container">
         <h1 style="margin-bottom: 30px">선물 바구니</h1>
+        <h2 th:if="${message}" th:text="${message}" style="color: red"></h2>
         <div>
             <table class="table table-hover">
                 <thead>
