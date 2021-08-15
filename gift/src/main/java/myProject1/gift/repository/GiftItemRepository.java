@@ -33,4 +33,8 @@ public class GiftItemRepository {
                 .getResultList();
         return giftItems;
     }
+
+    public void updateBasketToNull(GiftItem giftItem){
+        giftItem.setBasket(null);
+    }
 }

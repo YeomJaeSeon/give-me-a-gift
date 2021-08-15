@@ -107,6 +107,9 @@ public class BasketController {
         }
 
         giftService.createGiftFromBasket(loginMember.getId(), receiveMemberId, message, giftItems);
+        for (GiftItem giftItem : giftItems) {
+            giftItemRepository.updateBasketToNull(giftItem);
+        }
 
         return "redirect:/";
     }
