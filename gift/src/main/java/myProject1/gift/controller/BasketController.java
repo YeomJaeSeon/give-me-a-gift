@@ -129,6 +129,15 @@ public class BasketController {
         return "redirect:/";
     }
 
+    //==선물바구니의 선물상품 하나 지우기==//
+    @GetMapping("/{giftItemId}/delete")
+    public String deleteOneGiftItemInBasket(@PathVariable Long giftItemId){
+        GiftItem giftItem = giftItemService.findOneGiftItemById(giftItemId);
+        giftItemService.deleteGiftItem(giftItem); //해당 선물상품 삭제(선물바구니에 들어있던것!)
+
+        return "redirect:/basket";
+    }
+
     //============ sub methods (not controller) =================//
 
     //==현재 로그인한 회원정보 가져오는 메서드==//

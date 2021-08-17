@@ -25,6 +25,11 @@ public class GiftItemRepository {
         return deleteId;
     }
 
+    public GiftItem findById(Long id){
+        GiftItem giftItem = em.find(GiftItem.class, id);
+        return giftItem;
+    }
+
     //선물바구니로 선물 상품찾기
     public List<GiftItem> findByBasket(Basket basket){
         List<GiftItem> giftItems = em.createQuery("select gi from GiftItem gi where gi.basket = :basket", GiftItem.class)

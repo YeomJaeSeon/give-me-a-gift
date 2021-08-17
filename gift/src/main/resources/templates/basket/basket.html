@@ -33,7 +33,7 @@
                         price
                     </td>
                     <td th:text="${giftItem.count}">count</td>
-                    <td><a th:href="@{/basket/{giftItemId}/delete(giftItemId=${giftItem.id})}"></a></td>
+                    <td><a class="btn btn-danger" th:href="@{/basket/{giftItemId}/delete(giftItemId=${giftItem.id})}">삭제</a></td>
                 </tr>
                 </tbody>
             </table>
