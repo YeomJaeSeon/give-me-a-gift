@@ -140,7 +140,7 @@ public class BasketController {
 
     //==선물바구니의 선물상품 모두 지우기==//
     @GetMapping("/empty")
-    public String deleteAllGiftItemInBasket(){
+    public String deleteAllGiftItemInBasket(RedirectAttributes redirectAttributes){
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 
@@ -148,7 +148,10 @@ public class BasketController {
         Basket basket = basketService.findBasketById(loginMember.getBasket().getId());
         //바구니안에 선물상품모두 조회
         List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
-
+        if(giftItems.size() == 0){
+            redirectAttributes.addFlashAttribute("message", "선물바구니가 이미 비어있습니다.");
+            return "redirect:/basket";
+        }
         //선물상품 모두 삭제(바구니 안에 있는 !)
         for (GiftItem giftItem : giftItems) {
             giftItemService.deleteGiftItem(giftItem);
