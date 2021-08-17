@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Basket;
 import myProject1.gift.domain.GiftItem;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;

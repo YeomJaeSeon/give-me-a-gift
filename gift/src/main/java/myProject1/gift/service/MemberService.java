@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.*;
 import myProject1.gift.dto.MemberDto;
 import myProject1.gift.repository.BasketRepository;
-import myProject1.gift.repository.GiftItemRepository;
-import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.repository.MemberRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

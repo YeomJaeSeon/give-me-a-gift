@@ -7,16 +7,16 @@ import myProject1.gift.domain.Member;
 import myProject1.gift.dto.MemberDto;
 import myProject1.gift.repository.BasketRepository;
 import myProject1.gift.repository.GiftItemRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -47,16 +47,15 @@ public class BasketServiceTest {
         giftItemRepository.save(giftItem);
 
         //when
-        Basket basket = new Basket();
-        basket.setMember(member);
-        basket.getGiftItems().add(giftItem);
-        giftItem.setBasket(basket);
-        basketRepository.save(basket);
+        Basket basket = member.getBasket();
+        basket.addGiftItem(giftItem);
 
-        List<Basket> baskets = em.createQuery("select b from Basket  b", Basket.class)
+        List<Basket> baskets = em.createQuery("select b from Basket b", Basket.class)
                 .getResultList();
         //then
-        Assertions.assertThat(baskets.size()).isEqualTo(1);
+        assertThat(baskets.size()).isEqualTo(1);
+        assertThat(basket.getGiftItems()).contains(giftItem);
+        assertThat(basket.getGiftItems().size()).isEqualTo(1);
     }
 
     @Test
@@ -78,23 +77,17 @@ public class BasketServiceTest {
         giftItemRepository.save(giftItem2);
 
         //when
-        Basket basket = new Basket();
-        basket.setMember(member);
-        basket.getGiftItems().add(giftItem);
-        basket.getGiftItems().add(giftItem1);
-        basket.getGiftItems().add(giftItem2);
-        giftItem.setBasket(basket);
-        giftItem1.setBasket(basket);
-        giftItem2.setBasket(basket);
-        basketRepository.save(basket);
-
+        Basket basket = member.getBasket();
+        basket.addGiftItem(giftItem);
+        basket.addGiftItem(giftItem1);
+        basket.addGiftItem(giftItem2);
 
         List<Basket> baskets = em.createQuery("select b from Basket b", Basket.class)
                 .getResultList();
 
         //then
-        Assertions.assertThat(baskets.size()).isEqualTo(1);
-        Assertions.assertThat(baskets.get(0).getGiftItems()).contains(giftItem, giftItem1, giftItem2);
+        assertThat(baskets.size()).isEqualTo(1);
+        assertThat(baskets.get(0).getGiftItems()).contains(giftItem, giftItem1, giftItem2);
     }
 
     private MemberDto createMemberDto(String name, String username, String password, String role ,String sex, LocalDate date, String message) {
