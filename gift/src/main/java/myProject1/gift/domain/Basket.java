@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -20,6 +21,9 @@ public class Basket {
 
     @OneToMany(mappedBy = "basket")
     private List<GiftItem> giftItems = new ArrayList<>();
+
+    @Enumerated(STRING)
+    private DeleteFlag deleteFlag = DeleteFlag.EXISTED;
 
     //==연관관계 편의메서드==//
     public void addGiftItem(GiftItem giftItem){

@@ -69,7 +69,9 @@ public class MemberService implements UserDetailsService {
 
     @Transactional
     public Long deleteMember(Member member) {
+        member.getBasket().setDeleteFlag(DeleteFlag.DELETED); // delete flag로 변경 (Basket 삭제규칙은 직접삭제하지않음)
         Long deleteMemberId = memberRepository.delete(member);
+
         return deleteMemberId;
     }
 
