@@ -138,6 +138,25 @@ public class BasketController {
         return "redirect:/basket";
     }
 
+    //==선물바구니의 선물상품 모두 지우기==//
+    @GetMapping("/empty")
+    public String deleteAllGiftItemInBasket(){
+        List<Member> members = getLoginedMember();
+        Member loginMember = members.get(0);
+
+        //멤버의 바구니 조회
+        Basket basket = basketService.findBasketByMember(loginMember);
+        //바구니안에 선물상품모두 조회
+        List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
+
+        //선물상품 모두 삭제(바구니 안에 있는 !)
+        for (GiftItem giftItem : giftItems) {
+            giftItemService.deleteGiftItem(giftItem);
+        }
+
+        return "redirect:/basket";
+    }
+
     //============ sub methods (not controller) =================//
 
     //==현재 로그인한 회원정보 가져오는 메서드==//
