@@ -2,7 +2,6 @@ package myProject1.gift.service;
 
 import lombok.RequiredArgsConstructor;
 import myProject1.gift.domain.Basket;
-import myProject1.gift.domain.Member;
 import myProject1.gift.repository.BasketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +20,6 @@ public class BasketService {
 
     public Basket findBasketById(Long id){
         Basket basket = basketRepository.findById(id);
-        return basket;
-    }
-
-    public Basket findBasketByMember(Member member){
-        Basket basket = basketRepository.findByMember(member);
         return basket;
     }
 }

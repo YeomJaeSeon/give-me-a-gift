@@ -18,10 +18,6 @@ public class Basket {
     @Column(name = "BASKET_ID")
     private Long id;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
     @OneToMany(mappedBy = "basket")
     private List<GiftItem> giftItems = new ArrayList<>();
 

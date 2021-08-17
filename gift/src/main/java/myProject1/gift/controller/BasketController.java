@@ -55,7 +55,7 @@ public class BasketController {
         GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());
         giftItemService.createGiftItem(giftItem); //선물 상품 저장
 
-        Basket basket = basketService.findBasketByMember(giveMember);
+        Basket basket = basketService.findBasketById(giveMember.getBasket().getId());
         //바구니 - 선물상품 연관관계 설정
         basket.addGiftItem(giftItem);
 
@@ -87,7 +87,7 @@ public class BasketController {
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 
-        Basket basket = basketService.findBasketByMember(loginMember);
+        Basket basket = basketService.findBasketById(loginMember.getBasket().getId());
 
         List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
         model.addAttribute("giftItems", giftItems);
@@ -110,7 +110,7 @@ public class BasketController {
         Member loginMember = members.get(0);
 
         //로그인한 멤버의 basket
-        Basket basket = basketService.findBasketByMember(loginMember);
+        Basket basket = basketService.findBasketById(loginMember.getBasket().getId());
 
         //해당 basket의 giftItem들 가져오기
         List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
@@ -145,7 +145,7 @@ public class BasketController {
         Member loginMember = members.get(0);
 
         //멤버의 바구니 조회
-        Basket basket = basketService.findBasketByMember(loginMember);
+        Basket basket = basketService.findBasketById(loginMember.getBasket().getId());
         //바구니안에 선물상품모두 조회
         List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
 

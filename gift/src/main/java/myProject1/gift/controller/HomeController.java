@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import myProject1.gift.domain.*;
 import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
-import myProject1.gift.repository.GiftRepository;
 import myProject1.gift.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -105,7 +104,7 @@ public class HomeController {
             }
 
             //선물바구니 안에 선물하지않은 선물상품이 있는지 표시
-            Basket basket = basketService.findBasketByMember(members.get(0));
+            Basket basket = basketService.findBasketById(members.get(0).getBasket().getId());
             List<GiftItem> giftItemsByBasket = giftItemService.findGiftItemsByBasket(basket);
             if(giftItemsByBasket.size() > 0){
                 //선물바구니안에 선물하지않은 선물상품이 있으면
