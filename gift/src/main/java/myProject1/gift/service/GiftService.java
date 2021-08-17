@@ -39,6 +39,9 @@ public class GiftService {
         GiftItem giftItem = GiftItem.createGiftItem(item, giftItemDto.getPrice(), giftItemDto.getCount());//giftItem 생성
         giftItemRepository.save(giftItem);
 
+        //선물할 상품의 재고줄이기
+        giftItem.createGiftItem();
+
         // List to Array
         GiftItem[] giftItemsArr = new GiftItem[1];
         giftItemsArr[0] = giftItem;
@@ -52,6 +55,7 @@ public class GiftService {
         return giftId;
     }
 
+    //선물바구니의 선물들 한번에 선물하기(여러 선물 한번에 선물)
     public Long createGiftFromBasket(Long giveMemberId, Long receiveMemberId, String message, List<GiftItem> giftItems){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);

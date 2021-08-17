@@ -29,5 +29,8 @@ public class Basket {
     public void addGiftItem(GiftItem giftItem){
         giftItems.add(giftItem);
         giftItem.setBasket(this);
+
+        //선물바구니에 선물 담을시, 선물할 상품의 재고 줄이기
+        giftItem.createGiftItem();
     }
 }

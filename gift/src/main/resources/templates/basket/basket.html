@@ -20,6 +20,7 @@
                     <th>상품이름</th>
                     <th>가격</th>
                     <th>개수</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                         price
                     </td>
                     <td th:text="${giftItem.count}">count</td>
+                    <td><a th:href="@{/basket/{giftItemId}/delete(giftItemId=${giftItem.id})}"></a></td>
                 </tr>
                 </tbody>
             </table>

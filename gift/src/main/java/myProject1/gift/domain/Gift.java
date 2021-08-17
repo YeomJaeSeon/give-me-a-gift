@@ -64,20 +64,20 @@ public class Gift {
 
     //==생성 메서드==//
     //- 선물 생성
-    public static Gift createGift(LocalDate giftDate, String message ,Member member, Member receiveMember, GiftItem ...giftItems){
+    public static Gift createGift(LocalDate giftDate, String message, Member member, Member receiveMember, GiftItem... giftItems){
         Gift gift = new Gift();
 
         gift.giftDate = giftDate;
         gift.message = message;
 
         gift.addMember(member); //선물 - 주는사람 연관관계 값 설정
-        gift.addReceiveMember(receiveMember);
+        gift.addReceiveMember(receiveMember); //선물 - 받는사람 연관관계 설정
         receiveMember.setStatus(GiftReceiveStatus.RECEIVED); // 선물받은 회원의 상태 - RECEIVED로변경
-        gift.status = GiftStatus.CREATED;
+        gift.status = GiftStatus.CREATED; //선물은 생성된 상태
 
+        //선물과 - 선물상품의 연관관계 매핑
         for (GiftItem giftItem : giftItems) {
             gift.addGiftItem(giftItem);
-            giftItem.createGiftItem();//선물 생성하며 그만큼 재고 줄어듬.
         }
 
         return gift;

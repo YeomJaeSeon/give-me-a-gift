@@ -105,11 +105,14 @@ public class BasketController {
             return "redirect:/members";
         }
 
+        //현재 로그인한 유저 정보 가져오기
         List<Member> members = getLoginedMember();
         Member loginMember = members.get(0);
 
+        //로그인한 멤버의 basket
         Basket basket = basketService.findBasketByMember(loginMember);
 
+        //해당 basket의 giftItem들 가져오기
         List<GiftItem> giftItems = giftItemService.findGiftItemsByBasket(basket);
         //바구니에 선물상품 아무것도없으면 선물할수없음
         if(giftItems.size() == 0){
@@ -117,6 +120,7 @@ public class BasketController {
             return "redirect:/basket";
         }
 
+        //
         giftService.createGiftFromBasket(loginMember.getId(), receiveMemberId, message, giftItems);
         for (GiftItem giftItem : giftItems) {
             giftItemService.updateGiftItemBasketToNull(giftItem);
