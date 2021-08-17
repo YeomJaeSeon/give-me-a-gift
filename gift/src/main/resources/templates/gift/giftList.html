@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>주고받은 선물 목록</h1>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-dark">
+                        <th>id</th>
+                        <th>준 회원</th>
+                        <th>받은 회원</th>
+                        <th>선물 상태</th>
+                        <th>선물 생성 날짜</th>
+                        <th>선물 메시지</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="gift :${gifts}" style="cursor: pointer">
+                        <td th:text="${gift.id}">id</td>
+                        <td th:text="${gift.member.getUsername()}">give member</td>
+                        <td th:text="${gift.receiveMember.getUsername()}">receive member</td>
+                        <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).CREATED}" style="color: blue">생성된 선물</td>
+                        <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).ACCEPTED}" style="color: green">수락된 선물</td>
+                        <td th:if="${gift.status == T(myProject1.gift.domain.GiftStatus).NOT_ACCEPTED}" style="color: red">거부된 선물</td>
+                        <td th:text="${gift.giftDate}">giftDate</td>
+                        <td th:text="${gift.message}">message</td>
+                        <td><a class="btn btn-info" th:href="@{/admin/gift-info/{giftId}/detail(giftId=${gift.id})}">상세보기</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-secondary" href="/admin">관리자 페이지로</a>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

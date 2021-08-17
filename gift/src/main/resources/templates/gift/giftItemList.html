@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>선물하기</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="home-container">
+        <h1>선물 - 상세 보기</h1>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-dark">
+                    <th>id</th>
+                    <th>상품 이름</th>
+                    <th>상품 가격</th>
+                    <th>상품 개수</th>
+                    <th>선물 카테고리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="giftItem :${giftItems}" style="cursor: pointer">
+                    <td th:text="${giftItem.id}">id</td>
+                    <td th:text="${giftItem.item.name}">item name</td>
+                    <td th:text="${giftItem.price}">giftItem price</td>
+                    <td th:text="${giftItem.count}">giftItem count</td>
+                    <td th:text="${giftItem.item.category.name}">category name</td>
+                </tr>
+                </tbody>
+            </table>
+            <label class="form-label">총 가격 
+                <input class="form-control" type="text" th:value="${totalPrice}" readonly>
+            </label>
+        </div>
+        <a class="btn btn-secondary" href="/admin/gift-info">뒤로가기</a>
+
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

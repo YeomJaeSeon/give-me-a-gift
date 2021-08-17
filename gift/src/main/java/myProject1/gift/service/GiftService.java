@@ -102,4 +102,9 @@ public class GiftService {
         Gift gift = giftRepository.findOne(id);
         return gift;
     }
+
+    @Transactional(readOnly = true)
+    public List<Gift> findAllGifts(){
+        return giftRepository.findGifts();
+    }
 }
