@@ -6,15 +6,15 @@ import myProject1.gift.domain.*;
 import myProject1.gift.dto.CategoryDto;
 import myProject1.gift.dto.ItemDto;
 import myProject1.gift.service.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +30,7 @@ public class HomeController {
 
     //==상품과 카테고리 테스트 값==//
     @PostConstruct
-    public void initCategories(){
+    public String initCategories(){
         //카테고리
         CategoryDto category = new CategoryDto();
         category.setCategory("간단한 선물");
@@ -53,6 +53,7 @@ public class HomeController {
         itemService.createItem(itemDto3);
         itemService.createItem(itemDto4);
 
+        return "redirect:/user/logout";
     }
 
     private ItemDto createItemDto(String name, int price, int stockQuantity, Long category) {
@@ -67,7 +68,8 @@ public class HomeController {
 
     //==홈 화면 display==//
     @GetMapping("/")
-    public String dispHome(Model model, HttpServletRequest request){
+    public String dispHome(Model model, HttpServletRequest request, Principal principal){
+        log.info("principal : {}", principal);
         List<Category> categories = categoryService.findAllCategories();
         List<Item> items = itemService.findByItems(null);
         // 기타 카테고리의 아이템 조회
@@ -76,17 +78,16 @@ public class HomeController {
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
         //세션으로부터 선물 받을 대상 회원의 id 가져옴
 
-        List<Member> members = getLoginedMember(); //현재 로그인한 유저 조회
-
         if(receiveMemberId != null){
             //선물받을 대상 지정했으면
             model.addAttribute("isExistReceiveMember", true);
-            if(members.size() > 0){
+            if(principal != null){
                 //로그인 했으면
-                if(receiveMemberId == members.get(0).getId()){
+                List<Member> members = memberService.findByUsername(principal.getName());
+                if(members.size() > 0 && receiveMemberId == members.get(0).getId()){
                     //자기 자신에게 선물이면
                     model.addAttribute("target", "나에게 선물하세요!");
-                }else{
+                }else if(members.size() > 0 && receiveMemberId != members.get(0).getId()){
                     //다른사람에게 선물이면
                     Member receiveMember = memberService.findById(receiveMemberId);
                     model.addAttribute("target", receiveMember.getUsername() + "에게 선물하세요!");
@@ -95,16 +96,20 @@ public class HomeController {
         }
 
         //로그인 되어있으면
-        if(members.size() > 0) {
+        if(principal != null) {
             //확인하지않은 선물이 있는지 표시
-            int giftCount = giftService.findCreatedGifts(members.get(0));
+            List<Member> members = memberService.findByUsername(principal.getName());
+
+            int giftCount = 0;
+            if(members.size() > 0) giftCount = giftService.findCreatedGifts(members.get(0));
             if(giftCount != 0){
                 //수락이나 거절하지않은 즉, 확인하지않은 선물이 존재하면
                 model.addAttribute("isExistNotCheckGifts", true);
             }
 
             //선물바구니 안에 선물하지않은 선물상품이 있는지 표시
-            Basket basket = basketService.findBasketById(members.get(0).getBasket().getId());
+            Basket basket = null;
+            if(members.size() > 0) basket = basketService.findBasketById(members.get(0).getBasket().getId());
             List<GiftItem> giftItemsByBasket = giftItemService.findGiftItemsByBasket(basket);
             if(giftItemsByBasket.size() > 0){
                 //선물바구니안에 선물하지않은 선물상품이 있으면
@@ -112,22 +117,8 @@ public class HomeController {
             }
         }
 
-
-
-
         model.addAttribute("categories", categories);
         model.addAttribute("etcCount", items.size());
         return "home/index";
-    }
-
-    //============ sub methods (not controller) =================//
-
-    //==현재 로그인한 회원정보 가져오는 메서드==//
-    private List<Member> getLoginedMember() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        List<Member> members = memberService.findByUsername(username);
-        log.info("로그인한 회원들 : {}", members);
-        return members;
     }
 }

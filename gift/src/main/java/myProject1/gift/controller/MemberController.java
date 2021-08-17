@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -75,9 +76,9 @@ public class MemberController {
 
     //==회원 정보 수정 페이지 display==//
     @GetMapping("/user/edit")
-    public String dispEditPage(Model model){
+    public String dispEditPage(Model model, Principal principal){
         //현재 로그인한 유저의 정보를 가져오기
-        List<Member> members = getLoginedMember();
+        List<Member> members = memberService.findByUsername(principal.getName());
 
         Member loginMember = members.get(0);
 
@@ -117,9 +118,9 @@ public class MemberController {
 
     //==내 정보 페이지 display==//
     @GetMapping("/user/info")
-    public String dispMyInfo(Model model){
+    public String dispMyInfo(Model model, Principal principal){
         //현재 로그인한 유저의 정보를 가져오기
-        List<Member> members = getLoginedMember();
+        List<Member> members = memberService.findByUsername(principal.getName());
         Member loginMember = members.get(0);
 
         //member entity to memberDto
@@ -141,9 +142,9 @@ public class MemberController {
 
     //==회원 삭제==//
     @GetMapping("/user/delete")
-    public String deleteUser(){
+    public String deleteUser(Principal principal){
         //현재 로그인한 유저의 정보를 가져오기
-        List<Member> members = getLoginedMember();
+        List<Member> members = memberService.findByUsername(principal.getName());
 
         Member loginMember = members.get(0);
         memberService.deleteMember(loginMember);
@@ -176,17 +177,4 @@ public class MemberController {
 
         return "member/members";
     }
-
-
-    //============ sub methods (not controller) =================//
-
-    //==현재 로그인한 회원정보 가져오는 메서드==//
-    private List<Member> getLoginedMember() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        List<Member> members = memberService.findByUsername(username);
-        log.info("로그인한 회원들 : {}", members);
-        return members;
-    }
-
 }

@@ -8,8 +8,6 @@ import myProject1.gift.service.CategoryService;
 import myProject1.gift.service.GiftService;
 import myProject1.gift.service.ItemService;
 import myProject1.gift.service.MemberService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -81,7 +80,7 @@ public class GiftController {
 
     //==상품 단건 선물하기==//
     @PostMapping("/items/{itemId}")
-    public String giveOneGift(@PathVariable Long itemId, HttpServletRequest request ,@Valid @ModelAttribute GiftItemDto giftItemDto, BindingResult result, Model model, @RequestParam String message){
+    public String giveOneGift(@PathVariable Long itemId, HttpServletRequest request , @Valid @ModelAttribute GiftItemDto giftItemDto, BindingResult result, Model model, @RequestParam String message, Principal principal){
         if(result.hasErrors()){
             Item item = itemService.findById(itemId);
             model.addAttribute("item", item);
@@ -100,7 +99,7 @@ public class GiftController {
         HttpSession session = request.getSession();
         Long receiveMemberId = (Long) session.getAttribute("receiveMemberId");
 
-        List<Member> members = getLoginedMember();
+        List<Member> members = memberService.findByUsername(principal.getName());
         Member giveMember = members.get(0);
         giftItemDto.setItemId(itemId);
 
@@ -118,8 +117,8 @@ public class GiftController {
 
     //==선물 보관함 페이지 display==//
     @GetMapping("/gift-box")
-    public String dispGiftBox(Model model){
-        List<Member> members = getLoginedMember();
+    public String dispGiftBox(Model model, Principal principal){
+        List<Member> members = memberService.findByUsername(principal.getName());
         Member member = members.get(0);
         List<Gift> gifts = giftService.receiveGiftsOfMember(member);
 
@@ -154,16 +153,4 @@ public class GiftController {
 
         return "redirect:/gift/gift-box";
     }
-
-    //============ sub methods (not controller) =================//
-
-    //==현재 로그인한 회원정보 가져오는 메서드==//
-    private List<Member> getLoginedMember() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        List<Member> members = memberService.findByUsername(username);
-        log.info("로그인한 회원들 : {}", members);
-        return members;
-    }
-
 }
