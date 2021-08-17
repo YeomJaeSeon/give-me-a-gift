@@ -103,12 +103,6 @@ public class GiftController {
         Member giveMember = members.get(0);
         giftItemDto.setItemId(itemId);
 
-        if(message.trim() == ""){
-            message = "제 마음입니다 ^^";
-        }
-
-        log.info("giftItemDto price : {}", giftItemDto.getPrice());
-
         giftService.createOneGift(giveMember.getId(), receiveMemberId, message, giftItemDto);
 
         return "redirect:/";

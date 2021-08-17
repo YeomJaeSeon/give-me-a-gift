@@ -68,7 +68,10 @@ public class Gift {
         Gift gift = new Gift();
 
         gift.giftDate = giftDate;
-        gift.message = message;
+
+        //메시지에 아무것도 입력안하면 default값 설정됨.
+        if(message.trim().equals("")) gift.message = "제 마음입니다.";
+        else gift.message = message;
 
         gift.addMember(member); //선물 - 주는사람 연관관계 값 설정
         gift.addReceiveMember(receiveMember); //선물 - 받는사람 연관관계 설정

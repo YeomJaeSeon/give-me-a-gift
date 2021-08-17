@@ -120,7 +120,6 @@ public class BasketController {
             return "redirect:/basket";
         }
 
-        //
         giftService.createGiftFromBasket(loginMember.getId(), receiveMemberId, message, giftItems);
         for (GiftItem giftItem : giftItems) {
             giftItemService.updateGiftItemBasketToNull(giftItem);

@@ -26,7 +26,7 @@ public class GiftService {
     private final ItemRepository itemRepository;
 
     //선물 생성
-    //GiftItem 생성 후 Gift도 바로 생성
+    //GiftItem 생성 후 Gift도 바로 생성(Gift 단건 생성)
     public Long createOneGift(Long giveMemberId, Long receiveMemberId, String message, GiftItemDto giftItemDto){
         //Member 엔티티 조회
         Member giveMember = memberRepository.findOne(giveMemberId);
