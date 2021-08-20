@@ -14,7 +14,7 @@
             <h1>회원정보 수정</h1>
         </div>
         <form th:action method="post" th:object="${memberDto}">
-            <p class="signup-text">사용할 아이디를 입력해주세요</p>
+            <p class="signup-text">사용 할 아이디를 입력해주세요</p>
             <input style="width: 400px; margin: auto" th:class="${#fields.hasErrors('username')} ? 'fieldError form-control' : 'form-control'" type="text" th:field="*{username}" placeholder="사용할 아이디를 입력하세요">
             <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
 
