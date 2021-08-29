@@ -10,6 +10,7 @@ import myProject1.gift.repository.GiftItemRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -37,11 +38,11 @@ public class BasketServiceTest {
     void 장바구니_추가(){
         //given
         MemberDto memberDto = createMemberDto("memberA", "yjs", "1234", "USER", "FEMALE", LocalDate.of(1996, 3, 15), "저는 행복해여~");
-        memberService.createMember(memberDto); //회원생성
+        Long memberId = memberService.createMember(memberDto);//회원생성
 
         Item item = itemService.findById(1L);
 
-        Member member = memberService.findById(1L);
+        Member member = memberService.findById(memberId);
 
         GiftItem giftItem = GiftItem.createGiftItem(item, item.getPrice(), 3);
         giftItemRepository.save(giftItem);
