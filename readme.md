@@ -10,27 +10,7 @@
 ![erd(give me a gift)](https://user-images.githubusercontent.com/67785334/129677807-5b8cc79d-5b48-410d-8c35-b35d54c92477.png)
 
 ## Database
-- h2
 - mysql
 
-### h2
-<application.yml>
-```yml
-spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: (url)
-    username: (username)
-    password: (password)
-```
-
-### mysql
-<application.yml>
-```yml
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:(포트번호)/(DB이름)?serverTimezone=Asia/Seoul
-    username: (username)
-    password: (password)
-```
+## deploy
+<a href="http://ec2-3-38-99-140.ap-northeast-2.compute.amazonaws.com:8080/">배포 사이트</a>
