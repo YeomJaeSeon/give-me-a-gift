@@ -1,5 +1,5 @@
 ### config ###
-application.yml
+.ap
 
 HELP.md
 .gradle
@@ -37,4 +37,4 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/application.yml
