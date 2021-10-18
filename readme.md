@@ -13,4 +13,3 @@
 - mysql
 
 ## deploy
-<a href="http://ec2-3-38-99-140.ap-northeast-2.compute.amazonaws.com:8080/">배포 사이트</a>
