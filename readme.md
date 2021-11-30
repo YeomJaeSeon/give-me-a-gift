@@ -6,9 +6,6 @@
 ## Entitiy diagram
 ![domain-diagram(give me a gift)](https://user-images.githubusercontent.com/67785334/129677738-03e7936b-6c75-48ce-bc77-3383f04f7679.png)
 
-## Domain diagram
-![erd(give me a gift)](https://user-images.githubusercontent.com/67785334/129677807-5b8cc79d-5b48-410d-8c35-b35d54c92477.png)
-
 ## Database
 - mysql
 
